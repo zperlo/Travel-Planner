@@ -131,6 +131,7 @@ dmypy.json
 
 
 #### VisualStudioCode.gitignore
+.vscode/
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
