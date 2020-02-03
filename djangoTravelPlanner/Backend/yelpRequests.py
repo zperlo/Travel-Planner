@@ -36,5 +36,49 @@ def searchYelp(searchTermStr, locationStr, maxNumResults = 10):
 
     return businessResults
 
-# for bus in searchYelp("Indian Flame", "Cleveland, OH"):
-    # print(bus["name"])
+#for bus in searchYelp("Jolly Scholar", "Cleveland, OH"):
+#    print(bus["name"])
+#    print(bus["id"])
+
+def getYelpHoursForBusiness(businessId):
+    url = "https://api.yelp.com/v3/businesses/"
+
+    response = requests.get(url + businessId, headers=header)
+    jsonObject = json.loads(response.text)
+
+    # Day is from 0 to 6, representing day of the week from Monday to Sunday
+    # is_overnight means whether the business opens overnight or not. 
+        # When this is true, the end time will be lower than the start time.
+
+    # each day has a list of tuples of open and close times
+    # since stores can have multiple open/close times in a day, so can these lists
+    hours = {
+        0: [],
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+        6: []
+    }
+
+    #print(jsonObject["name"])
+    #print(jsonObject["hours"][0]["open"])
+    for day in jsonObject["hours"][0]["open"]:
+        # add any hours past midnight to the next day
+        if day["is_overnight"]:
+            currList = hours[day["day"]]
+            currList.append((day["start"], "0000"))
+            hours.update({day["day"]: currList})
+
+            tomList = hours[(day["day"] + 1)]
+            tomList.append(("0000", day["end"]))
+            hours.update({(day["day"] + 1): tomList})
+        else:
+            currList = hours[day["day"]]
+            currList.append((day["start"], day["end"]))
+            hours.update({day["day"]: currList})
+    
+    return hours
+
+#print(getYelpHoursForBusiness("wzj2cMpiDJW0HB3iCvCOYA")) # Jolly scholar to test open past midnight
