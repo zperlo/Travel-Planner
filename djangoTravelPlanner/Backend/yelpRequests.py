@@ -1,7 +1,8 @@
 import requests
 import json
+import secrets
 
-apiKey = "QKjeccnBl0xBNg_mva_17mpIHR7wIDuhgmkXw7TlArCFfg4-xkvtGIWoGQFcqk9QzgYtxhJgjcuRL3Tr5jhyFeRQM3YEiNlPGzVHTj783QXVftr_bIwG8hb5H_guXnYx"
+apiKey = secrets.yelpKey
 header = {"Authorization": "Bearer %s" % apiKey}
 
 def searchYelp(searchTermStr, locationStr, maxNumResults = 10):
