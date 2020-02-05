@@ -65,20 +65,20 @@ def getYelpHoursForBusiness(businessId):
 
     #print(jsonObject["name"])
     #print(jsonObject["hours"][0]["open"])
-    for day in jsonObject["hours"][0]["open"]:
+    for dayInJson in jsonObject["hours"][0]["open"]:
         # add any hours past midnight to the next day
-        if day["is_overnight"]:
-            currList = hours[day["day"]]
-            currList.append((day["start"], "0000"))
-            hours.update({day["day"]: currList})
+        if dayInJson["is_overnight"]:
+            currList = hours[dayInJson["day"]]
+            currList.append((dayInJson["start"], "0000"))
+            hours.update({dayInJson["day"]: currList})
 
-            tomList = hours[(day["day"] + 1)]
-            tomList.append(("0000", day["end"]))
-            hours.update({(day["day"] + 1): tomList})
+            tomList = hours[(dayInJson["day"] + 1)]
+            tomList.append(("0000", dayInJson["end"]))
+            hours.update({(dayInJson["day"] + 1): tomList})
         else:
-            currList = hours[day["day"]]
-            currList.append((day["start"], day["end"]))
-            hours.update({day["day"]: currList})
+            currList = hours[dayInJson["day"]]
+            currList.append((dayInJson["start"], dayInJson["end"]))
+            hours.update({dayInJson["day"]: currList})
     
     return hours
 
