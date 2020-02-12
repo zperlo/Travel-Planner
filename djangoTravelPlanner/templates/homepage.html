@@ -1,38 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
+    <script src="/static/script.js"></script>
     <head>
         <meta charset="UTF-8">
         <title>Topaz</title>
         <link rel="stylesheet" href="/static/styles.css">
     </head>
     <body>
-    <h1>Topaz</h1>
-    <h2>Travel Planner</h2>
-    <p> Sample text </p>
-    <form id="form">
-        Where?
-        <br>
-        <input type="text" id="where">
-        <br>
-        When?
-        <br>
-        <input type="date" id="date">
-        <br>
-        from
-        <br>
-        <input type="time" id="start">
-        to
-        <input type="time" id="end">
-        <br>
-        What?
-        <br>
-        <input type="button" value="x" id="cancel activity">
-        <input type="text" id="activity name">
-        <br>
-        <input type="button" value="+">
-        <br>
-    </form>
-    <button id="go" onclick="disableForm()">GO!</button>
+        <h1>Topaz</h1>
+        <h2>Travel Planner</h2>
+        <p> Sample text </p>
+        <form id="form">
+            Where?
+            <br>
+            <input type="text" id="where">
+            <br>
+            When?
+            <br>
+            <input type="date" id="date">
+            <br>
+            from
+            <br>
+            <input type="time" id="start">
+            to
+            <input type="time" id="end">
+            <br>
+            What?
+            <br>
+            <input type="button" value="x" id="cancel0"><input type="text" id="activity0">
+            <br>
+            <div id="newActivity"></div>
+            <input type="button" value="+" onclick="addNewActivityLine()">
+            <br>
+        </form>
+        <!-- <button id="go" onclick="disableForm()">GO!</button> -->
+        <button id="go">GO!</button>
     </body>
-    <script src="/static/script.js"></script>
 </html>
