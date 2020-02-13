@@ -1,5 +1,5 @@
-let d = new Date();
-alert("Today's date is " + d);
+//let d = new Date();
+//alert("Today's date is " + d);
 
 function displayCity() {
     alert("City: " + document.getElementById("where").value);
