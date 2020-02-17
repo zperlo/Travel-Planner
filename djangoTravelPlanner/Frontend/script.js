@@ -6,6 +6,9 @@ function displayCity() {
 }
 
 class row {
+  elements = [];
+  id = -1;
+
   constructor(div, id) {
     this.id = id;
 
@@ -13,25 +16,29 @@ class row {
     button.type = "button";
     button.value = "x";
     button.id = "cancel" + id;
-    button.addEventListener("click", this.delete);
     div.appendChild(button);
+    this.elements.push(button);
 
     var textfield = document.createElement("input");
     textfield.type = "text";
     textfield.id = "activity" + id;
     div.appendChild(textfield);
+    this.elements.push(textfield);
 
-    div.appendChild(document.createElement("br"));
+    var linebreak = document.createElement("br");
+    div.appendChild(linebreak);
+    this.elements.push(linebreak);
+
+    button.addEventListener("click", this.delete);
 
     console.log("adding new line with id " + id);
   }
 
-  delete() {
-    var button = document.getElementById(this.id);
-    button.parentNode.removeChild(button);
-
-    var textfield = document.getElementById("activity" + this.id);
-    textfield.parentNode.removeChild(textfield);
+  delete(elementArray) {
+    this.elements.forEach(element => element.parentNode.removeChild(element));
+    /*for (element of this.elements) {
+      element.parentNode.removeChild(element);
+    }*/
   }
 }
 
