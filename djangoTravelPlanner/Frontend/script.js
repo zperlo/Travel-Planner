@@ -1,11 +1,4 @@
-//let d = new Date();
-//alert("Today's date is " + d);
-
-function displayCity() {
-    alert("City: " + document.getElementById("where").value);
-}
-
-class row {
+/*class row {
   elements = [];
   id = -1;
 
@@ -38,7 +31,7 @@ class row {
     this.elements.forEach(element => element.parentNode.removeChild(element));
     /*for (element of this.elements) {
       element.parentNode.removeChild(element);
-    }*/
+    }
   }
 }
 
@@ -63,28 +56,28 @@ function addNewActivityLine() {
     input.id = "activity" + addNewActivityLine.activityID;
     div.appendChild(input);*/
 
-    /*div.appendChild(document.createElement("br"));*/
+    /*div.appendChild(document.createElement("br"));
 
     activityLines[addNewActivityLine.activityID] = (new row(div, addNewActivityLine.activityID));
 
     addNewActivityLine.activityID++;
-}
+}*/
 
-/*
-// Cannot disable the entire form all at once
-function disableForm() {
-
-    string location = document.getElementById("where").value;
-
-    alert("City: " + document.getElementById("where").value +
-        "\nDate: " + document.getElementById("date").value +
-        "\nStart Time: " + document.getElementById("start").value +
-        "\nEnd Time: " + document.getElementById("end").value
-    );
-
-    document.getElementById("where").disabled = true;
-    document.getElementById("date").disabled = true;
-    document.getElementById("start").disabled = true;
-    document.getElementById("end").disabled = true;
-}
-*/
+$(document).ready(function() {
+    $("#add").click(function() {
+    		var lastField = $("#buildyourform div:last");
+        var intId = (lastField && lastField.length && lastField.data("idx") + 1) || 1;
+        var fieldWrapper = $("<div class=\"fieldwrapper\" id=\"field" + intId + "\"/>");
+        fieldWrapper.data("idx", intId);
+        var fName = $("<input type=\"text\" class=\"fieldname\" />");
+        var fType = $("<select class=\"fieldtype\"><option value=\"checkbox\">Checked</option><option value=\"textbox\">Text</option><option value=\"textarea\">Paragraph</option></select>");
+        var removeButton = $("<input type=\"button\" class=\"remove\" value=\"-\" />");
+        removeButton.click(function() {
+            $(this).parent().remove();
+        });
+        fieldWrapper.append(fName);
+        fieldWrapper.append(fType);
+        fieldWrapper.append(removeButton);
+        $("#buildyourform").append(fieldWrapper);
+    });
+  });
