@@ -1,5 +1,5 @@
 {% load static %}
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="{% static 'jQuery.js' %}"></script>
 <script src="{% static 'script.js' %}"></script>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,7 +11,6 @@
     <body>
         <h1>Topaz</h1>
         <h2>Travel Planner</h2>
-        <p> Sample text </p>
         <form id="form">
             Where?
             <br>
