@@ -143,3 +143,8 @@ dmypy.json
 
 # PyCharm 
 .idea/
+
+# jQuery stuff
+node_modules/
+package-lock.json
+
