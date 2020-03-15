@@ -1,3 +1,57 @@
+import datetime
+import djangoTravelPlanner.Backend.yelpRequests as yelp
+
+# makes business["hours"] into a copy of the schedule where each 
+# time increment is True if the business is open, and false if not
+def formatOpenCloseSchedule(business, hours, yelpStartTime, startDay):
+    currDay = startDay
+    currTime = yelpStartTime
+    # for all time increments in the schedule
+    for i in range(len(business["hours"])):
+        for timePair in hours[currDay]:
+            t1 = timePair[0]
+            t2 = timePair[1]
+            if t2 = 0:
+                t2 = 1159
+            if currTime > t1 and currTime < t2:
+                business["hours"][i] = True
+
+        # end loop work to increment current time and day
+        currTime += 5
+        if currTime % 100 > 60: # minutes more than 60 means hour shifts up
+            currTime += 40
+            if currTime / 100.0 >= 24: # time is past the 24 hours in a day
+                currTime = currTime % 100
+                currDay += 1
+                if currDay > 6:
+                    currDay = 7
+
+def createSchedule(businesses, travelTimes, startDate, endDate, startDay, endDay):
+    # assumes startDate and endDate are datetime objects
+    # assumes startDay and endDay are integers representing day of the week 0-6 Monday to Sunday, matching Yelp's API
+    startTime = datetime.timestamp(startDate) / 60 # timestamp gives seconds, this converts to minutes
+    endTime = datetime.timestamp(endDate) / 60 # timestamp gives seconds, this converts to minutes
+    minutesPerIncrement = 5
+    numIncrements = (endTime - startTime) / minutesPerIncrement
+    schedule = [-1] * numIncrements # creates an array with a -1 for every 5 minutes from the start time to the end time
+
+    # creates a start time int in the HHMM format that yelp uses for open/close hours
+    startTime_YelpFormatted = startDate.hour * 100 + startDate.minute
+    # adds open/close schedule to each business
+    for business in businesses:
+        openCloseSchedule = [False] * numIncrements
+        business.update({"hours": openCloseSchedule})
+        if "id" in business.keys(): # does not need to do for starting location
+            hours = yelp.getYelpHoursForBusiness(business["id"])
+            formatOpenCloseSchedule(business, hours, startTime_YelpFormatted, startDay)
+
+
+
+
+
+
+# REMOVE THE FOLLOWING CODE WHEN NO LONGER USEFUL FOR OBSERVATION
+
 from pulp import *
 
 def createSchedule(businesses, travelTimes, startDate, endDate):
