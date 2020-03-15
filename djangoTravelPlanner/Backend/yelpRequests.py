@@ -69,17 +69,17 @@ def getYelpHoursForBusiness(businessId):
         # add any hours past midnight to the next day
         if dayInJson["is_overnight"]:
             currList = hours[dayInJson["day"]]
-            currList.append((dayInJson["start"], "0000"))
+            currList.append((int(dayInJson["start"]), 0000))
             hours.update({dayInJson["day"]: currList})
 
             tomList = hours[(dayInJson["day"] + 1)]
-            tomList.append(("0000", dayInJson["end"]))
+            tomList.append((0000, int(dayInJson["end"])))
             hours.update({(dayInJson["day"] + 1): tomList})
         else:
             currList = hours[dayInJson["day"]]
-            currList.append((dayInJson["start"], dayInJson["end"]))
+            currList.append((int(dayInJson["start"]), int(dayInJson["end"])))
             hours.update({dayInJson["day"]: currList})
     
     return hours
 
-#print(getYelpHoursForBusiness("wzj2cMpiDJW0HB3iCvCOYA")) # Jolly scholar to test open past midnight
+print(getYelpHoursForBusiness("wzj2cMpiDJW0HB3iCvCOYA")) # Jolly scholar to test open past midnight
