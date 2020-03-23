@@ -82,4 +82,4 @@ def getYelpHoursForBusiness(businessId):
     
     return hours
 
-print(getYelpHoursForBusiness("wzj2cMpiDJW0HB3iCvCOYA")) # Jolly scholar to test open past midnight
+# print(getYelpHoursForBusiness("wzj2cMpiDJW0HB3iCvCOYA")) # Jolly scholar to test open past midnight

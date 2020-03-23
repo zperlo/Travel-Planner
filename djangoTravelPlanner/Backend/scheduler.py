@@ -1,5 +1,5 @@
 import datetime
-import djangoTravelPlanner.Backend.yelpRequests as yelp
+import yelpRequests as yelp
 
 # makes business["hours"] into a copy of the schedule where each 
 # time increment is True if the business is open, and false if not
@@ -11,9 +11,9 @@ def formatOpenCloseSchedule(business, hours, yelpStartTime, startDay):
         for timePair in hours[currDay]:
             t1 = timePair[0]
             t2 = timePair[1]
-            if t2 = 0:
+            if t2 == 0:
                 t2 = 1159
-            if currTime > t1 and currTime < t2:
+            if currTime >= t1 and currTime <= t2:
                 business["hours"][i] = True
 
         # end loop work to increment current time and day
@@ -45,6 +45,16 @@ def createSchedule(businesses, travelTimes, startDate, endDate, startDay, endDay
             hours = yelp.getYelpHoursForBusiness(business["id"])
             formatOpenCloseSchedule(business, hours, startTime_YelpFormatted, startDay)
 
+    # Call helper to perform algorithm X times and take best result
+
+
+# Semi-random Greedy algorithm
+# At a given time X, choose an activity Y randomly where the chance to select Y 
+# is proportional to its value or 0 if it cannot be done at that time + travel time 
+# from the last event. Once Y is scheduled, repeat starting at Y’s end time.
+# Do this until no activity can be scheduled or the end of the schedule is reached. 
+# If the end of the schedule is not reached, check each time until some activity can 
+# be scheduled, and repeat from the top.
 
 
 
@@ -105,4 +115,4 @@ def createSchedule(businesses, travelTimes, startDate, endDate):
 
 bus = [{'name': 'The Jolly Scholar', 'timeToSpend': 1, 'address': 'Thwing Ctr 11111 Euclid Ave Cleveland, OH 44106', 'rating': 4.0, 'id': 'wzj2cMpiDJW0HB3iCvCOYA', 'price': '$', 'url': 'https://www.yelp.com/biz/the-jolly-scholar-cleveland?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 4.0}, {'name': 'ABC the Tavern', 'timeToSpend': 1, 'address': '11434 Uptown Ave Cleveland, OH 44106', 'rating': 3.5, 'id': 'uYl_QBtb7bXhu9sgb4kCrg', 'price': '$', 'url': 'https://www.yelp.com/biz/abc-the-tavern-cleveland-4?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 3.5}, {'name': 'The Fairmount', 'timeToSpend': 1, 'address': '2448 Fairmount Blvd Cleveland Heights, OH 44106', 'rating': 4.0, 'id': 'g5zVkPRW2umfpCuDkan7tQ', 'price': '$$', 'url': 'https://www.yelp.com/biz/the-fairmount-cleveland-heights?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 2.0}, {'name': 'Townhall', 'timeToSpend': 1, 'address': '1909 W 25th St Cleveland, OH 44113', 'rating': 4.0, 'id': 'LNsZJP6jZ11e0tDljOLPiQ', 'price': '$$', 'url': 'https://www.yelp.com/biz/townhall-cleveland-2?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 2.0}, {'name': 'Punch Bowl Social Cleveland', 'timeToSpend': 1, 'address': '1086 W 11th St Cleveland, OH 44113', 'rating': 3.5, 'id': '9SrZRDl7-ZfuENCo0DjfsQ', 'price': '$$', 'url': 'https://www.yelp.com/biz/punch-bowl-social-cleveland-cleveland?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 1.75}]
 distances = [[0, 219, 228, 528, 1042, 961], [292, 0, 209, 356, 963, 973], [231, 127, 0, 408, 1090, 1047], [596, 521, 493, 0, 1281, 1237], [969, 1093, 1090, 1194, 0, 402], [1033, 1156, 1154, 1272, 423, 0]]
-createSchedule(bus, distances, 0.0, 172800.0)
+#createSchedule(bus, distances, 0.0, 172800.0)
