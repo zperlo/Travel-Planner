@@ -72,9 +72,12 @@ def getYelpHoursForBusiness(businessId):
             currList.append((int(dayInJson["start"]), 0000))
             hours.update({dayInJson["day"]: currList})
 
-            tomList = hours[(dayInJson["day"] + 1)]
+            tomorrow = (dayInJson["day"] + 1)
+            if tomorrow > 6:
+                tomorrow = 0
+            tomList = hours[tomorrow]
             tomList.append((0000, int(dayInJson["end"])))
-            hours.update({(dayInJson["day"] + 1): tomList})
+            hours.update({tomorrow: tomList})
         else:
             currList = hours[dayInJson["day"]]
             currList.append((int(dayInJson["start"]), int(dayInJson["end"])))
@@ -82,4 +85,4 @@ def getYelpHoursForBusiness(businessId):
     
     return hours
 
-# print(getYelpHoursForBusiness("wzj2cMpiDJW0HB3iCvCOYA")) # Jolly scholar to test open past midnight
+#print(getYelpHoursForBusiness("wzj2cMpiDJW0HB3iCvCOYA")) # Jolly scholar to test open past midnight
