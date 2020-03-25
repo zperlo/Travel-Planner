@@ -1,6 +1,5 @@
 import datetime
-# import yelpRequests as yelp
-from djangoTravelPlanner.Backend import yelpRequests as yelp
+import yelpRequests as yelp
 
 # makes business["hours"] into a copy of the schedule where each 
 # time increment is True if the business is open, and false if not
@@ -66,6 +65,7 @@ bus = [{'name': 'The Jolly Scholar', 'timeToSpend': 1, 'address': 'Thwing Ctr 11
 distances = [[0, 219, 228, 528, 1042, 961], [292, 0, 209, 356, 963, 973], [231, 127, 0, 408, 1090, 1047], [596, 521, 493, 0, 1281, 1237], [969, 1093, 1090, 1194, 0, 402], [1033, 1156, 1154, 1272, 423, 0]]
 createSchedule(bus, distances, x, y, 6, 1)
 
+print("scheduler.py ran")
 
 # REMOVE THE FOLLOWING CODE WHEN NO LONGER USEFUL FOR OBSERVATION
 #
