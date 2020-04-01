@@ -50,9 +50,9 @@ def createSchedule(businesses, travelTimes, startDate, endDate, startDay, endDay
         # print(business["name"] + ": ")
         # print(business["hours"])
 
-    # Call helper to perform algorithm X times and take best result
-    numRunTimes = 10  # make smaller if slow as sin
+    numRunTimes = 20
     
+    # Call helper to perform algorithm X times and take best result
     bestSchedule = multiScheduler(businesses, travelTimes, schedule, numRunTimes, minutesPerIncrement)
     
     return bestSchedule
