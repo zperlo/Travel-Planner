@@ -29,15 +29,17 @@
 
   delete(elementArray) {
     this.elements.forEach(element => element.parentNode.removeChild(element));
-    /*for (element of this.elements) {
+    for (element of this.elements) {
       element.parentNode.removeChild(element);
     }
   }
-}
+}*/
 
 var activityLines = []
 
 function addNewActivityLine() {
+
+    // console.log("+ button clicked");
 
     if (typeof addNewActivityLine.activityID == 'undefined') {
         addNewActivityLine.activityID = 1;
@@ -45,23 +47,23 @@ function addNewActivityLine() {
 
     var div = document.getElementById("newActivity");
 
-    /*var cancel = document.createElement("input");
+    var cancel = document.createElement("input");
     cancel.type = "button";
     cancel.value = "x";
     cancel.id = "cancel" + addNewActivityLine.activityID;
-    div.appendChild(cancel);*/
+    div.appendChild(cancel);
 
-    /*var input = document.createElement("input");
+    var input = document.createElement("input");
     input.type = "text";
     input.id = "activity" + addNewActivityLine.activityID;
-    div.appendChild(input);*/
+    div.appendChild(input);
 
-    /*div.appendChild(document.createElement("br"));
+    div.appendChild(document.createElement("br"));
 
-    activityLines[addNewActivityLine.activityID] = (new row(div, addNewActivityLine.activityID));
+    // activityLines[addNewActivityLine.activityID] = (new row(div, addNewActivityLine.activityID));
 
     addNewActivityLine.activityID++;
-}*/
+}
 
 $(document).ready(function() {
     $("#add").click(function() {
