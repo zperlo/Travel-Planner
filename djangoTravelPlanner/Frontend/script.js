@@ -35,6 +35,8 @@
   }
 }*/
 
+// TODO make delete button work
+
 var activityLines = []
 
 function addNewActivityLine() {
@@ -50,19 +52,45 @@ function addNewActivityLine() {
     var cancel = document.createElement("input");
     cancel.type = "button";
     cancel.value = "x";
-    cancel.id = "cancel" + addNewActivityLine.activityID;
+    cancel.id = "cancel:" + addNewActivityLine.activityID;
+    cancel.onclick = removeActivityLine;
     div.appendChild(cancel);
 
     var input = document.createElement("input");
     input.type = "text";
-    input.id = "activity" + addNewActivityLine.activityID;
+    input.id = "activity:" + addNewActivityLine.activityID;
     div.appendChild(input);
 
-    div.appendChild(document.createElement("br"));
+    var brElement = document.createElement("br");
+    brElement.id = "br:" + addNewActivityLine.activityID;
+    div.appendChild(brElement);
 
     // activityLines[addNewActivityLine.activityID] = (new row(div, addNewActivityLine.activityID));
 
     addNewActivityLine.activityID++;
+}
+
+function removeActivityLine(event) {
+
+  console.log("remove function called");
+
+  target = event.target
+  var cancelId = target.id;  
+  var id = cancelId.split(":")[1];
+  var activityId = "activity:" + id;
+  var brId = "br:" + id;
+
+  console.log("cancelButtonID = " + cancelId);
+  console.log("ActivityID = " + activityId);
+  console.log("BrID = " + brId);
+  
+  document.getElementById(cancelId).remove();
+  document.getElementById(activityId).remove();
+  document.getElementById(brId).remove();
+
+  // var div = document.getElementById("newActivity");
+  // div.appendChild(document.createElement("br"));
+
 }
 
 $(document).ready(function() {
