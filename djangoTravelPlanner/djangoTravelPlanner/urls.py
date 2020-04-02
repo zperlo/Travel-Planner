@@ -18,8 +18,10 @@ from django.urls import re_path
 from . import views
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
+
 urlpatterns = [
     re_path(r'^$', views.homepage),
+    re_path('results', views.resultspage)
 ]
 
 urlpatterns += staticfiles_urlpatterns()
