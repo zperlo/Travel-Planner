@@ -2,3 +2,4 @@ googlemaps
 datetime
 requests
 numpy
+django
