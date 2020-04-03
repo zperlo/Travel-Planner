@@ -1,4 +1,4 @@
-body, h1, h2 {
+body, h1, h2, h3 {
   padding: 0 0;
   margin: 0;
 }
@@ -12,6 +12,7 @@ header {
 }
 
 header div {
+  min-width: 400px;
   width: 25%;
 }
 
@@ -21,7 +22,7 @@ h1 {
   text-align: right;
 }
 
-h2 {
+header h2 {
   font-family: 'Bree Serif';
   font-style: italic;
   font-weight: lighter;
