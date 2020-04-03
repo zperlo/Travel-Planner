@@ -1,1 +1,31 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"> <html lang="en"> <head> <meta http-equiv="content-type" content="text/html; charset=utf-8"> <title>Title Goes Here</title> </head> <body> <p>This is my web page</p> </body> </html>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Topaz</title>
+        <link href='https://fonts.googleapis.com/css?family=Bree Serif' rel='stylesheet'>
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+    </head>
+    <body>
+        <h2>Itinerary</h2>
+        Bob's Brewery 6:30pm - 6:55pm
+        <br>
+        Jane's Brewery 7:00pm - 7:25pm
+        <br>
+        Papa Harold's Algorhythm Jamboree 7:30pm - 12:00am
+        <br>
+        Michael's Late Night Glue Stop 12:30am - 1:00am
+        <br>
+        <h2>Google Maps<sup>TM</sup> route</h2>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m58!1m12!1m3!1d11988747.711048566!2d-110.29707999610841!3d40.966013825871!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m43!3e0!4m5!1s0x89c130c8a71553d5%3A0x9d4739c6bc873fe1!2sMedford%2C%20NJ!3m2!1d39.866182599999995!2d-74.8390162!4m5!1s0x882334578757ad71%3A0xd45079770956618a!2sHell%2C%20MI!3m2!1d42.43472!2d-83.985!4m5!1s0x87d5107738443149%3A0x756e246fb1082aee!2sGreasy%20Corner%2C%20AR!3m2!1d35.006447!2d-90.44620499999999!4m5!1s0x879ecdb38a7e1b59%3A0x26bc96c2179bfa8f!2sFunk%2C%20NE!3m2!1d40.462511899999996!2d-99.24926099999999!4m5!1s0x80d2f79d6df2a0d7%3A0x3a207c1735cf3190!2sNothing%2C%20AZ!3m2!1d34.4800159!2d-113.33592639999999!4m5!1s0x5367a452f7439a2f%3A0xb27192dfdd0c5aee!2sBear%20Dance%2C%20MT!3m2!1d47.916669999999996!2d-114.02777999999999!4m5!1s0x54d19248bdee0b13%3A0x9151dd6c2934d362!2sForks%20of%20Salmon%2C%20CA!3m2!1d41.257718499999996!2d-123.3226085!5e0!3m2!1sen!2sus!4v1585755088280!5m2!1sen!2sus"
+            width="600"
+            height="450"
+            frameborder="1"
+            style="border:1;"
+            allowfullscreen=""
+            aria-hidden="false"
+            tabindex="0">
+        </iframe>
+    </body>
+</html>
