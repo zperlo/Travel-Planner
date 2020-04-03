@@ -9,7 +9,7 @@
         <link href='https://fonts.googleapis.com/css?family=Bree Serif' rel='stylesheet'>
         <link rel="stylesheet" href="{% static 'styles.css' %}">
     </head>
-    <body>
+    <body onload="addNewActivityLine()">
         <header>
             <div>
                 <h1>>Topaz</h1>
@@ -31,7 +31,7 @@
                 <input type="time" id="end">
                 <br>
                 <h3>What would you like to do?</h3>
-                <div id="newActivity"></div>
+                <div id="activities"></div>
                 <input type="button" value="+" onclick="addNewActivityLine()">
                 <br>
             </form>
