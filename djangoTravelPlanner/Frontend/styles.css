@@ -64,10 +64,18 @@ h3 {
   border-bottom: 2px solid rgb(255, 196, 0);
 }
 
-input.button {
+.buttonClass {
+  background-color: inherit;
+  transition: 0.3s;
+}
+
+.buttonClass:hover {
+  background-color: rgba(255, 196, 00, 0.4);
+}
+
+input.buttonClass {
   font-family: 'arial';
   font-weight: bolder;
-  background-color: inherit;
   border-radius: 50%;
   border: 1px solid rgb(255, 196, 0);
   text-align: center;
@@ -78,16 +86,11 @@ button {
   font-family: 'Bree Serif';
   font-size: 20px;
   padding: 0px 10px 4px 10px;
-  background-color: inherit;
   border: 2px solid rgb(255, 196, 0);
   border-radius: 20px;
 }
 
 *:focus {
   outline-color: rgba(255, 196, 0, 0.4);
-  background-color: rgba(255, 196, 0, 0.4);
-}
-
-.button:hover {
   background-color: rgba(255, 196, 0, 0.4);
 }

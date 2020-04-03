@@ -58,7 +58,7 @@ function addNewActivityLine() {
     cancel.value = "x";
     cancel.id = "cancel:" + addNewActivityLine.activityID;
     cancel.onclick = removeActivityLine;
-    cancel.className = "button";
+    cancel.className = "buttonClass";
     activity.appendChild(cancel);
 
     var textField = document.createElement("input");
@@ -66,6 +66,14 @@ function addNewActivityLine() {
     textField.id = "textField:" + addNewActivityLine.activityID;
     textField.className = "field";
     activity.appendChild(textField);
+
+    var expand = document.createElement("input");
+    expand.type = "button";
+    expand.value = ">"
+    expand.id = "expand:" + addNewActivityLine.activityID;
+    // expand.onclick = expandActivityLine;
+    expand.className = "buttonClass"
+    activity.appendChild(expand);
 
     var brElement = document.createElement("br");
     brElement.id = "br:" + addNewActivityLine.activityID;
@@ -85,11 +93,13 @@ function removeActivityLine(event) {
   var id = cancelId.split(":")[1];
   var activityId = "activity:" + id;
   var textFieldId = "textField:" + id;
+  var expandId = "expand:" + id;
   var brId = "br:" + id;
 
   console.log("activityID = " + activityId);
   console.log("cancelButtonID = " + cancelId);
   console.log("textFieldID = " + textFieldId);
+  console.log("expandButtonID = " + expandId);
   console.log("BrID = " + brId);
   
   document.getElementById(activityId).remove();
