@@ -45,6 +45,7 @@ div.angleBracketHolder, div.content {
 }
 
 span {
+  margin: 5px;
   font-family: 'arial';
 }
 
@@ -54,4 +55,39 @@ h3 {
 
 .spacer {
   visibility: hidden;
+}
+
+.field {
+  margin: 5px;
+  background-color: inherit;
+  border: none;
+  border-bottom: 2px solid rgb(255, 196, 0);
+}
+
+input.button {
+  font-family: 'arial';
+  font-weight: bolder;
+  background-color: inherit;
+  border-radius: 50%;
+  border: 1px solid rgb(255, 196, 0);
+  text-align: center;
+  vertical-align: middle;
+}
+
+button {
+  font-family: 'Bree Serif';
+  font-size: 20px;
+  padding: 0px 10px 4px 10px;
+  background-color: inherit;
+  border: 2px solid rgb(255, 196, 0);
+  border-radius: 20px;
+}
+
+*:focus {
+  outline-color: rgba(255, 196, 0, 0.4);
+  background-color: rgba(255, 196, 0, 0.4);
+}
+
+.button:hover {
+  background-color: rgba(255, 196, 0, 0.4);
 }

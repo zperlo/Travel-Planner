@@ -22,14 +22,14 @@
         <section>
             <div class='angleBracketHolder'>
                 <h3>></h3>
-                <input type='text' class='spacer'>
+                <input type='text' class='spacer field'>
                 <h3>></h3>
                 <div class='spacer'>
-                    <input type="date">
+                    <input type="date" class = 'field'>
                     <br>
                     <span>from</span>
                     <br>
-                    <input type="time">
+                    <input type="time" class='field'>
                     <br>
                 </div>
                 <h3>></h3>
@@ -37,23 +37,25 @@
             <div class='content'>
                 <form id="form">
                     <h3>What city are you seeing?</h3>
-                    <input type="text" id="where">
+                    <input type="text" id="city" class='field'>
                     <br>
                     <h3>When will you be there?</h3>
-                    <input type="date" id="date">
+                    <input type="date" id="date" class='field'>
                     <br>
                     <span>from</span>
                     <br>
-                    <input type="time" id="start">
+                    <input type="time" id="startTime" class='field'>
+                    <span>to</span>
+                    <input type="time" id="endTime" class='field'>
                     <br>
                     <h3>What would you like to do?</h3>
                     <ul id="activities"></ul>
-                    <input type="button" value="+" onclick="addNewActivityLine()">
+                    <input type="button" value="+" onclick="addNewActivityLine()" class='button'>
                     <br>
                 </form>
                 <!-- <button id="go" onclick="disableForm()">GO!</button> -->
                 <form action='results' method='GET'>
-                <button id="resultsButton" type='submit'>Plan My Day!</button>
+                <button id="resultsButton" type='submit' class='button'>Plan My Day!</button>
             </div>
         </section>
     </body>

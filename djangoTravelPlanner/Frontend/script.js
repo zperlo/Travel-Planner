@@ -58,11 +58,13 @@ function addNewActivityLine() {
     cancel.value = "x";
     cancel.id = "cancel:" + addNewActivityLine.activityID;
     cancel.onclick = removeActivityLine;
+    cancel.className = "button";
     activity.appendChild(cancel);
 
     var textField = document.createElement("input");
     textField.type = "text";
     textField.id = "textField:" + addNewActivityLine.activityID;
+    textField.className = "field";
     activity.appendChild(textField);
 
     var brElement = document.createElement("br");
