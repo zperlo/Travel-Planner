@@ -6,35 +6,42 @@
     <head>
         <meta charset="UTF-8">
         <title>Topaz</title>
+        <link href='https://fonts.googleapis.com/css?family=Bree Serif' rel='stylesheet'>
         <link rel="stylesheet" href="{% static 'styles.css' %}">
     </head>
     <body>
-        <h1>Topaz</h1>
-        <h2>Travel Planner</h2>
-        <form id="form">
-            Where?
-            <br>
-            <input type="text" id="where">
-            <br>
-            When?
-            <br>
-            <input type="date" id="date">
-            <br>
-            from
-            <br>
-            <input type="time" id="start">
-            to
-            <input type="time" id="end">
-            <br>
-            What?
-            <br>
-            <div id="newActivity"></div>
-            <input type="button" value="+" onclick="addNewActivityLine()">
-            <br>
-        </form>
-        <!-- <button id="go" onclick="disableForm()">GO!</button> -->
-        <form action='results' method='GET'>
-        <button id="resultsButton" type='submit'>Get Results!</button>
-        </form>
+        <header>
+            <div>
+                <h1>>Topaz</h1>
+                <h2>Tourism Made Easy</h2>
+            </div>            
+        </header>
+        <section>
+            <form id="form">
+                Where?
+                <br>
+                <input type="text" id="where">
+                <br>
+                When?
+                <br>
+                <input type="date" id="date">
+                <br>
+                from
+                <br>
+                <input type="time" id="start">
+                to
+                <input type="time" id="end">
+                <br>
+                What?
+                <br>
+                <div id="newActivity"></div>
+                <input type="button" value="+" onclick="addNewActivityLine()">
+                <br>
+            </form>
+            <!-- <button id="go" onclick="disableForm()">GO!</button> -->
+            <form action='results' method='GET'>
+            <button id="resultsButton" type='submit'>Get Results!</button>
+            </form>
+        </section>
     </body>
 </html>
