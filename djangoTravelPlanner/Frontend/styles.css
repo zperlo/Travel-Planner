@@ -4,15 +4,16 @@ body, h1, h2, h3, ul {
   margin: 0;
 }
 
-div {
+section, div {
   display: inline-block;
+  vertical-align: top;
 }
 
 body {
   background: rgb(255, 241, 196);
 }
 
-header {
+header.main {
   background: rgb(255, 196, 0);
 }
 
@@ -25,6 +26,7 @@ header {
 .content {
   border-left: 5px solid black;
   padding-left: 8px;
+  padding-right: 8px;
 }
 
 h1 {
@@ -45,8 +47,8 @@ div.angleBracketHolder, div.content {
 }
 
 span {
-  margin: 5px;
-  font-family: 'arial';
+  margin: 4px;
+  font-family: 'Source Sans Pro';
 }
 
 h3 {
@@ -62,6 +64,14 @@ h3 {
   background-color: inherit;
   border: none;
   border-bottom: 2px solid rgb(255, 196, 0);
+}
+
+input {
+  font-family: 'Source Sans Pro';
+}
+
+activity .field {
+  width: 250px;
 }
 
 .buttonClass {
@@ -91,6 +101,39 @@ button {
 }
 
 *:focus {
-  outline-color: rgba(255, 196, 0, 0.4);
+  outline: none;
+  /* outline-color: rgba(255, 196, 0, 0.4); */
   background-color: rgba(255, 196, 0, 0.4);
+}
+
+.moreDetails {
+  position: relative;
+  top: 227px;
+  max-width: 600px;
+  border-left: 2px solid rgb(255, 196, 0);
+  padding-left: 8px;
+}
+
+.reviews {
+  position: relative;
+  font-weight: bold;
+  top: -7px;
+}
+
+.moreDetails span {
+  margin-bottom: 5px;
+}
+
+.yelpPhoto {
+  object-fit: cover;
+  width: 150px;
+  height: 150px;
+}
+
+.moreDetails p {
+  font-family: 'Source Sans Pro';
+}
+
+hr {
+  border-top: 1px solid rgb(255, 196, 0);
 }

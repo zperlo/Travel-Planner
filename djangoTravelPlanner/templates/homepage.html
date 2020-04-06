@@ -7,10 +7,11 @@
         <meta charset="UTF-8">
         <title>Topaz</title>
         <link href='https://fonts.googleapis.com/css?family=Bree Serif' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Source Sans Pro' rel='stylesheet'>
         <link rel="stylesheet" href="{% static 'styles.css' %}">
     </head>
     <body onload="addNewActivityLine()">
-        <header>
+        <header class='main'>
             <div class="angleBracketHolder">
                 <h1>></h1>
             </div>
@@ -57,6 +58,24 @@
                 <form action='results' method='GET'>
                 <button id="resultsButton" type='submit' class='buttonClass'>Plan My Day!</button>
             </div>
+        </section>
+        <section class='moreDetails'>
+            <header>
+                <h2>Name of Business</h2>
+                <img class='stars' src="{% static 'yelpStars\large_5.png' %}" alt="5 stars on Yelp">
+                <span class='reviews'>999 Reviews</span>
+            </header>
+            <span>Business Categories</span>
+            <hr>
+            <div>
+                <img class='yelpPhoto' src="https://s3-media0.fl.yelpcdn.com/bphoto/80z4a6DXZ8q4IFDoTmSYlQ/o.jpg" alt="Image from Yelp">
+                <img class='yelpPhoto' src="https://s3-media0.fl.yelpcdn.com/bphoto/rBxAipF3dt_8cF88bB9LgQ/o.jpg" alt="Image from Yelp">
+                <img class='yelpPhoto' src="https://s3-media0.fl.yelpcdn.com/bphoto/XBcX6RMipmM03mKfXXJvbQ/o.jpg" alt="Image from Yelp">
+            </div>
+            <hr>
+            <review>
+                
+            </review>       
         </section>
     </body>
 </html>
