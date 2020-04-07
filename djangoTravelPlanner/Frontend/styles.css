@@ -79,10 +79,6 @@ activity .field {
   transition: 0.3s;
 }
 
-.buttonClass:hover {
-  background-color: rgba(255, 196, 00, 0.4);
-}
-
 input.buttonClass {
   font-family: 'arial';
   font-weight: bolder;
@@ -90,6 +86,10 @@ input.buttonClass {
   border: 1px solid rgb(255, 196, 0);
   text-align: center;
   vertical-align: middle;
+}
+
+.buttonClass:hover {
+  background-color: rgba(255, 196, 00, 0.4);
 }
 
 button {
@@ -102,7 +102,6 @@ button {
 
 *:focus {
   outline: none;
-  /* outline-color: rgba(255, 196, 0, 0.4); */
   background-color: rgba(255, 196, 0, 0.4);
 }
 

@@ -64,7 +64,17 @@ function showMoreDetails(event) {
 
   var expandID = getEventID(event);
   var button = document.getElementById(expandID);
-  button.value = '<'
+  if (expandID != showMoreDetails.lastID) {
+    button.value = '<';
+    showMoreDetails.lastID = expandID;
+    // TODO: show moreDetails section of HTML
+  }
+  else {
+    button.value = '>';
+    showMoreDetails.lastID = "";
+    // TODO: hide moreDetails section of HTML
+  }
+
 }
 
 function getEventID(event) {
