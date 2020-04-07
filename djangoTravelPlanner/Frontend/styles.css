@@ -109,12 +109,15 @@ button {
 .moreDetails {
   position: relative;
   top: 227px;
-  max-width: 457px;
   border-left: 2px solid rgb(255, 196, 0);
   padding-left: 8px;
 }
 
-.reviews {
+.yelpStars {
+  width: 40%;
+}
+
+.totalReviews {
   position: relative;
   font-weight: bold;
   top: -7px;
@@ -126,15 +129,53 @@ button {
 
 .yelpPhoto {
   object-fit: cover;
-  width: 150px;
-  height: 150px;
+  width: 124px;
+  height: 124px;
+  position: relative;
+  top: 2px;
+  border-radius: 4px;
 }
 
 .moreDetails p {
   font-family: 'Source Sans Pro';
 }
 
-hr {
-  border: none;
-  border-top: 1px solid rgb(255, 196, 0);
+span.price {
+  font-weight: bolder;
+  color: rgb(54, 146, 18)
+}
+
+span.bullet {
+  font-family: 'Bree Serif';
+  font-weight: bolder;
+}
+
+span.categories {
+  font-weight: bolder;
+}
+
+img.yelpLogo {
+  height: 20%;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  transition: ease-in-out 0.3s;
+}
+
+img.yelpLogo:hover {
+  height: 30%;
+}
+
+a:focus {
+  background-color: transparent;
+}
+
+.vl {
+  border-left: 1px solid rgb(255, 196, 0);
+  margin-left: 8px;
+  margin-right: 4px;
+}
+
+.moreDetails div {
+  height: 128px;
 }
