@@ -30,7 +30,7 @@ function addNewActivityLine() {
     expand.type = "button";
     expand.value = ">"
     expand.id = "expand:" + addNewActivityLine.activityID;
-    // expand.onclick = expandActivityLine;
+    expand.onclick = showMoreDetails;
     expand.className = "buttonClass"
     activity.appendChild(expand);
 
@@ -45,10 +45,28 @@ function addNewActivityLine() {
 
 function removeActivityLine(event) {
 
-  target = event.target
-  var cancelId = target.id;  
+  var cancelId = getEventID(event);
   var id = cancelId.split(":")[1];
   var activityId = "activity:" + id;
   
   document.getElementById(activityId).remove();
+}
+
+function showMoreDetails(event) {
+  
+  var buttons = document.getElementsByClassName("buttonClass");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].id.match(/^expand:[0-9]+/)) {
+      buttons[i].value = '>';
+    }
+  }
+
+  var expandID = getEventID(event);
+  var button = document.getElementById(expandID);
+  button.value = '<'
+}
+
+function getEventID(event) {
+  return event.target.id;
 }
