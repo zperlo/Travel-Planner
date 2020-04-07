@@ -1,4 +1,4 @@
-body, h1, h2, h3, ul {
+body, h1, h2, h3, ul, p {
   font-family: 'Bree Serif';
   padding: 0 0;
   margin: 0;
@@ -109,7 +109,7 @@ button {
 .moreDetails {
   position: relative;
   top: 227px;
-  max-width: 600px;
+  max-width: 457px;
   border-left: 2px solid rgb(255, 196, 0);
   padding-left: 8px;
 }
@@ -121,7 +121,7 @@ button {
 }
 
 .moreDetails span {
-  margin-bottom: 5px;
+  margin: 0px;
 }
 
 .yelpPhoto {
@@ -135,5 +135,11 @@ button {
 }
 
 hr {
+  border: none;
   border-top: 1px solid rgb(255, 196, 0);
+}
+
+review h3 {
+  display: inline-block;
+  margin-right: 3px;
 }
