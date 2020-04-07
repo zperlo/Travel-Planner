@@ -106,6 +106,7 @@ button {
 }
 
 .moreDetails {
+  visibility: hidden;
   position: relative;
   top: 227px;
   border-left: 2px solid rgb(255, 196, 0);
