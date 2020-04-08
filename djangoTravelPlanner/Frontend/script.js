@@ -30,7 +30,7 @@ function addNewActivityLine() {
     expand.type = "button";
     expand.value = ">"
     expand.id = "expand:" + addNewActivityLine.activityID;
-    expand.onclick = showMoreDetails;
+    expand.onclick = analyzeText;
     expand.className = "buttonClass"
     activity.appendChild(expand);
 

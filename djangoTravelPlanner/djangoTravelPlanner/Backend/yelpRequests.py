@@ -1,8 +1,8 @@
 import requests
 import json
-import secrets
+from djangoTravelPlanner.Backend.secrets import yelpKey as apiKey
 
-apiKey = secrets.yelpKey
+#apiKey = secrets.yelpKey
 header = {"Authorization": "Bearer %s" % apiKey}
 
 def searchYelp(searchTermStr, locationStr, maxNumResults = 10):
