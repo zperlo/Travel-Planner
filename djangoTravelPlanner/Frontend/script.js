@@ -95,29 +95,28 @@ function populateDetails(name, rating, reviewCount, price, categories, addressLi
   var details = document.getElementById('moreDetails');
   var divs = details.childNodes;
 
-  console.log('details children:');
-  console.log(divs);
+  var leftSideInfo = divs[1].childNodes;
 
-  var children = divs[1].childNodes;
+  leftSideInfo[1].textContent = name;
+  leftSideInfo[3].src = getRatingImagePath(rating);
+  leftSideInfo[5].textContent = reviewCount.concat(" Reviews");
+  leftSideInfo[9].textContent = price;
+  leftSideInfo[13].textContent = categories;
+  leftSideInfo[17].textContent = addressLine1;
+  leftSideInfo[21].textContent = addressLine2;
 
-  console.log('div children:');
-  console.log(children);
+  var imageFromYelp = divs[5].childNodes[1];
 
-  // update name
-  children[1].textContent = name;
-
-  // update rating
-  children[3].src = getRatingImageStaticPath(rating);
+  imageFromYelp.src = imageURL;
 }
 
-function getRatingImageStaticPath(rating) {
+function getRatingImagePath(rating) {
 
   var infix = rating.charAt(0);
   if (rating.includes('.')) {
     infix += "_half";
   }
 
-  str = "{% static 'resources\\yelpStars\\large_".concat(infix, "@2x.png' %}");
-  console.log(str);
+  str = "Frontend\\resources\\yelpStars\\large_".concat(infix, "\@2x.png");
   return str;
 }
