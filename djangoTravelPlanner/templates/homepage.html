@@ -9,6 +9,27 @@
         <link href='https://fonts.googleapis.com/css?family=Bree Serif' rel='stylesheet'>
         <link href='https://fonts.googleapis.com/css?family=Source Sans Pro' rel='stylesheet'>
         <link rel="stylesheet" href="{% static 'styles.css' %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+
+            function analyzeText(event){
+                var expandID = event.target.id;
+                var idNum = expandID.substring(7);
+                var textID = "textField:".concat(idNum);
+                var text = document.getElementById(textID).value;
+                var city = document.getElementById('city').value;
+
+                $.ajax({
+                    type: "POST",
+                    url: '{{ 'my-ajax-test/' }}',
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: text, city: city },  
+                    success: function callback(response){
+                            /* do whatever with the response */
+                            alert(response);
+                            }
+                });
+            }
+        </script>
     </head>
     <body onload="addNewActivityLine()">
         <header class='main'>

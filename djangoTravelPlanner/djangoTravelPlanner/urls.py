@@ -21,7 +21,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     re_path(r'^$', views.homepage),
-    re_path('results', views.resultspage)
+    re_path('results', views.resultspage),
+    re_path('my-ajax-test/', views.testcall),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
