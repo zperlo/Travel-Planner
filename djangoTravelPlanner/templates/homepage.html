@@ -37,8 +37,8 @@
             </div>
             <div class='content'>
                 <form id="form">
-                    <h3>What city are you seeing?</h3>
-                    <input type="text" id="city" class='field'>
+                    <h3>Where are you visiting?</h3>
+                    <input type="text" id="city" class='field' placeholder="New York, NY">
                     <br>
                     <h3>When will you be there?</h3>
                     <input type="date" id="date" class='field'>
@@ -59,26 +59,51 @@
                 <button id="resultsButton" type='submit' class='buttonClass'>Plan My Day!</button>
             </div>
         </section>
-        <section class='moreDetails' id='moreDetails'>
-            <div>
-                <h2>Topaz</h2>
-                <img class='yelpStars' src="{% static 'resources\yelpStars\large_5@2x.png' %}" alt="">
-                <span class='totalReviews'>999999999 Reviews</span>
-                <br>
-                <span class='price'>$$$$</span>
-                <span class='bullet'>></span>
-                <span class='categories'>Travel Planner, Capstone Project</span>
-                <br>
-                <span>10900 Euclid Ave</span>
-                <br>
-                <span>Cleveland, OH 44106</span>
+        <section class='searchResults' id='searchResults'>
+            <div id='searchResult:0'>
+                <div class='yelpDetails'>
+                    <h2>Topaz</h2>
+                    <img class='yelpStars' src="{% static 'resources\yelpStars\large_5@2x.png' %}" alt="">
+                    <span class='totalReviews'>999999999 Reviews</span>
+                    <br>
+                    <span class='price'>$$$$</span>
+                    <span class='bullet'>></span>
+                    <span class='categories'>Travel Planner, Capstone Project</span>
+                    <br>
+                    <span class='address'>10900 Euclid Ave</span>
+                    <br>
+                    <span class='address'>Cleveland, OH 44106</span>
+                </div>
+                <div class='vl'></div>
+                <div class='yelpImagery'>
+                    <img class='yelpPhoto' src="https://s3-media0.fl.yelpcdn.com/bphoto/guODR3a5GTtxVj5f5sVLlQ/o.jpg" alt="">
+                    <a href="https://www.yelp.com/biz/case-western-reserve-university-cleveland-7" target='_blank'>
+                        <img class='yelpLogo' src="{% static 'resources\yelpLogo.png' %}" alt="Yelp logo">
+                    </a>
+                </div>
             </div>
-            <div class='vl'></div>
-            <div>
-                <img class='yelpPhoto' src="https://s3-media0.fl.yelpcdn.com/bphoto/guODR3a5GTtxVj5f5sVLlQ/o.jpg" alt="">
-                <a href="https://www.yelp.com/biz/case-western-reserve-university-cleveland-7" target='_blank'>
-                    <img class='yelpLogo' src="{% static 'resources\yelpLogo.png' %}" alt="Yelp logo">
-                </a>
+            <br>
+            <div id='searchResult:1'>
+                <div class='yelpDetails'>
+                    <h2>Topaz</h2>
+                    <img class='yelpStars' src="{% static 'resources\yelpStars\large_5@2x.png' %}" alt="">
+                    <span class='totalReviews'>999999999 Reviews</span>
+                    <br>
+                    <span class='price'>$$$$</span>
+                    <span class='bullet'>></span>
+                    <span class='categories'>Travel Planner, Capstone Project<span>
+                    <br>
+                    <span class='address'>10900 Euclid Ave</span>
+                    <br>
+                    <span class='address'>Cleveland, OH 44106</span>
+                </div>
+                <div class='vl'></div>
+                <div class='yelpImagery'>
+                    <img class='yelpPhoto' src="https://s3-media0.fl.yelpcdn.com/bphoto/guODR3a5GTtxVj5f5sVLlQ/o.jpg" alt="">
+                    <a href="https://www.yelp.com/biz/case-western-reserve-university-cleveland-7" target='_blank'>
+                        <img class='yelpLogo' src="{% static 'resources\yelpLogo.png' %}" alt="Yelp logo">
+                    </a>
+                </div>
             </div>
         </section>
     </body>

@@ -66,14 +66,15 @@ h3 {
 }
 
 .field {
+  font-family: 'Source Sans Pro';
   margin: 5px;
   background-color: inherit;
   border: none;
   border-bottom: 2px solid rgb(255, 196, 0);
 }
 
-input {
-  font-family: 'Source Sans Pro';
+select {
+  vertical-align: middle;
 }
 
 activity .field {
@@ -111,12 +112,16 @@ button {
   background-color: rgba(255, 196, 0, 0.4);
 }
 
-.moreDetails {
+.searchResults {
   visibility: hidden;
   position: relative;
   top: 227px;
   border-left: 2px solid rgb(255, 196, 0);
   padding-left: 8px;
+}
+
+.yelpDetails {
+  width: 400px;
 }
 
 .yelpStars {
@@ -126,11 +131,15 @@ button {
 .totalReviews {
   position: relative;
   font-weight: bold;
-  top: -7px;
+  top: -10px;
 }
 
-.moreDetails span {
+.searchResults span {
   margin: 0px;
+}
+
+.yelpImagery {
+  position: relative;
 }
 
 .yelpPhoto {
@@ -142,8 +151,17 @@ button {
   border-radius: 4px;
 }
 
-.moreDetails p {
-  font-family: 'Source Sans Pro';
+img.yelpLogo {
+  height: 20%;
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  transition: ease-in-out 0.3s;
+  z-index: 1;
+}
+
+img.yelpLogo:hover {
+  height: 30%;
 }
 
 span.price {
@@ -160,16 +178,8 @@ span.categories {
   font-weight: bolder;
 }
 
-img.yelpLogo {
-  height: 20%;
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  transition: ease-in-out 0.3s;
-}
-
-img.yelpLogo:hover {
-  height: 30%;
+span.address {
+  font-weight: normal;
 }
 
 a:focus {
@@ -182,7 +192,7 @@ a:focus {
   margin-right: 4px;
 }
 
-.moreDetails div {
+.searchResults div {
   height: 128px;
 }
 

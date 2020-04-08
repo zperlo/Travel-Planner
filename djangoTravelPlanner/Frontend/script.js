@@ -64,7 +64,7 @@ function showMoreDetails(event) {
 
   var expandID = getEventID(event);
   var button = document.getElementById(expandID);
-  var details = document.getElementById('moreDetails');
+  var details = document.getElementById('searchResults');
   if (expandID != showMoreDetails.lastID) {
     button.value = '<';
     showMoreDetails.lastID = expandID;
@@ -93,10 +93,10 @@ function getEventID(event) {
 }
 
 function populateDetails(name, rating, reviewCount, price, categories, addressLine1, addressLine2, imageURL, yelpURL) {
-  var details = document.getElementById('moreDetails');
+  var details = document.getElementById('searchResults');
   var divs = details.childNodes;
 
-  var leftSideInfo = divs[1].childNodes;
+  var leftSideInfo = divs[1].childNodes[1].childNodes;
 
   leftSideInfo[1].textContent = name;
   leftSideInfo[3].src = getRatingImagePath(rating);
@@ -106,7 +106,7 @@ function populateDetails(name, rating, reviewCount, price, categories, addressLi
   leftSideInfo[17].textContent = addressLine1;
   leftSideInfo[21].textContent = addressLine2;
 
-  var yelpData = divs[5].childNodes;
+  var yelpData = divs[1].childNodes[5].childNodes;
 
   yelpData[1].src = imageURL;
   yelpData[3].href = yelpURL;
@@ -119,6 +119,6 @@ function getRatingImagePath(rating) {
     infix += "_half";
   }
 
-  str = "Frontend\\resources\\yelpStars\\large_".concat(infix, "\@2x.png");
+  var str = "Frontend\\resources\\yelpStars\\large_".concat(infix, "\@2x.png");
   return str;
 }
