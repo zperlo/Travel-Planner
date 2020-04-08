@@ -21,7 +21,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: '{{ 'my-ajax-test/' }}',
+                    url: '{{ "my-ajax-test/" }}',
                     data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: text, city: city },  
                     success: function callback(response){
                             /* do whatever with the response */
