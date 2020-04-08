@@ -76,7 +76,8 @@ function showMoreDetails(event) {
       "Breakfast & Brunch, Bagels, Sandwiches",
       "262 S 20th St",
       "Philadelphia, PA 19103",
-      "https://s3-media0.fl.yelpcdn.com/bphoto/NwenshmRDzryFAPVbXZgJg/o.jpg");
+      "https://s3-media0.fl.yelpcdn.com/bphoto/NwenshmRDzryFAPVbXZgJg/o.jpg",
+      "https://www.yelp.com/biz/spread-bagelry-philadelphia-2?osq=spread+bagelry");
     details.style.visibility = 'visible';
   }
   else {
@@ -91,7 +92,7 @@ function getEventID(event) {
   return event.target.id;
 }
 
-function populateDetails(name, rating, reviewCount, price, categories, addressLine1, addressLine2, imageURL) {
+function populateDetails(name, rating, reviewCount, price, categories, addressLine1, addressLine2, imageURL, yelpURL) {
   var details = document.getElementById('moreDetails');
   var divs = details.childNodes;
 
@@ -105,9 +106,10 @@ function populateDetails(name, rating, reviewCount, price, categories, addressLi
   leftSideInfo[17].textContent = addressLine1;
   leftSideInfo[21].textContent = addressLine2;
 
-  var imageFromYelp = divs[5].childNodes[1];
+  var yelpData = divs[5].childNodes;
 
-  imageFromYelp.src = imageURL;
+  yelpData[1].src = imageURL;
+  yelpData[3].href = yelpURL;
 }
 
 function getRatingImagePath(rating) {
