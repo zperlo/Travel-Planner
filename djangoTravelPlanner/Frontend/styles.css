@@ -212,3 +212,11 @@ itineraryItem span {
   border-radius: 12px;
   padding: 4px;
 }
+
+:hover:disabled {
+  background-color: inherit;
+}
+
+#resultsButton, .disabledAtStart {
+  color: rgba(0, 0, 0, 0.4);
+}

@@ -1,29 +1,35 @@
 var activityLines = []
 
+function load() {
+  addNewActivityLine();
+}
+
 function addNewActivityLine() {
 
     if (typeof addNewActivityLine.activityID == 'undefined') {
         addNewActivityLine.activityID = 1;
     }
 
-    var div = document.getElementById("activities");
+    var ul = document.getElementById("activities");
 
     var activity = document.createElement("activity");
     activity.id = "activity:" + addNewActivityLine.activityID;
-    div.appendChild(activity);
+    ul.appendChild(activity);
 
     var cancel = document.createElement("input");
     cancel.type = "button";
     cancel.value = "x";
     cancel.id = "cancel:" + addNewActivityLine.activityID;
     cancel.onclick = removeActivityLine;
-    cancel.className = "buttonClass";
+    cancel.className = "buttonClass disabledAtStart";
+    cancel.disabled = true;
     activity.appendChild(cancel);
 
     var textField = document.createElement("input");
     textField.type = "text";
     textField.id = "textField:" + addNewActivityLine.activityID;
-    textField.className = "field";
+    textField.className = "field disabledAtStart";
+    textField.disabled = true;
     activity.appendChild(textField);
 
     var expand = document.createElement("input");
@@ -31,7 +37,8 @@ function addNewActivityLine() {
     expand.value = ">"
     expand.id = "expand:" + addNewActivityLine.activityID;
     expand.onclick = analyzeText;
-    expand.className = "buttonClass"
+    expand.className = "buttonClass disabledAtStart"
+    expand.disabled = true;
     activity.appendChild(expand);
 
     var brElement = document.createElement("br");
