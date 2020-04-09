@@ -33,8 +33,8 @@ function addNewActivityLine() {
     expand.type = "button";
     expand.value = ">"
     expand.id = "expand:" + addNewActivityLine.activityID;
-    // expand.onclick = analyzeText;
-    expand.onclick = showMoreDetailsFromButton;
+    expand.onclick = analyzeText;
+    //expand.onclick = showMoreDetailsFromButton;
     expand.className = "buttonClass";
     activity.appendChild(expand);
 
@@ -112,9 +112,11 @@ function populateDetails(name, rating, reviewCount, price, categories, addressLi
   leftSideInfo[21].textContent = addressLine2;
 
   var yelpData = divs[1].childNodes[5].childNodes;
+  var yelpChildren = yelpData[1].childNodes;
+  var yelpGrandchildren = yelpChildren[3].childNodes;
 
-  yelpData[1].src = imageURL;
-  yelpData[3].href = yelpURL;
+  yelpChildren[1].src = imageURL;
+  yelpGrandchildren[1].href = yelpURL;
 }
 
 function getRatingImagePath(rating) {
@@ -158,10 +160,136 @@ function populateSearch(yelpResponse) {
   
   for (var i = 0; i < results.length; i++) {
     var result = results[i];
-    // createAndAddResult()
+    createAndAddResult(result)
   }
-  result = results[0];
-  populateDetails(result[1], result[4], result[3], result[7], result[6], result[8], result[9], result[2], result[5]);
+  //result = results[0];
+  //populateDetails(result[1], result[4], result[3], result[7], result[6], result[8], result[9], result[2], result[5]);
+}
+
+function createAndAddResult(result) {
+
+  var resultName = result[1];
+  var resultRating = result[4];
+  var resultReviewCount = result[3];
+  var resultPrice = result[7];
+  var resultCategories = result[6];
+  var resultAddressLine1 = result[8];
+  var resultAddressLine2 = result[9];
+  var resultImageURL = result[2];
+  var resultYelpURL = result[5];
+
+  if (typeof createAndAddResult.resultID == 'undefined') {
+    createAndAddResult.resultID = 1;
+  }
+
+  var section = document.getElementById("searchResults");
+
+  var searchResult = document.createElement("div");
+  searchResult.id = "searchResult:" + createAndAddResult.resultID;
+  section.appendChild(searchResult);
+
+  var leftSideDetails = document.createElement("div");
+  leftSideDetails.className = "leftSideDetails";
+  searchResult.appendChild(leftSideDetails);
+
+  var title = document.createElement("h2");
+  title.innerHTML = resultName;
+  leftSideDetails.appendChild(title);
+
+  var yelpStars = document.createElement("img");
+  yelpStars.className = "yelpStars";
+  yelpStars.src = getRatingImagePath(resultRating);
+  yelpStars.alt = "";
+  leftSideDetails.appendChild(yelpStars);
+
+  var totalReviews = document.createElement("span");
+  totalReviews.className = "totalReviews";
+  totalReviews.innerHTML = resultReviewCount.concat(" Reviews");
+  leftSideDetails.appendChild(totalReviews);
+
+  var br = document.createElement("br");
+  leftSideDetails.appendChild(br);
+
+  var price = document.createElement("span");
+  price.className = "price";
+  price.innerHTML = resultPrice;
+  leftSideDetails.appendChild(price);
+
+  var bullet = document.createElement("span");
+  bullet.className = "bullet";
+  bullet.innerHTML = ">";
+  leftSideDetails.appendChild(bullet);
+
+  var categories = document.createElement("span");
+  categories.className = "categories";
+  categories.innerHTML = resultCategories;
+  leftSideDetails.appendChild(categories);
+
+  var br2 = document.createElement("br");
+  leftSideDetails.appendChild(br2);
+
+  var address1 = document.createElement("span");
+  address1.className = "address";
+  address1.innerHTML = resultAddressLine1;
+  leftSideDetails.appendChild(address1);
+
+  var br3 = document.createElement("br");
+  leftSideDetails.appendChild(br3);
+
+  var address2 = document.createElement("span");
+  address2.className = "address";
+  address2.innerHTML = resultAddressLine2;
+  leftSideDetails.appendChild(address2);
+
+  var vl = document.createElement("div");
+  vl.className = "vl";
+  searchResult.appendChild(vl);
+
+  var yelpImagery = document.createElement("div");
+  yelpImagery.className = "yelpImagery";
+  searchResult.appendChild(yelpImagery);
+
+  var frame = document.createElement("div");
+  frame.className = "frame";
+  yelpImagery.appendChild(frame);
+
+  var yelpPhoto = document.createElement("img");
+  yelpPhoto.className = "yelpPhoto";
+  yelpPhoto.src = resultImageURL;
+  yelpPhoto.alt = "";
+  frame.appendChild(yelpPhoto);
+
+  var glass = document.createElement("div");
+  glass.className = "glass";
+  frame.appendChild(glass);
+
+  var link = document.createElement("a");
+  link.href = resultYelpURL;
+  link.target = '_blank';
+  glass.appendChild(link);
+
+  var yelpLogo = document.createElement("img");
+  yelpLogo.className = "yelpLogo";
+  //TODO: make this image actually load
+  yelpLogo.src = 'Frontend\\resources\\yelpLogo.png';
+  yelpLogo.alt = "Yelp Logo";
+  link.appendChild(yelpLogo);
+
+  var selectUI = document.createElement("div");
+  selectUI.className = "selectUI";
+  searchResult.appendChild(selectUI);
+
+  var selectControls = document.createElement("div");
+  selectControls.className = "selectControls";
+  selectUI.appendChild(selectControls);
+
+  var plusButton = document.createElement("input");
+  plusButton.type = "button";
+  plusButton.value = "+";
+  plusButton.className = "buttonClass selectButton";
+  selectControls.appendChild(plusButton);
+
+  createAndAddResult.resultID++;
 }
 
 function noResults(search, city) {

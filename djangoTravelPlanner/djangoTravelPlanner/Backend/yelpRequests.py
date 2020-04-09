@@ -38,7 +38,7 @@ def searchYelp(searchTermStr, locationStr, maxNumResults = 10):
             }
             cat = business["categories"][0]["title"]
             i = 1
-            while i <= 3 and i < len(business["categories"]):
+            while i < len(business["categories"]):
                 cat = cat + ", " + business["categories"][i]["title"]
                 i = i + 1
             busDict.update({"categories": cat})
