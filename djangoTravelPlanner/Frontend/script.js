@@ -97,6 +97,7 @@ function getEventID(event) {
   return event.target.id;
 }
 
+// This function is now obsolete
 function populateDetails(name, rating, reviewCount, price, categories, addressLine1, addressLine2, imageURL, yelpURL) {
   var details = document.getElementById('searchResults');
   var divs = details.childNodes;
@@ -296,39 +297,10 @@ function noResults(search, city) {
   console.log("No results for ".concat("\"", search, "\"", " in ", "\"", city, "\""));
 }
 
-/* Dear Zach,
- * 
- *  This function is something else I'd like you to
- * implement when you have a minute. As we discussed
- * earlier, createAndAddResult() is analogous to
- * addNewActivityLine(). In the same metaphor, this
- * function is analogous to removeActivityLine().
- * They key differences are when this function is
- * called and its scope.
- *  This function is called every time a new search
- * comes in (see homepage.html:27), as opposed to
- * when the user clicks a button. Because of this,
- * it does not receive an event argument.*
- *  "But with no event argument how will I know what
- * to destroy?" Great question. Our good friend
- * removeActivityLine() is concerned with removing
- * an activity from a list but allowing the rest to
- * remain. This new function is concerned with
- * clearing the previous results to make space for
- * the incoming ones. That is, it doesn't care about
- * specifics -- it just removes everything, leaving
- * an empty <section> in the html.
- * 
- *  Much love,
- *    Djacob
- * 
- *  * Earlier I mentioned to you that every JS
- *    function received an event argument. I
- *    misspoke there. Instead, every JS function
- *    which is triggered by an event such as
- *    onClick or onBlur receives an event argument.
- */
-
 function destroyPreviousResults() {
-  // TODO
+  var section = document.getElementById("searchResults");
+  var searchResults = section.childNodes;
+  while (searchResults.length){
+    searchResults[0].remove();
+  }
 }
