@@ -24,6 +24,7 @@
                     url: '{{ "my-ajax-test/" }}',
                     data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: text, city: city },  
                     success: function callback(response){
+                        destroyPreviousSearch();
                         if (response == "[]") {
                             noResults(text, city);
                         }

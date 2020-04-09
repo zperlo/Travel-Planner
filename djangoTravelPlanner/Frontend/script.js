@@ -154,7 +154,7 @@ function setFirstActivityLineDisabled(disabling) {
 function populateSearch(yelpResponse) {
   var matches = yelpResponse.matchAll(/\{"name": "([^"]*)",[^\}]* "imgURL": "([^"]*)",[^\}]* "reviewCount": ([0-9]*),[^\}]* "rating": ([0-9\.]*)[^\}]* "url": "([^"]*)"[^\}]* "categories": "([^"]*)"[^\}]* "price": "(\${1,4})",[^\}]* "addressLine1": "([^"]*)"[^\}]* "addressLine2": "([^"]*)"[^\}]*\}/g);
   var results = Array.from(matches);
-
+  
   for (var i = 0; i < results.length; i++) {
     var result = results[i];
     // createAndAddResult()
@@ -167,4 +167,41 @@ function populateSearch(yelpResponse) {
 
 function noResults(search, city) {
   console.log("No results for ".concat("\"", search, "\"", " in ", "\"", city, "\""));
+}
+
+/* Dear Zach,
+ * 
+ *  This function is something else I'd like you to
+ * implement when you have a minute. As we discussed
+ * earlier, createAndAddResult() is analogous to
+ * addNewActivityLine(). In the same metaphor, this
+ * function is analogous to removeActivityLine().
+ * They key differences are when this function is
+ * called and its scope.
+ *  This function is called every time a new search
+ * comes in (see homepage.html:27), as opposed to
+ * when the user clicks a button. Because of this,
+ * it does not receive an event argument.*
+ *  "But with no event argument how will I know what
+ * to destroy?" Great question. Our good friend
+ * removeActivityLine() is concerned with removing
+ * an activity from a list but allowing the rest to
+ * remain. This new function is concerned with
+ * clearing the previous results to make space for
+ * the incoming ones. That is, it doesn't care about
+ * specifics -- it just removes everything, leaving
+ * an empty <section> in the html.
+ * 
+ *  Much love,
+ *    Djacob
+ * 
+ *  * Earlier I mentioned to you that every JS
+ *    function received an event argument. I
+ *    misspoke there. Instead, every JS function
+ *    which is triggered by an event such as
+ *    onClick or onBlur receives an event argument.
+ */
+
+function destroyPreviousResult() {
+  // TODO
 }
