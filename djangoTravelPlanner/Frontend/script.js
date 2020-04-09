@@ -202,6 +202,6 @@ function noResults(search, city) {
  *    onClick or onBlur receives an event argument.
  */
 
-function destroyPreviousResult() {
+function destroyPreviousResults() {
   // TODO
 }

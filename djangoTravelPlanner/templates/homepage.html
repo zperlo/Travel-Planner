@@ -24,7 +24,7 @@
                     url: '{{ "my-ajax-test/" }}',
                     data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: text, city: city },  
                     success: function callback(response){
-                        destroyPreviousSearch();
+                        destroyPreviousResults();
                         if (response == "[]") {
                             noResults(text, city);
                         }
@@ -90,7 +90,7 @@
         </section>
         <section class='searchResults' id='searchResults'>
             <div id='searchResult:0'>
-                <div class='yelpDetails'>
+                <div class='leftSideDetails'>
                     <h2>Topaz</h2>
                     <img class='yelpStars' src="{% static 'resources\yelpStars\large_5@2x.png' %}" alt="">
                     <span class='totalReviews'>999999999 Reviews</span>
@@ -113,7 +113,7 @@
             </div>
             <br>
             <div id='searchResult:1'>
-                <div class='yelpDetails'>
+                <div class='leftSideDetails'>
                     <h2>Topaz</h2>
                     <img class='yelpStars' src="{% static 'resources\yelpStars\large_5@2x.png' %}" alt="">
                     <span class='totalReviews'>999999999 Reviews</span>

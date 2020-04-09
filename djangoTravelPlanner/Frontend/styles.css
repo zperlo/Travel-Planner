@@ -99,7 +99,7 @@ input.buttonClass {
   background-color: rgba(255, 196, 00, 0.4);
 }
 
-button {
+#resultsButton {
   font-family: 'Bree Serif';
   font-size: 20px;
   padding: 0px 10px 4px 10px;
@@ -120,7 +120,7 @@ button {
   padding-left: 8px;
 }
 
-.yelpDetails {
+.leftSideDetails {
   width: 400px;
 }
 
@@ -193,8 +193,18 @@ a:focus {
 }
 
 .searchResults div {
-  height: 128px;
+  min-height: 128px;
 }
+
+:hover:disabled {
+  background-color: inherit;
+}
+
+#resultsButton, .disabledAtStart {
+  color: rgba(0, 0, 0, 0.4);
+}
+
+/* results page styles */
 
 itineraryItem {
   position: relative;
@@ -211,12 +221,4 @@ itineraryItem span {
   border: 1px solid rgb(255, 196, 0);
   border-radius: 12px;
   padding: 4px;
-}
-
-:hover:disabled {
-  background-color: inherit;
-}
-
-#resultsButton, .disabledAtStart {
-  color: rgba(0, 0, 0, 0.4);
 }
