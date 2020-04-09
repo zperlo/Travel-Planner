@@ -24,9 +24,17 @@
                     url: '{{ "my-ajax-test/" }}',
                     data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: text, city: city },  
                     success: function callback(response){
-                            /* do whatever with the response */
-                            alert(response);
-                            }
+                        if (response == "[]") {
+                            noResults(text, city);
+                        }
+                        else {
+                            populateSearch(response);
+                            showMoreDetails("expand:".concat(idNum));
+                        }
+                    },
+                    error: function callback(response) {
+                            noResults(text, city);
+                    }
                 });
             }
         </script>
@@ -59,7 +67,7 @@
             <div class='content'>
                 <form id="form">
                     <h3>Where are you visiting?</h3>
-                    <input type="text" id="city" class='field' placeholder="New York, NY">
+                    <input type="text" id="city" class='field' placeholder="New York, NY" onblur='enableForm()'>
                     <br>
                     <h3 class='disabledAtStart'>When will you be there?</h3>
                     <input type="date" id="date" class='field disabledAtStart' disabled>

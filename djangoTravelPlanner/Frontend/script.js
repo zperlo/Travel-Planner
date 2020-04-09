@@ -1,7 +1,6 @@
-var activityLines = []
-
 function load() {
   addNewActivityLine();
+  setFirstActivityLineDisabled(true);
 }
 
 function addNewActivityLine() {
@@ -21,15 +20,13 @@ function addNewActivityLine() {
     cancel.value = "x";
     cancel.id = "cancel:" + addNewActivityLine.activityID;
     cancel.onclick = removeActivityLine;
-    cancel.className = "buttonClass disabledAtStart";
-    cancel.disabled = true;
+    cancel.className = "buttonClass";
     activity.appendChild(cancel);
 
     var textField = document.createElement("input");
     textField.type = "text";
     textField.id = "textField:" + addNewActivityLine.activityID;
-    textField.className = "field disabledAtStart";
-    textField.disabled = true;
+    textField.className = "field";
     activity.appendChild(textField);
 
     var expand = document.createElement("input");
@@ -37,15 +34,12 @@ function addNewActivityLine() {
     expand.value = ">"
     expand.id = "expand:" + addNewActivityLine.activityID;
     expand.onclick = analyzeText;
-    expand.className = "buttonClass disabledAtStart"
-    expand.disabled = true;
+    expand.className = "buttonClass";
     activity.appendChild(expand);
 
     var brElement = document.createElement("br");
     brElement.id = "br:" + addNewActivityLine.activityID;
     activity.appendChild(brElement);
-
-    // activityLines[addNewActivityLine.activityID];
 
     addNewActivityLine.activityID++;
 }
@@ -60,6 +54,10 @@ function removeActivityLine(event) {
 }
 
 function showMoreDetails(event) {
+  showMoreDetails(getEventID(event));
+}
+
+function showMoreDetails(expandID) {
   
   var buttons = document.getElementsByClassName("buttonClass");
 
@@ -69,22 +67,21 @@ function showMoreDetails(event) {
     }
   }
 
-  var expandID = getEventID(event);
   var button = document.getElementById(expandID);
   var details = document.getElementById('searchResults');
   if (expandID != showMoreDetails.lastID) {
     button.value = '<';
     showMoreDetails.lastID = expandID;
-    populateDetails(
-      "Spread Bagelry",
-      "3.5",
-      "538",
-      "$$",
-      "Breakfast & Brunch, Bagels, Sandwiches",
-      "262 S 20th St",
-      "Philadelphia, PA 19103",
-      "https://s3-media0.fl.yelpcdn.com/bphoto/NwenshmRDzryFAPVbXZgJg/o.jpg",
-      "https://www.yelp.com/biz/spread-bagelry-philadelphia-2?osq=spread+bagelry");
+    // populateDetails(
+    //   "Spread Bagelry",
+    //   "3.5",
+    //   "538",
+    //   "$$",
+    //   "Breakfast & Brunch, Bagels, Sandwiches",
+    //   "262 S 20th St",
+    //   "Philadelphia, PA 19103",
+    //   "https://s3-media0.fl.yelpcdn.com/bphoto/NwenshmRDzryFAPVbXZgJg/o.jpg",
+    //   "https://www.yelp.com/biz/spread-bagelry-philadelphia-2?osq=spread+bagelry");
     details.style.visibility = 'visible';
   }
   else {
@@ -122,10 +119,52 @@ function populateDetails(name, rating, reviewCount, price, categories, addressLi
 function getRatingImagePath(rating) {
 
   var infix = rating.charAt(0);
-  if (rating.includes('.')) {
+  if (rating.includes('.5')) {
     infix += "_half";
   }
 
   var str = "Frontend\\resources\\yelpStars\\large_".concat(infix, "\@2x.png");
   return str;
+}
+
+function enableForm() {
+  var city = document.getElementById('city');
+
+  if(city.value != "") {
+    var disabledElements = document.getElementsByClassName("disabledAtStart");
+    for (var i = 0; i < disabledElements.length; i++) {
+      disabledElements[i].style.color = "black"; 
+      disabledElements[i].disabled = false;
+    }
+    setFirstActivityLineDisabled(false);
+  }
+}
+
+function setFirstActivityLineDisabled(disabling) {
+  var firstActivityLine = document.getElementById("activity:1").childNodes;
+
+  var cssColor = (disabling) ? "rgba(0, 0, 0, 0.4)" : "black";
+
+  for (var i = 0; i < firstActivityLine.length; i++) {
+    firstActivityLine[i].style.color = cssColor;
+    firstActivityLine[i].disabled = disabling;
+  }
+}
+
+function populateSearch(yelpResponse) {
+  var matches = yelpResponse.matchAll(/\{"name": "([^"]*)",[^\}]* "imgURL": "([^"]*)",[^\}]* "reviewCount": ([0-9]*),[^\}]* "rating": ([0-9\.]*)[^\}]* "url": "([^"]*)"[^\}]* "categories": "([^"]*)"[^\}]* "price": "(\${1,4})",[^\}]* "addressLine1": "([^"]*)"[^\}]* "addressLine2": "([^"]*)"[^\}]*\}/g);
+  var results = Array.from(matches);
+
+  for (var i = 0; i < results.length; i++) {
+    var result = results[i];
+    // createAndAddResult()
+  }
+
+  console.log(yelpResponse);
+  result = results[0];
+  populateDetails(result[1], result[4], result[3], result[7], result[6], result[8], result[9], result[2], result[5]);
+}
+
+function noResults(search, city) {
+  console.log("No results for ".concat("\"", search, "\"", " in ", "\"", city, "\""));
 }

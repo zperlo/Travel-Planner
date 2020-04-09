@@ -33,7 +33,7 @@ def searchYelp(searchTermStr, locationStr, maxNumResults = 10):
                 "reviewCount": business["review_count"],
                 "rating": business["rating"],
                 "id": business["id"],
-                "price": business["price"],
+                # "price": business["price"],
                 "url": business["url"]
             }
             cat = business["categories"][0]["title"]
@@ -42,6 +42,11 @@ def searchYelp(searchTermStr, locationStr, maxNumResults = 10):
                 cat = cat + ", " + business["categories"][i]["title"]
                 i = i + 1
             busDict.update({"categories": cat})
+
+            if "price" in business.keys():
+                busDict.update({"price": business["price"]})
+            else:
+                busDict.update({"price": "$"})
 
             addressLine1 = business["location"]["address1"]
             if business["location"]["address2"]:
