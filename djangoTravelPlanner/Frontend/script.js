@@ -33,7 +33,8 @@ function addNewActivityLine() {
     expand.type = "button";
     expand.value = ">"
     expand.id = "expand:" + addNewActivityLine.activityID;
-    expand.onclick = analyzeText;
+    // expand.onclick = analyzeText;
+    expand.onclick = showMoreDetailsFromButton;
     expand.className = "buttonClass";
     activity.appendChild(expand);
 
@@ -53,7 +54,7 @@ function removeActivityLine(event) {
   document.getElementById(activityId).remove();
 }
 
-function showMoreDetails(event) {
+function showMoreDetailsFromButton(event) {
   showMoreDetails(getEventID(event));
 }
 
@@ -159,8 +160,6 @@ function populateSearch(yelpResponse) {
     var result = results[i];
     // createAndAddResult()
   }
-
-  console.log(yelpResponse);
   result = results[0];
   populateDetails(result[1], result[4], result[3], result[7], result[6], result[8], result[9], result[2], result[5]);
 }

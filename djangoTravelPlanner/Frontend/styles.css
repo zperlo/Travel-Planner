@@ -121,6 +121,7 @@ input.buttonClass {
 }
 
 .leftSideDetails {
+  display: table-cell;
   width: 400px;
 }
 
@@ -139,25 +140,39 @@ input.buttonClass {
 }
 
 .yelpImagery {
+  display: table-cell;
+  vertical-align: middle;
+  position: relative;
+  left: 4px;
+}
+
+.frame {
   position: relative;
 }
 
 .yelpPhoto {
   object-fit: cover;
-  width: 124px;
-  height: 124px;
   position: relative;
-  top: 2px;
   border-radius: 4px;
 }
 
-img.yelpLogo {
+.glass {
+  position: absolute;
+  z-index: 1;
+  left: 0px;
+}
+
+.yelpPhoto, .glass {
+  width: 124px;
+  height: 124px;
+}
+
+.yelpLogo {
   height: 20%;
   position: absolute;
   bottom: 4px;
   right: 4px;
   transition: ease-in-out 0.3s;
-  z-index: 1;
 }
 
 img.yelpLogo:hover {
@@ -187,12 +202,15 @@ a:focus {
 }
 
 .vl {
+  display: table-cell;
   border-left: 1px solid rgb(255, 196, 0);
   margin-left: 8px;
   margin-right: 4px;
+  min-height: 128px;
 }
 
-.searchResults div {
+.searchResults > div {
+  display: table;
   min-height: 128px;
 }
 
@@ -204,7 +222,7 @@ a:focus {
   color: rgba(0, 0, 0, 0.4);
 }
 
-/* results page styles */
+/* ------------------ results page styles ------------------ */
 
 itineraryItem {
   position: relative;
