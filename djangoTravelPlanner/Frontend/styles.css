@@ -121,7 +121,6 @@ input.buttonClass {
 }
 
 .leftSideDetails {
-  display: table-cell;
   width: 400px;
 }
 
@@ -140,10 +139,8 @@ input.buttonClass {
 }
 
 .yelpImagery {
-  display: table-cell;
   vertical-align: middle;
   position: relative;
-  left: 4px;
 }
 
 .frame {
@@ -202,16 +199,30 @@ a:focus {
 }
 
 .vl {
-  display: table-cell;
   border-left: 1px solid rgb(255, 196, 0);
-  margin-left: 8px;
-  margin-right: 4px;
+  width: 4px;
   min-height: 128px;
 }
 
 .searchResults > div {
   display: table;
   min-height: 128px;
+}
+
+.leftSideDetails, .vl, .yelpImagery, .selectUI {
+  display: table-cell;
+}
+
+.selectUI {
+  vertical-align: middle;
+}
+
+.selectControls {
+  display: table;
+}
+
+.selectButton {
+  margin-left: 40px;
 }
 
 :hover:disabled {

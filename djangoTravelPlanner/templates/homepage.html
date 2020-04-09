@@ -51,7 +51,7 @@
                 <h2>Tourism Made Easy</h2>
             </div>
         </header>
-        <section>
+        <section class='controls'>
             <div class='angleBracketHolder'>
                 <h3>></h3>
                 <input type='text' class='spacer field'>
@@ -67,7 +67,7 @@
                 <h3 class='disabledAtStart'>></h3>
             </div>
             <div class='content'>
-                <form id="form">
+                <form>
                     <h3>Where are you visiting?</h3>
                     <input type="text" id="city" class='field' placeholder="New York, NY" onblur='enableForm()'>
                     <br>
@@ -115,6 +115,11 @@
                         </div>
                     </div>
                 </div>
+                <div class='selectUI'>
+                    <div class='selectControls'>
+                        <input type='button' value="+" class='buttonClass selectButton'>
+                    </div>
+                </div>
             </div>
             <div id='searchResult:1'>
                 <div class='leftSideDetails'>
@@ -132,10 +137,14 @@
                 </div>
                 <div class='vl'></div>
                 <div class='yelpImagery'>
-                    <img class='yelpPhoto' src="https://s3-media0.fl.yelpcdn.com/bphoto/guODR3a5GTtxVj5f5sVLlQ/o.jpg" alt="">
-                    <a href="https://www.yelp.com/biz/case-western-reserve-university-cleveland-7" target='_blank'>
-                        <img class='yelpLogo' src="{% static 'resources\yelpLogo.png' %}" alt="Yelp logo">
-                    </a>
+                    <div class='frame'>
+                        <img class='yelpPhoto' src="https://s3-media0.fl.yelpcdn.com/bphoto/guODR3a5GTtxVj5f5sVLlQ/o.jpg" alt="">
+                        <div class='glass'>
+                            <a href="https://www.yelp.com/biz/case-western-reserve-university-cleveland-7" target='_blank'>
+                                <img class='yelpLogo' src="{% static 'resources\yelpLogo.png' %}" alt="Yelp logo">
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
