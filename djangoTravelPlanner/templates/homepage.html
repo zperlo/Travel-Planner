@@ -23,7 +23,6 @@
                     url: '{{ "my-ajax-test/" }}',
                     data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: text, city: city },  
                     success: function callback(response){
-                        destroyPreviousResults();
                         if (response == "[]") {
                             noResults(text, city);
                         }
@@ -32,7 +31,6 @@
                         }
                     },
                     error: function callback(response) {
-                        destroyPreviousResults();
                         noResults(text, city);
                     }
                 });
@@ -117,7 +115,14 @@
                 </div>
                 <div class='selectUI'>
                     <div class='selectControls'>
-                        <input type='button' value="+" class='buttonClass selectButton'>
+                        <span>How long will you spend here?</span>
+                        <div class='timeInput'>
+                            <input type='text' class='field' id='hours' onkeyup="onTimeFieldKeyUp()" placeholder="0">
+                            <span class='hourLabel'>h</span>
+                            <input type='text' class='field' id='minutes' onkeyup="onTimeFieldKeyUp()" placeholder="0">
+                            <span class='minuteLabel'>m</span>
+                        </div>
+                        <input id='selectButton' type='button' value="+" class='buttonClass selectButton' disabled>
                     </div>
                 </div>
             </div>

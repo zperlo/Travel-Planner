@@ -130,11 +130,6 @@ input.buttonClass {
   width: 350px;
 }
 
-/* .leftSideDetails h2 {
-  word-wrap: break-word;
-  white-space: normal;
-} */
-
 .yelpStars {
   width: 40%;
 }
@@ -230,11 +225,29 @@ a:focus {
 }
 
 .selectControls {
+  text-align: center;
   display: table;
+  width: 124px;
 }
 
-.selectButton {
-  margin-left: 40px;
+.selectControls > * {
+  margin: 5px 0px;
+  display: table-row;
+}
+
+.selectControls span {
+  font-size: small;
+}
+
+.timeInput .field {
+  padding: 0px 2px;
+  text-align: right;
+  width: 30px;
+  transition: 0.3s;
+}
+
+.timeInput .hourLabel {
+  margin-right: 4px;
 }
 
 :hover:disabled {

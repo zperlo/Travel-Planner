@@ -47,7 +47,7 @@ function addNewActivityLine() {
 
 function removeActivityLine(event) {
 
-  var cancelId = getEventTriggerID(event);
+  var cancelId = getEventTargetID(event);
   var id = cancelId.split(":")[1];
   var activityId = "activity:" + id;
   
@@ -56,7 +56,7 @@ function removeActivityLine(event) {
 
 /* deprecated */
 function showMoreDetailsFromButton(event) {
-  showMoreDetails(getEventTriggerID(event));
+  showMoreDetails(getEventTargetID(event));
 }
 
 /* deprecated */
@@ -86,7 +86,7 @@ function showMoreDetails(searchID) {
 
 }
 
-function getEventTriggerID(event) {
+function getEventTargetID(event) {
   return event.target.id;
 }
 
@@ -126,8 +126,9 @@ function getRatingImagePath(rating) {
 
 function enableForm() {
   var city = document.getElementById('city');
+  var startDate = document.getElementById('startDate');
 
-  if(city.value != "") {
+  if(city.value != "" && startDate.disabled) {
     var disabledElements = document.getElementsByClassName("disabledAtStart");
     for (var i = 0; i < disabledElements.length; i++) {
       disabledElements[i].style.color = "black"; 
@@ -146,6 +147,11 @@ function setFirstActivityLineDisabled(disabling) {
     firstActivityLine[i].style.color = cssColor;
     firstActivityLine[i].disabled = disabling;
   }
+}
+
+function setButtonDisabled(button, disabling) {
+  button.style.color = (disabling) ? "rgba(0, 0, 0, 0.4)" : "black";
+  button.disabled = disabling;
 }
 
 function showResults(yelpResponse, searchIDNum) {
@@ -315,6 +321,8 @@ function getIDNum(element) {
 }
 
 function onSearch(event) {
+  destroyPreviousResults();
+
   var buttons = document.getElementsByClassName("buttonClass");
 
   for (var i = 0; i < buttons.length; i++) {
@@ -324,9 +332,8 @@ function onSearch(event) {
   }
 
   analyzeText(event);
-  // showMoreDetailsFromButton(event);
 
-  var id = getEventTriggerID(event);
+  var id = getEventTargetID(event);
   var button = document.getElementById(id);
   transformIntoCollapseSearchButton(button);
 }
@@ -334,7 +341,7 @@ function onSearch(event) {
 function onCollapseSearch(event) {
   destroyPreviousResults();
   
-  var id = getEventTriggerID(event);
+  var id = getEventTargetID(event);
   var button = document.getElementById(id);
   transformIntoSearchButton(button);
 }
@@ -353,4 +360,51 @@ function transformIntoSearchButton(button) {
   button.value = "s";
   button.id = "search:".concat(idNum);
   button.onclick = onSearch;
+}
+
+function onTimeFieldKeyUp(event) {
+  // these two lines mysteriously don't work from here,
+  // but I have a hunch they will later. For now I did
+  // essentially the same thing in the other function.
+
+  // var field = event.target;
+  // removeLeadingZeros(field);
+  validateTimeSpent();
+}
+
+function removeLeadingZeros(field) {
+  while (field.value.startsWith('0')) {
+    field.value = field.value.substring(1);
+  }
+}
+
+function validateTimeSpent() {
+  var valid = true;
+  var hours = document.getElementById('hours');
+  removeLeadingZeros(hours);
+  var minutes = document.getElementById('minutes');
+  removeLeadingZeros(minutes);
+  var confirmButton = document.getElementById('selectButton');
+
+  var digitsOnlyRegex = /^[0-9]*$/;
+
+  var hValid = hours.value.match(digitsOnlyRegex);
+  var mValid = minutes.value.match(digitsOnlyRegex);
+
+  valid = (hValid && mValid) && !(hours.value == "" && minutes.value == "");
+
+  // validate fields if true, invalidate if false
+  setTimeFieldValidated(hours, hValid);
+  setTimeFieldValidated(minutes, mValid);
+
+  // disable confirm if invalid, enable if valid
+  setButtonDisabled(confirmButton, !valid);
+}
+
+function setTimeFieldValidated(field, validating) {
+  var border = (validating) ? "rgb(255, 196, 0)" : "rgb(255, 94, 0)";
+  var bg = (validating) ? "inherit" : "rgb(255, 94, 0, 0.4)";
+
+  field.style.borderColor = border;
+  field.style.backgroundColor = bg;
 }
