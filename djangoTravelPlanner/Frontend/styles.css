@@ -75,6 +75,7 @@ h3 {
   background-color: inherit;
   border: none;
   border-bottom: 2px solid rgb(255, 196, 0);
+  transition: 0.3s ease-in-out;
 }
 
 li.activity {
@@ -91,7 +92,7 @@ li.activity .field {
 
 .buttonClass {
   background-color: inherit;
-  transition: 0.3s;
+  transition: 0.3s ease-in-out;
 }
 
 input.buttonClass {
@@ -235,6 +236,24 @@ a:focus {
   display: table-row;
 }
 
+.selectControls > span, .selectControls .timeInput {
+  opacity: 0;
+  transition: 0.3s ease-in-out;
+}
+
+.selectControls .timeInput {
+  height: 30;
+}
+
+.selectControls .buttonHolder {
+  position: relative;
+}
+
+.selectControls .buttonClass {
+  position: relative;
+  top: -31px;
+}
+
 .selectControls span {
   font-size: small;
 }
@@ -243,7 +262,6 @@ a:focus {
   padding: 0px 2px;
   text-align: right;
   width: 30px;
-  transition: 0.3s;
 }
 
 .timeInput .hourLabel {

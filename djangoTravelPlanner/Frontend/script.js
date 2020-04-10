@@ -175,11 +175,11 @@ function showResults(yelpResponse, searchIDNum) {
   
   for (var i = 0; i < results.length; i++) {
     var result = results[i];
-    createAndAddResult(result);
+    createAndAddResult(result, i, searchIDNum);
   }
 }
 
-function createAndAddResult(result) {
+function createAndAddResult(result, resultIDNum, activityIDNum) {
 
   var resultName = result[1];
   var resultRating = result[4];
@@ -191,14 +191,10 @@ function createAndAddResult(result) {
   var resultImageURL = result[2];
   var resultYelpURL = result[5];
 
-  if (typeof createAndAddResult.resultID == 'undefined') {
-    createAndAddResult.resultID = 1;
-  }
-
   var section = document.getElementById("searchResults");
 
   var searchResult = document.createElement("div");
-  searchResult.id = "searchResult:" + createAndAddResult.resultID;
+  searchResult.id = "searchResult:".concat(activityIDNum, ':', resultIDNum);
   section.appendChild(searchResult);
 
   var leftSideDetails = document.createElement("div");
@@ -295,13 +291,53 @@ function createAndAddResult(result) {
   selectControls.className = "selectControls";
   selectUI.appendChild(selectControls);
 
-  var plusButton = document.createElement("input");
-  plusButton.type = "button";
-  plusButton.value = "+";
-  plusButton.className = "buttonClass selectButton";
-  selectControls.appendChild(plusButton);
+  var howLongLabel = document.createElement("span");
+  howLongLabel.id = "howLongLabel:".concat(activityIDNum, ':', resultIDNum);
+  howLongLabel.innerHTML = "How long will you spend here?";
+  selectControls.appendChild(howLongLabel);
 
-  createAndAddResult.resultID++;
+  var timeInput = document.createElement("div");
+  timeInput.className = "timeInput";
+  timeInput.id = "timeInput:".concat(activityIDNum, ':', resultIDNum);
+  selectControls.appendChild(timeInput);
+
+  var hourField = document.createElement("input");
+  hourField.className = "field";
+  hourField.id = "hour:".concat(activityIDNum, ':', resultIDNum);
+  hourField.type = "text";
+  hourField.placeholder = "0";
+  hourField.onkeyup = onTimeFieldKeyUp;
+  timeInput.appendChild(hourField);
+
+  var hourLabel = document.createElement("span");
+  hourLabel.className = "hourLabel";
+  hourLabel.innerHTML = "h";
+  timeInput.appendChild(hourLabel);
+
+  var minuteField = document.createElement("input");
+  minuteField.className = "field";
+  minuteField.id = "minute:".concat(activityIDNum, ':', resultIDNum);
+  minuteField.type = "text";
+  minuteField.placeholder = "0";
+  minuteField.onkeyup = onTimeFieldKeyUp;
+  timeInput.appendChild(minuteField);
+
+  var minuteLabel = document.createElement("span");
+  minuteLabel.className = "minuteLabel";
+  minuteLabel.innerHTML = "m";
+  timeInput.appendChild(minuteLabel);
+
+  var buttonHolder = document.createElement("div");
+  buttonHolder.className = "buttonHolder";
+  selectControls.appendChild(buttonHolder);
+
+  var selectButton = document.createElement("input");
+  selectButton.type = "button";
+  selectButton.value = "+";
+  selectButton.className = "buttonClass";
+  selectButton.id = "selectButton:".concat(activityIDNum, ':', resultIDNum);
+  selectButton.onclick = onResultSelect;
+  buttonHolder.appendChild(selectButton);
 }
 
 function noResults(search, city) {
@@ -317,7 +353,7 @@ function destroyPreviousResults() {
 }
 
 function getIDNum(element) {
-  return element.id.split(':')[1];
+  return element.id.split(/:(.+)/)[1];
 }
 
 function onSearch(event) {
@@ -346,6 +382,15 @@ function onCollapseSearch(event) {
   transformIntoSearchButton(button);
 }
 
+function onResultSelect(event) {
+  var id = getIDNum(event.target);
+  promptForTimeSpent(id);
+}
+
+function onConfirmSearch(event) {
+
+}
+
 function transformIntoCollapseSearchButton(button) {
   var idNum = getIDNum(button);
 
@@ -360,6 +405,11 @@ function transformIntoSearchButton(button) {
   button.value = "s";
   button.id = "search:".concat(idNum);
   button.onclick = onSearch;
+}
+
+function transformIntoConfirmTimeButton(button) {
+  button.value = "v";
+  // button.onclick = onConfirmSearch;
 }
 
 function onTimeFieldKeyUp(event) {
@@ -380,11 +430,11 @@ function removeLeadingZeros(field) {
 
 function validateTimeSpent() {
   var valid = true;
-  var hours = document.getElementById('hours');
+  var hours = document.getElementById('hours:'.concat(idNum));
   removeLeadingZeros(hours);
-  var minutes = document.getElementById('minutes');
+  var minutes = document.getElementById('minutes:'.concat(idNum));
   removeLeadingZeros(minutes);
-  var confirmButton = document.getElementById('selectButton');
+  var confirmButton = document.getElementById('selectButton:'.concat(idNum));
 
   var digitsOnlyRegex = /^[0-9]*$/;
 
@@ -394,17 +444,31 @@ function validateTimeSpent() {
   valid = (hValid && mValid) && !(hours.value == "" && minutes.value == "");
 
   // validate fields if true, invalidate if false
-  setTimeFieldValidated(hours, hValid);
-  setTimeFieldValidated(minutes, mValid);
+  setFieldValidated(hours, hValid);
+  setFieldValidated(minutes, mValid);
 
   // disable confirm if invalid, enable if valid
   setButtonDisabled(confirmButton, !valid);
 }
 
-function setTimeFieldValidated(field, validating) {
+function setFieldValidated(field, validating) {
   var border = (validating) ? "rgb(255, 196, 0)" : "rgb(255, 94, 0)";
   var bg = (validating) ? "inherit" : "rgb(255, 94, 0, 0.4)";
 
   field.style.borderColor = border;
   field.style.backgroundColor = bg;
+}
+
+function promptForTimeSpent(idNum) {
+  var span = document.getElementById('howLongLabel:'.concat(idNum));
+  span.style.opacity = "1";
+
+  var div = document.getElementById('timeInput:'.concat(idNum));
+  div.style.opacity = "1";
+
+  var button = document.getElementById('selectButton:'.concat(idNum));
+  button.style.top = "0px";
+  setButtonDisabled(button, true);
+
+  transformIntoConfirmTimeButton(button);
 }

@@ -115,14 +115,16 @@
                 </div>
                 <div class='selectUI'>
                     <div class='selectControls'>
-                        <span>How long will you spend here?</span>
-                        <div class='timeInput'>
+                        <span id='howLongLabel'>How long will you spend here?</span>
+                        <div id='timeInput' class='timeInput'>
                             <input type='text' class='field' id='hours' onkeyup="onTimeFieldKeyUp()" placeholder="0">
                             <span class='hourLabel'>h</span>
                             <input type='text' class='field' id='minutes' onkeyup="onTimeFieldKeyUp()" placeholder="0">
                             <span class='minuteLabel'>m</span>
                         </div>
-                        <input id='selectButton' type='button' value="+" class='buttonClass selectButton' disabled>
+                        <div class='buttonHolder'>
+                            <input id='selectButton' type='button' value="+" class='buttonClass' onclick="onResultSelect()">
+                        </div>
                     </div>
                 </div>
             </div>
