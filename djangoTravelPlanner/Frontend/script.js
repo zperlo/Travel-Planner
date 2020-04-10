@@ -11,7 +11,8 @@ function addNewActivityLine() {
 
     var ul = document.getElementById("activities");
 
-    var activity = document.createElement("activity");
+    var activity = document.createElement("li");
+    activity.className = "activity";
     activity.id = "activity:" + addNewActivityLine.activityID;
     ul.appendChild(activity);
 
@@ -53,25 +54,18 @@ function removeActivityLine(event) {
   document.getElementById(activityId).remove();
 }
 
+/* deprecated */
 function showMoreDetailsFromButton(event) {
   showMoreDetails(getEventTriggerID(event));
 }
 
-function showMoreDetails(expandID) {
-  
-  var buttons = document.getElementsByClassName("buttonClass");
-
-  for (var i = 0; i < buttons.length; i++) {
-    if (buttons[i].id.match(/^expand:[0-9]+$/)) {
-      buttons[i].value = '>';
-    }
-  }
-
-  var button = document.getElementById(expandID);
+/* deprecated */
+function showMoreDetails(searchID) {
+  var button = document.getElementById(searchID);
   var details = document.getElementById('searchResults');
-  if (expandID != showMoreDetails.lastID) {
+  if (searchID != showMoreDetails.lastID) {
     button.value = '<';
-    showMoreDetails.lastID = expandID;
+    showMoreDetails.lastID = searchID;
     // populateDetails(
     //   "Spread Bagelry",
     //   "3.5",
@@ -154,16 +148,29 @@ function setFirstActivityLineDisabled(disabling) {
   }
 }
 
-function populateSearch(yelpResponse) {
+function showResults(yelpResponse, searchIDNum) {
+  // move searchResults to appropriate location
+  var activities = document.getElementsByClassName("activity");
+  var distance = 0;
+
+  for (var i = 0; i < activities.length; i++) {
+    if (getIDNum(activities[i]) < searchIDNum) {
+      distance++;
+    }
+  }
+
+  var searchResultsElement = document.getElementById('searchResults');
+  distance = distance * 30 + 229;
+  searchResultsElement.style.top = "".concat(distance, "px");
+
+  // populate searchResults
   var matches = yelpResponse.matchAll(/\{"name": "([^"]*)",[^\}]* "imgURL": "([^"]*)",[^\}]* "reviewCount": ([0-9]*),[^\}]* "rating": ([0-9\.]*)[^\}]* "url": "([^"]*)"[^\}]* "categories": "([^"]*)"[^\}]* "price": "(\${1,4})",[^\}]* "addressLine1": "([^"]*)"[^\}]* "addressLine2": "([^"]*)"[^\}]*\}/g);
   var results = Array.from(matches);
   
   for (var i = 0; i < results.length; i++) {
     var result = results[i];
-    createAndAddResult(result)
+    createAndAddResult(result);
   }
-  //result = results[0];
-  //populateDetails(result[1], result[4], result[3], result[7], result[6], result[8], result[9], result[2], result[5]);
 }
 
 function createAndAddResult(result) {
@@ -304,15 +311,20 @@ function destroyPreviousResults() {
 }
 
 function getIDNum(element) {
-  var id = element.id;
-  var delimIndex = id.indexOf(':');
-
-  return id.substring(delimIndex + 1);
+  return element.id.split(':')[1];
 }
 
 function onSearch(event) {
-  // analyzeText(event);
-  showMoreDetailsFromButton(event);
+  var buttons = document.getElementsByClassName("buttonClass");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].id.match(/^collapseSearch:[0-9]+$/)) {
+      transformIntoSearchButton(buttons[i]);
+    }
+  }
+
+  analyzeText(event);
+  // showMoreDetailsFromButton(event);
 
   var id = getEventTriggerID(event);
   var button = document.getElementById(id);

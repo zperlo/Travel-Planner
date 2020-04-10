@@ -4,6 +4,10 @@ body, h1, h2, h3, ul, p {
   margin: 0px;
 }
 
+ul {
+  list-style-type: none;
+}
+
 section, div {
   display: inline-block;
   vertical-align: top;
@@ -73,12 +77,16 @@ h3 {
   border-bottom: 2px solid rgb(255, 196, 0);
 }
 
-select {
-  vertical-align: middle;
+li.activity {
+  height: 30px;
 }
 
-activity .field {
+li.activity .field {
   width: 250px;
+}
+
+#addRowButton {
+  margin-top: 4px;
 }
 
 .buttonClass {
@@ -113,9 +121,7 @@ input.buttonClass {
 }
 
 .searchResults {
-  visibility: hidden;
   position: relative;
-  top: 227px;
   border-left: 2px solid rgb(255, 196, 0);
   padding-left: 8px;
 }

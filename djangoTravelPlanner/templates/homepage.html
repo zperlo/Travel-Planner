@@ -13,9 +13,8 @@
         <script>
 
             function analyzeText(event){
-                var searchID = event.target.id;
-                var idNum = searchID.substring(7);
-                var textID = "textField:".concat(idNum);
+                var searchIDNum = getIDNum(event.target);
+                var textID = "textField:".concat(searchIDNum);
                 var text = document.getElementById(textID).value;
                 var city = document.getElementById('city').value;
 
@@ -29,8 +28,7 @@
                             noResults(text, city);
                         }
                         else {
-                            populateSearch(response);
-                            showMoreDetails("search:".concat(idNum));
+                            showResults(response, searchIDNum);
                         }
                     },
                     error: function callback(response) {
@@ -84,7 +82,7 @@
                     <br>
                     <h3 class='disabledAtStart'>What would you like to do?</h3>
                     <ul id="activities"></ul>
-                    <input type="button" value="+" onclick="addNewActivityLine()" class='buttonClass disabledAtStart' disabled>
+                    <input id='addRowButton' type="button" value="+" onclick="addNewActivityLine()" class='buttonClass disabledAtStart' disabled>
                     <br>
                 </form>
                 <form action='results' method='GET'>
