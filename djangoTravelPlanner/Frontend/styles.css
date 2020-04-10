@@ -121,8 +121,13 @@ input.buttonClass {
 }
 
 .leftSideDetails {
-  width: 400px;
+  width: 350px;
 }
+
+/* .leftSideDetails h2 {
+  word-wrap: break-word;
+  white-space: normal;
+} */
 
 .yelpStars {
   width: 40%;
@@ -132,6 +137,7 @@ input.buttonClass {
   position: relative;
   font-weight: bold;
   top: -10px;
+  left: 4px;
 }
 
 .searchResults span {
@@ -182,6 +188,7 @@ span.price {
 }
 
 span.bullet {
+  margin: 4px;
   font-family: 'Bree Serif';
   font-weight: bolder;
 }
@@ -201,12 +208,11 @@ a:focus {
 .vl {
   border-left: 1px solid rgb(255, 196, 0);
   width: 4px;
-  min-height: 128px;
 }
 
 .searchResults > div {
   display: table;
-  min-height: 128px;
+  min-height: 132px;
 }
 
 .leftSideDetails, .vl, .yelpImagery, .selectUI {

@@ -13,8 +13,8 @@
         <script>
 
             function analyzeText(event){
-                var expandID = event.target.id;
-                var idNum = expandID.substring(7);
+                var searchID = event.target.id;
+                var idNum = searchID.substring(7);
                 var textID = "textField:".concat(idNum);
                 var text = document.getElementById(textID).value;
                 var city = document.getElementById('city').value;
@@ -30,7 +30,7 @@
                         }
                         else {
                             populateSearch(response);
-                            showMoreDetails("expand:".concat(idNum));
+                            showMoreDetails("search:".concat(idNum));
                         }
                     },
                     error: function callback(response) {
@@ -90,10 +90,9 @@
             </div>
         </section>
         <section class='searchResults' id='searchResults'>
-            <!--
             <div id='searchResult:0'>
                 <div class='leftSideDetails'>
-                    <h2>Topaz with a loooooooooooooooooooooooooong title</h2>
+                    <h2>Topaz with a loooooooooooooooooooooooong title</h2>
                     <img class='yelpStars' src="{% static 'resources\yelpStars\large_5@2x.png' %}" alt="">
                     <span class='totalReviews'>999999999 Reviews</span>
                     <br>
@@ -148,7 +147,6 @@
                     </div>
                 </div>
             </div>
-        -->
         </section>
     </body>
 </html>

@@ -29,14 +29,13 @@ function addNewActivityLine() {
     textField.className = "field";
     activity.appendChild(textField);
 
-    var expand = document.createElement("input");
-    expand.type = "button";
-    expand.value = ">"
-    expand.id = "expand:" + addNewActivityLine.activityID;
-    expand.onclick = analyzeText;
-    //expand.onclick = showMoreDetailsFromButton;
-    expand.className = "buttonClass";
-    activity.appendChild(expand);
+    var search = document.createElement("input");
+    search.type = "button";
+    search.value = "s"
+    search.id = "search:" + addNewActivityLine.activityID;
+    search.onclick = onSearch;
+    search.className = "buttonClass";
+    activity.appendChild(search);
 
     var brElement = document.createElement("br");
     brElement.id = "br:" + addNewActivityLine.activityID;
@@ -47,7 +46,7 @@ function addNewActivityLine() {
 
 function removeActivityLine(event) {
 
-  var cancelId = getEventID(event);
+  var cancelId = getEventTriggerID(event);
   var id = cancelId.split(":")[1];
   var activityId = "activity:" + id;
   
@@ -55,7 +54,7 @@ function removeActivityLine(event) {
 }
 
 function showMoreDetailsFromButton(event) {
-  showMoreDetails(getEventID(event));
+  showMoreDetails(getEventTriggerID(event));
 }
 
 function showMoreDetails(expandID) {
@@ -93,11 +92,11 @@ function showMoreDetails(expandID) {
 
 }
 
-function getEventID(event) {
+function getEventTriggerID(event) {
   return event.target.id;
 }
 
-// This function is now obsolete
+/* deprecated */
 function populateDetails(name, rating, reviewCount, price, categories, addressLine1, addressLine2, imageURL, yelpURL) {
   var details = document.getElementById('searchResults');
   var divs = details.childNodes;
@@ -271,7 +270,6 @@ function createAndAddResult(result) {
 
   var yelpLogo = document.createElement("img");
   yelpLogo.className = "yelpLogo";
-  //TODO: make this image actually load
   yelpLogo.src = 'Frontend\\resources\\yelpLogo.png';
   yelpLogo.alt = "Yelp Logo";
   link.appendChild(yelpLogo);
@@ -300,7 +298,47 @@ function noResults(search, city) {
 function destroyPreviousResults() {
   var section = document.getElementById("searchResults");
   var searchResults = section.childNodes;
-  while (searchResults.length){
+  while (searchResults.length){ // cheeky
     searchResults[0].remove();
   }
+}
+
+function getIDNum(element) {
+  var id = element.id;
+  var delimIndex = id.indexOf(':');
+
+  return id.substring(delimIndex + 1);
+}
+
+function onSearch(event) {
+  // analyzeText(event);
+  showMoreDetailsFromButton(event);
+
+  var id = getEventTriggerID(event);
+  var button = document.getElementById(id);
+  transformIntoCollapseSearchButton(button);
+}
+
+function onCollapseSearch(event) {
+  destroyPreviousResults();
+  
+  var id = getEventTriggerID(event);
+  var button = document.getElementById(id);
+  transformIntoSearchButton(button);
+}
+
+function transformIntoCollapseSearchButton(button) {
+  var idNum = getIDNum(button);
+
+  button.value = "<";
+  button.id = "collapseSearch:".concat(idNum);
+  button.onclick = onCollapseSearch;
+}
+
+function transformIntoSearchButton(button) {
+  var idNum = getIDNum(button)
+
+  button.value = "s";
+  button.id = "search:".concat(idNum);
+  button.onclick = onSearch;
 }
