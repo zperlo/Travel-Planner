@@ -124,7 +124,14 @@ input.buttonClass {
 .searchResults {
   position: relative;
   border-left: 2px solid rgb(255, 196, 0);
-  padding-left: 8px;
+  padding-left: 4px;
+}
+
+.searchResult {
+  transition: 0.3s ease-in-out;
+  background-color: inherit;
+  padding-left: 4px;
+  border-radius: 4px;
 }
 
 .leftSideDetails {

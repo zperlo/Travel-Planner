@@ -195,6 +195,7 @@ function createAndAddResult(result, resultIDNum, activityIDNum) {
 
   var searchResult = document.createElement("div");
   searchResult.id = "searchResult:".concat(activityIDNum, ':', resultIDNum);
+  searchResult.className = "searchResult";
   section.appendChild(searchResult);
 
   var leftSideDetails = document.createElement("div");
@@ -303,7 +304,7 @@ function createAndAddResult(result, resultIDNum, activityIDNum) {
 
   var hourField = document.createElement("input");
   hourField.className = "field";
-  hourField.id = "hour:".concat(activityIDNum, ':', resultIDNum);
+  hourField.id = "hours:".concat(activityIDNum, ':', resultIDNum);
   hourField.type = "text";
   hourField.placeholder = "0";
   hourField.onkeyup = onTimeFieldKeyUp;
@@ -316,7 +317,7 @@ function createAndAddResult(result, resultIDNum, activityIDNum) {
 
   var minuteField = document.createElement("input");
   minuteField.className = "field";
-  minuteField.id = "minute:".concat(activityIDNum, ':', resultIDNum);
+  minuteField.id = "minutes:".concat(activityIDNum, ':', resultIDNum);
   minuteField.type = "text";
   minuteField.placeholder = "0";
   minuteField.onkeyup = onTimeFieldKeyUp;
@@ -384,10 +385,11 @@ function onCollapseSearch(event) {
 
 function onResultSelect(event) {
   var id = getIDNum(event.target);
+  closeSiblingPrompts(id);
   promptForTimeSpent(id);
 }
 
-function onConfirmSearch(event) {
+function onConfirmTime(event) {
 
 }
 
@@ -400,11 +402,19 @@ function transformIntoCollapseSearchButton(button) {
 }
 
 function transformIntoSearchButton(button) {
-  var idNum = getIDNum(button)
+  var idNum = getIDNum(button);
 
   button.value = "s";
   button.id = "search:".concat(idNum);
   button.onclick = onSearch;
+}
+
+function transformIntoResultSelectButton(button) {
+  var idNum = getIDNum(button);
+
+  button.value = "+";
+  button.id = "selectButton:".concat(idNum);
+  button.onclick = onResultSelect;
 }
 
 function transformIntoConfirmTimeButton(button) {
@@ -413,13 +423,9 @@ function transformIntoConfirmTimeButton(button) {
 }
 
 function onTimeFieldKeyUp(event) {
-  // these two lines mysteriously don't work from here,
-  // but I have a hunch they will later. For now I did
-  // essentially the same thing in the other function.
-
-  // var field = event.target;
-  // removeLeadingZeros(field);
-  validateTimeSpent();
+  var field = event.target;
+  removeLeadingZeros(field);
+  validateTimeSpent(getIDNum(field));
 }
 
 function removeLeadingZeros(field) {
@@ -428,13 +434,11 @@ function removeLeadingZeros(field) {
   }
 }
 
-function validateTimeSpent() {
+function validateTimeSpent(idNum) {
   var valid = true;
-  var hours = document.getElementById('hours:'.concat(idNum));
-  removeLeadingZeros(hours);
-  var minutes = document.getElementById('minutes:'.concat(idNum));
-  removeLeadingZeros(minutes);
-  var confirmButton = document.getElementById('selectButton:'.concat(idNum));
+  var hours = document.getElementById("hours:".concat(idNum));
+  var minutes = document.getElementById("minutes:".concat(idNum));
+  var confirmButton = document.getElementById("selectButton:".concat(idNum));
 
   var digitsOnlyRegex = /^[0-9]*$/;
 
@@ -460,6 +464,9 @@ function setFieldValidated(field, validating) {
 }
 
 function promptForTimeSpent(idNum) {
+  var result = document.getElementById('searchResult:'.concat(idNum));
+  result.style.backgroundColor = "rgb(255, 237, 175)";
+
   var span = document.getElementById('howLongLabel:'.concat(idNum));
   span.style.opacity = "1";
 
@@ -469,6 +476,32 @@ function promptForTimeSpent(idNum) {
   var button = document.getElementById('selectButton:'.concat(idNum));
   button.style.top = "0px";
   setButtonDisabled(button, true);
-
   transformIntoConfirmTimeButton(button);
+}
+
+function closePrompt(idNum) {
+  var result = document.getElementById('searchResult:'.concat(idNum));
+  result.style.backgroundColor = "inherit";
+
+  var span = document.getElementById('howLongLabel:'.concat(idNum));
+  span.style.opacity = "0";
+
+  var div = document.getElementById('timeInput:'.concat(idNum));
+  div.style.opacity = "0";
+
+  var button = document.getElementById('selectButton:'.concat(idNum));
+  button.style.top = "-31px";
+  setButtonDisabled(button, false);
+  transformIntoResultSelectButton(button);
+}
+
+function closeSiblingPrompts(idNum) {
+  var results = document.getElementsByClassName("searchResult");
+
+  for (var i = 0; i < results.length; i++) {
+    var siblingID = getIDNum(results[i]);
+    if (siblingID != idNum) {
+      closePrompt(siblingID);
+    }
+  }
 }
