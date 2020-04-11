@@ -1,3 +1,16 @@
+/* contains the detail of each activity that is locked in. use
+ * activityDict[n][1] to get the JSON of activity n, and
+ * activityDict[n][2] to get the time in minutes
+ */ 
+var activityDict = {};
+
+/* contains most recent search results for each activity. use
+ * resultsDict[m] to get the full array of results for activity
+ * m, resultsDict[m][n] to get result n from activity m, and
+ * resultDict[m][n][0] to get that result's JSON
+ */ 
+var resultsDict = {};
+
 function load() {
   addNewActivityLine();
   setFirstActivityLineDisabled(true);
@@ -153,17 +166,17 @@ function setButtonDisabled(button, disabling) {
 function showResults(yelpResponse, searchIDNum) {
   // move searchResults to appropriate location
   var activities = document.getElementsByClassName("activity");
-  var distance = 0;
+  var extraDistance = 0;
 
   for (var i = 0; i < activities.length; i++) {
     if (getIDNum(activities[i]) < searchIDNum) {
-      distance++;
+      extraDistance++;
     }
   }
 
   var searchResultsElement = document.getElementById('searchResults');
-  distance = distance * 30 + 229;
-  searchResultsElement.style.top = "".concat(distance, "px");
+  extraDistance = extraDistance * 30 + 229;
+  searchResultsElement.style.top = "".concat(extraDistance, "px");
 
   // populate searchResults
   var matches = yelpResponse.matchAll(/\{"name": "([^"]*)",[^\}]* "imgURL": "([^"]*)",[^\}]* "reviewCount": ([0-9]*),[^\}]* "rating": ([0-9\.]*)[^\}]* "url": "([^"]*)"[^\}]* "categories": "([^"]*)"[^\}]* "price": "((?:[^\"]+){1,4})",[^\}]* "addressLine1": "([^"]*)"[^\}]* "addressLine2": "([^"]*)"[^\}]*\}/g);
@@ -173,6 +186,8 @@ function showResults(yelpResponse, searchIDNum) {
     var result = results[i];
     createAndAddResult(result, i, searchIDNum);
   }
+
+  resultsDict[searchIDNum] = results;
 }
 
 function createAndAddResult(result, resultIDNum, activityIDNum) {
@@ -382,13 +397,21 @@ function onCityBlur() {
 
 function onCancelActivity(event) {
   var id = getIDNum(event.target);
-  var firstResult = document.getElementById('searchResults').firstElementChild;
-  var activeActivityLineID = firstResult.id.split(':')[1];
+  var results = document.getElementById('searchResults');
+  var firstResult = results.firstElementChild;
+  var activeActivityLineID = firstResult?.id.split(':')[1];
+
+  removeActivityLine(id);
+
   if (id == activeActivityLineID) {
     destroyPreviousResults();
   }
-
-  removeActivityLine(id);
+  else if (id < activeActivityLineID) {
+    var distanceFromTop = results.style.top;
+    var intDistance = parseInt(distanceFromTop.substring(0, distanceFromTop.indexOf("px")));
+    intDistance = intDistance - 30;
+    results.style.top = "".concat(intDistance, "px");
+  }
 }
 
 function onSearch(event) {
@@ -427,6 +450,7 @@ function onConfirmTime(event) {
   var id = getIDNum(event.target);
 
   populateResultToField(id);
+  stageResult(id);
   destroyPreviousResults();
 }
 
@@ -561,11 +585,15 @@ function populateResultToField(wholeID) {
 
   activityField.value = resultName.innerHTML;
   activityField.disabled = true;
-  
-  var result = document.getElementById('searchResult:'.concat(wholeID));
-  // TODO: resultToDetail(result);
 
   var collapseSearchButton = document.getElementById('collapseSearch:'.concat(activityID));
 
   transformIntoExpandDetailButton(collapseSearchButton);
+}
+
+function stageResult(wholeID) {
+  var idPair = wholeID.split(':');
+  var result = document.getElementById('searchResult:'.concat(wholeID));
+  var detail = resultToDetail(result);
+  var JSON = resultsDict[idPair[0]][idPair[1]];
 }
