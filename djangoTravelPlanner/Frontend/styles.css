@@ -72,8 +72,10 @@ h3 {
 .field {
   font-family: 'Source Sans Pro';
   margin: 5px;
+  padding-left: 4px;
   background-color: inherit;
   border: none;
+  border-radius: 4px 4px 0px 0px;
   border-bottom: 2px solid rgb(255, 196, 0);
   transition: 0.3s ease-in-out;
 }
@@ -193,7 +195,7 @@ img.yelpLogo:hover {
 
 span.price {
   font-weight: bolder;
-  color: rgb(54, 146, 18)
+  color: rgb(54, 146, 18);
 }
 
 span.bullet {
@@ -230,6 +232,7 @@ a:focus {
 
 .selectUI {
   vertical-align: middle;
+  width: 124px;
 }
 
 .selectControls {
@@ -266,7 +269,7 @@ a:focus {
 }
 
 .timeInput .field {
-  padding: 0px 2px;
+  padding: 0px 4px;
   text-align: right;
   width: 30px;
 }

@@ -1,5 +1,6 @@
 /* contains the detail of each activity that is locked in. use
- * activityDict[n][1] to get the JSON of activity n, and
+ * activityDict[n][0] to get thr detail of activity n,
+ * activityDict[n][1] to get the JSON of activity n,
  * activityDict[n][2] to get the time in minutes
  */ 
 var activityDict = {};
@@ -460,12 +461,20 @@ function onTimeFieldKeyUp(event) {
   validateTimeSpent(getIDNum(field));
 }
 
+function onExpandDetail(event) {
+  var id = getIDNum(event.target);
+  destroyPreviousResults();
+  var searchResults = document.getElementById('searchResults');
+  console.log(activityDict[id][0]);
+  searchResults.appendChild(activityDict[id][0]);
+}
+
 function transformIntoExpandDetailButton(button) {
   var idNum = getIDNum(button);
 
   button.value = ">";
   button.id = "expandDetail:".concat(idNum);
-  // TODO: button.onclick = onExpandDetail;
+  button.onclick = onExpandDetail;
 }
 
 function transformIntoCollapseSearchButton(button) {
@@ -583,8 +592,11 @@ function populateResultToField(wholeID) {
   var resultName = document.getElementById('resultName:'.concat(resultID));
   var activityField = document.getElementById('textField:'.concat(activityID));
 
-  activityField.value = resultName.innerHTML;
   activityField.disabled = true;
+  activityField.style.fontWeight = "bold";
+  activityField.style.borderColor = "rgb(54, 146, 18)";
+  activityField.style.backgroundColor = "rgba(54, 146, 18, 0.4)";
+  activityField.value = resultName.innerHTML;
 
   var collapseSearchButton = document.getElementById('collapseSearch:'.concat(activityID));
 
@@ -592,8 +604,49 @@ function populateResultToField(wholeID) {
 }
 
 function stageResult(wholeID) {
+  var innerDict = {};
+
   var idPair = wholeID.split(':');
+
   var result = document.getElementById('searchResult:'.concat(wholeID));
   var detail = resultToDetail(result);
+  innerDict[0] = detail;
+
+
   var JSON = resultsDict[idPair[0]][idPair[1]];
+  innerDict[1] = JSON;
+
+  var hours = document.getElementById('hours:'.concat(wholeID)).value;
+  var minutes = document.getElementById('minutes:'.concat(wholeID)).value;
+  var timeSpentInMinutes = hours * 60 + minutes;
+  innerDict[2] = timeSpentInMinutes;
+
+  activityDict[idPair[0]] = innerDict;
+}
+
+function resultToDetail(result) {
+  var detail = result.cloneNode(true);
+
+  var selectUI = detail.querySelector(".selectUI");
+
+  var timeFields = selectUI.querySelectorAll(".field");
+  var hours = timeFields[0].value;
+  var minutes = timeFields[1].value;
+
+  var visitTime = "";
+  if (hours) {
+    visitTime = visitTime.concat(hours, "h ");
+  }
+  if (minutes) {
+    visitTime = visitTime.concat(minutes, "m");
+  }
+
+  selectUI.firstElementChild.remove();
+
+  selectUI.style.paddingLeft = "8px";
+  selectUI.innerHTML = "visiting for...<br>".concat(visitTime.trim());
+
+  detail.style.backgroundColor = "inherit";
+
+  return detail;
 }
