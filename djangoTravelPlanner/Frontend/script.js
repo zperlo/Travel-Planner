@@ -405,6 +405,7 @@ function onCancelActivity(event) {
   var activeActivityLineID = firstResult?.id.split(':')[1];
 
   removeActivityLine(id);
+  unstageResult(id);
 
   if (id == activeActivityLineID) {
     destroyPreviousResults();
@@ -467,7 +468,6 @@ function onExpandDetail(event) {
   var id = getIDNum(event.target);
   destroyPreviousResults();
   var searchResults = document.getElementById('searchResults');
-  console.log(activityDict[id][0]);
   searchResults.appendChild(activityDict[id][0]);
 }
 
@@ -596,6 +596,7 @@ function populateResultToField(wholeID) {
 
   activityField.disabled = true;
   activityField.style.fontWeight = "bold";
+  activityField.style.color = "black";
   activityField.style.borderColor = "rgb(54, 146, 18)";
   activityField.style.backgroundColor = "rgba(54, 146, 18, 0.4)";
   activityField.value = resultName.innerHTML;
@@ -624,6 +625,10 @@ function stageResult(wholeID) {
   innerDict[2] = timeSpentInMinutes;
 
   activityDict[idPair[0]] = innerDict;
+}
+
+function unstageResult(id) {
+  delete activityDict[id];
 }
 
 function resultToDetail(result) {
