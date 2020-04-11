@@ -125,15 +125,15 @@ input.buttonClass {
 
 .searchResults {
   position: relative;
-  border-left: 2px solid rgb(255, 196, 0);
   padding-left: 4px;
 }
 
 .searchResult {
+  border-left: 2px solid rgb(255, 196, 0);
   transition: 0.3s ease-in-out;
   background-color: inherit;
   padding-left: 4px;
-  border-radius: 4px;
+  border-radius: 0px 8px 8px 0px;
 }
 
 .leftSideDetails {
@@ -221,7 +221,7 @@ a:focus {
   width: 4px;
 }
 
-.searchResults > div {
+.searchResults div.searchResult {
   display: table;
   min-height: 132px;
 }
@@ -285,6 +285,50 @@ a:focus {
 
 #resultsButton, .disabledAtStart {
   color: rgba(0, 0, 0, 0.4);
+}
+
+div.spacer {
+  display: block;
+  height: 60px;
+}
+
+footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+footer > div {
+  display: block;
+}
+
+.footerTop {
+  height: 45px;
+  background-image: linear-gradient(to bottom, rgba(255, 241, 196, 0.0), rgba(255, 241, 196, 1.0));
+}
+
+.footerBottom {
+  height: 15px;
+  background-color: rgb(255, 196, 0);
+  pointer-events: all;
+}
+
+.footerBottom h3, .footerBottom span {
+  display: inline-block;
+  padding-left: 5px;
+  position: relative;
+}
+
+.footerBottom h3 {
+  top: -15px;
+}
+
+.footerBottom span {
+  font-size: x-small;
+  top: -10px;
 }
 
 /* ------------------ results page styles ------------------ */

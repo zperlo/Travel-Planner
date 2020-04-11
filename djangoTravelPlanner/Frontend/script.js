@@ -189,6 +189,10 @@ function showResults(yelpResponse, searchIDNum) {
     createAndAddResult(result, i, searchIDNum);
   }
 
+  var spacer = document.createElement("div");
+  spacer.className = 'spacer';
+  searchResults.appendChild(spacer);
+
   resultsDict[searchIDNum] = results;
 }
 
