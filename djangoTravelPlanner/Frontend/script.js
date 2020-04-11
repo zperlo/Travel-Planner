@@ -382,8 +382,11 @@ function onCityBlur() {
 
 function onCancelActivity(event) {
   var id = getIDNum(event.target);
-  // TODO: only destroy results if the row showing them is deleted
-  destroyPreviousResults();
+  var firstResult = document.getElementById('searchResults').firstElementChild;
+  var activeActivityLineID = firstResult.id.split(':')[1];
+  if (id == activeActivityLineID) {
+    destroyPreviousResults();
+  }
 
   removeActivityLine(id);
 }
