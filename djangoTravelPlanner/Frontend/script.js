@@ -20,7 +20,7 @@ function addNewActivityLine() {
     cancel.type = "button";
     cancel.value = "x";
     cancel.id = "cancel:" + addNewActivityLine.activityID;
-    cancel.onclick = removeActivityLine;
+    cancel.onclick = onCancelActivity;
     cancel.className = "buttonClass";
     activity.appendChild(cancel);
 
@@ -45,12 +45,8 @@ function addNewActivityLine() {
     addNewActivityLine.activityID++;
 }
 
-function removeActivityLine(event) {
-
-  var cancelId = getEventTargetID(event);
-  var id = cancelId.split(":")[1];
-  var activityId = "activity:" + id;
-  
+function removeActivityLine(idNum) {
+  var activityId = "activity:" + idNum;  
   document.getElementById(activityId).remove();
 }
 
@@ -170,7 +166,7 @@ function showResults(yelpResponse, searchIDNum) {
   searchResultsElement.style.top = "".concat(distance, "px");
 
   // populate searchResults
-  var matches = yelpResponse.matchAll(/\{"name": "([^"]*)",[^\}]* "imgURL": "([^"]*)",[^\}]* "reviewCount": ([0-9]*),[^\}]* "rating": ([0-9\.]*)[^\}]* "url": "([^"]*)"[^\}]* "categories": "([^"]*)"[^\}]* "price": "(\${1,4})",[^\}]* "addressLine1": "([^"]*)"[^\}]* "addressLine2": "([^"]*)"[^\}]*\}/g);
+  var matches = yelpResponse.matchAll(/\{"name": "([^"]*)",[^\}]* "imgURL": "([^"]*)",[^\}]* "reviewCount": ([0-9]*),[^\}]* "rating": ([0-9\.]*)[^\}]* "url": "([^"]*)"[^\}]* "categories": "([^"]*)"[^\}]* "price": "((?:[^\"]+){1,4})",[^\}]* "addressLine1": "([^"]*)"[^\}]* "addressLine2": "([^"]*)"[^\}]*\}/g);
   var results = Array.from(matches);
   
   for (var i = 0; i < results.length; i++) {
@@ -203,6 +199,7 @@ function createAndAddResult(result, resultIDNum, activityIDNum) {
   searchResult.appendChild(leftSideDetails);
 
   var title = document.createElement("h2");
+  title.id = "resultName:".concat(resultIDNum);
   title.innerHTML = resultName;
   leftSideDetails.appendChild(title);
 
@@ -222,7 +219,13 @@ function createAndAddResult(result, resultIDNum, activityIDNum) {
 
   var price = document.createElement("span");
   price.className = "price";
-  price.innerHTML = resultPrice;
+  if (resultPrice == "?") {
+    price.title = "No price data";
+    price.innerHTML = resultPrice;
+  }
+  else {
+    price.innerHTML = parsePrice(resultPrice);
+  }
   leftSideDetails.appendChild(price);
 
   var bullet = document.createElement("span");
@@ -341,6 +344,22 @@ function createAndAddResult(result, resultIDNum, activityIDNum) {
   buttonHolder.appendChild(selectButton);
 }
 
+function parsePrice(priceStr) {
+  var pounds = priceStr.match(/\\u00a3/g)?.length;
+  if (pounds) {
+    return "£".repeat(pounds);
+  }
+  var euros = priceStr.match(/\\u20ac/g)?.length;
+  if (euros) {
+    return "€".repeat(euros);
+  }
+  var yen = priceStr.match(/\\uffe5/g)?.length;
+  if (yen) {
+    return "¥".repeat(yen);
+  }
+  return priceStr;
+}
+
 function noResults(search, city) {
   console.log("No results for ".concat("\"", search, "\"", " in ", "\"", city, "\""));
 }
@@ -355,6 +374,18 @@ function destroyPreviousResults() {
 
 function getIDNum(element) {
   return element.id.split(/:(.+)/)[1];
+}
+
+function onCityBlur() {
+  enableForm();
+}
+
+function onCancelActivity(event) {
+  var id = getIDNum(event.target);
+  // TODO: only destroy results if the row showing them is deleted
+  destroyPreviousResults();
+
+  removeActivityLine(id);
 }
 
 function onSearch(event) {
@@ -390,7 +421,24 @@ function onResultSelect(event) {
 }
 
 function onConfirmTime(event) {
+  var id = getIDNum(event.target);
 
+  populateResultToField(id);
+  destroyPreviousResults();
+}
+
+function onTimeFieldKeyUp(event) {
+  var field = event.target;
+  removeLeadingZeros(field);
+  validateTimeSpent(getIDNum(field));
+}
+
+function transformIntoExpandDetailButton(button) {
+  var idNum = getIDNum(button);
+
+  button.value = ">";
+  button.id = "expandDetail:".concat(idNum);
+  // TODO: button.onclick = onExpandDetail;
 }
 
 function transformIntoCollapseSearchButton(button) {
@@ -419,13 +467,7 @@ function transformIntoResultSelectButton(button) {
 
 function transformIntoConfirmTimeButton(button) {
   button.value = "v";
-  // button.onclick = onConfirmSearch;
-}
-
-function onTimeFieldKeyUp(event) {
-  var field = event.target;
-  removeLeadingZeros(field);
-  validateTimeSpent(getIDNum(field));
+  button.onclick = onConfirmTime;
 }
 
 function removeLeadingZeros(field) {
@@ -504,4 +546,23 @@ function closeSiblingPrompts(idNum) {
       closePrompt(siblingID);
     }
   }
+}
+
+function populateResultToField(wholeID) {
+  var idPair = wholeID.split(':');
+  var activityID = idPair[0];
+  var resultID = idPair[1];
+
+  var resultName = document.getElementById('resultName:'.concat(resultID));
+  var activityField = document.getElementById('textField:'.concat(activityID));
+
+  activityField.value = resultName.innerHTML;
+  activityField.disabled = true;
+  
+  var result = document.getElementById('searchResult:'.concat(wholeID));
+  // TODO: resultToDetail(result);
+
+  var collapseSearchButton = document.getElementById('collapseSearch:'.concat(activityID));
+
+  transformIntoExpandDetailButton(collapseSearchButton);
 }

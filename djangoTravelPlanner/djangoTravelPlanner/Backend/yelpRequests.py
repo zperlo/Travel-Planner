@@ -46,7 +46,7 @@ def searchYelp(searchTermStr, locationStr, maxNumResults = 10):
             if "price" in business.keys():
                 busDict.update({"price": business["price"]})
             else:
-                busDict.update({"price": "$"})
+                busDict.update({"price": "?"})
 
             addressLine1 = business["location"]["address1"]
             if business["location"]["address2"]:
