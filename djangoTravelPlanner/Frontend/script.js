@@ -17,6 +17,7 @@ function load() {
   setFirstActivityLineDisabled(true);
 }
 
+/* Dylan look here */
 function addNewActivityLine() {
 
     if (typeof addNewActivityLine.activityID == 'undefined') {
@@ -191,6 +192,7 @@ function showResults(yelpResponse, searchIDNum) {
   resultsDict[searchIDNum] = results;
 }
 
+/* Dylan look here */
 function createAndAddResult(result, resultIDNum, activityIDNum) {
 
   var resultName = result[1];
