@@ -432,8 +432,11 @@ function onSearch(event) {
   var buttons = document.getElementsByClassName("buttonClass");
 
   for (var i = 0; i < buttons.length; i++) {
-    if (buttons[i].id.match(/^collapseSearch:[0-9]+$/)) {
+    if (buttons[i].id.match(/^collapseSearch:[0-9]+$/g)) {
       transformIntoSearchButton(buttons[i]);
+    }
+    else if (buttons[i].id.match(/^collapseDetail:[0-9]+$/g)) {
+      transformIntoExpandDetailButton(buttons[i]);
     }
   }
 
@@ -477,6 +480,31 @@ function onExpandDetail(event) {
   destroyPreviousResults();
   var searchResults = document.getElementById('searchResults');
   searchResults.appendChild(activityDict[id][0]);
+
+  // move searchResults to appropriate location
+  var activities = document.getElementsByClassName("activity");
+  var extraDistance = 0;
+  for (var i = 0; i < activities.length; i++) {
+    if (getIDNum(activities[i]) < id) {
+      extraDistance++;
+    }
+  }
+  var searchResultsElement = document.getElementById('searchResults');
+  extraDistance = extraDistance * 30 + 229;
+  searchResultsElement.style.top = "".concat(extraDistance, "px");
+
+  // collapse any open detail or search
+
+  var buttons = document.getElementsByClassName("buttonClass");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].id.match(/^collapseSearch:[0-9]+$/g)) {
+      transformIntoSearchButton(buttons[i]);
+    }
+    else if (buttons[i].id.match(/^collapseDetail:[0-9]+$/g)) {
+      transformIntoExpandDetailButton(buttons[i]);
+    }
+  }
 
   var spacer = document.createElement("div");
   spacer.className = 'spacer';
@@ -628,8 +656,8 @@ function populateResultToField(wholeID) {
   activityField.disabled = true;
   activityField.style.fontWeight = "bold";
   activityField.style.color = "black";
-  activityField.style.borderColor = "rgb(54, 146, 18)";
-  activityField.style.backgroundColor = "rgba(54, 146, 18, 0.4)";
+  activityField.style.borderColor = "rgb(157, 204, 46)";
+  activityField.style.backgroundColor = "rgba(157, 204, 46, 0.4)";
   activityField.value = resultName.innerHTML;
 
   var collapseSearchButton = document.getElementById('collapseSearch:'.concat(activityID));
