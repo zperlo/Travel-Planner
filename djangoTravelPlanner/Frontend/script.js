@@ -384,6 +384,10 @@ function parsePrice(priceStr) {
 
 function noResults(search, city) {
   console.log("No results for ".concat("\"", search, "\"", " in ", "\"", city, "\""));
+
+  var spacer = document.createElement("div");
+  spacer.className = 'spacer';
+  searchResults.appendChild(spacer);
 }
 
 function destroyPreviousResults() {
@@ -473,6 +477,10 @@ function onExpandDetail(event) {
   destroyPreviousResults();
   var searchResults = document.getElementById('searchResults');
   searchResults.appendChild(activityDict[id][0]);
+
+  var spacer = document.createElement("div");
+  spacer.className = 'spacer';
+  searchResults.appendChild(spacer);
 }
 
 function transformIntoExpandDetailButton(button) {

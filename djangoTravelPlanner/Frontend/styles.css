@@ -13,6 +13,10 @@ section, div {
   vertical-align: top;
 }
 
+.controls {
+  margin-bottom: 60px;
+}
+
 body {
   background: rgb(255, 241, 196);
 }
