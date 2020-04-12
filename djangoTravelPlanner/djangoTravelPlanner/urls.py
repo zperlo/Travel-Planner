@@ -23,6 +23,7 @@ urlpatterns = [
     re_path(r'^$', views.homepage),
     re_path('results', views.resultspage),
     re_path('my-ajax-test/', views.testcall),
+    re_path('schedule', views.callscheduler),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

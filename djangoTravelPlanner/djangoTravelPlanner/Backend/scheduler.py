@@ -1,5 +1,6 @@
 import datetime
-import yelpRequests as yelp
+import djangoTravelPlanner.Backend.yelpRequests as yelp
+#import yelpRequests as yelp
 from numpy.random import choice
 
 
@@ -140,7 +141,7 @@ def randomBusiness(businesses, usedBusinesses, prevBusinessIndex, travelTimes, c
         if index not in usedBusinesses:
         
             businessHours = business['hours']
-            timeToSpend = int(business['timeToSpend'] / minutesPerIncrement)
+            timeToSpend = int(int(business['timeToSpend']) / minutesPerIncrement)
             businessTravelTime = int(travelTimes[prevBusinessIndex][index] / minutesPerIncrement)
             
             checkTime = (currentTime + businessTravelTime)
@@ -168,21 +169,21 @@ def randomBusiness(businesses, usedBusinesses, prevBusinessIndex, travelTimes, c
     # randomly choose
     businessIndex = choice(range(len(businesses)), 1, p=normalizedBusinessWeights)[0]
     travelTime = travelTimes[prevBusinessIndex][businessIndex] / minutesPerIncrement
-    timeSpent = businesses[businessIndex]['timeToSpend'] / minutesPerIncrement
+    timeSpent = int(businesses[businessIndex]['timeToSpend']) / minutesPerIncrement
 
     return businessIndex, travelTime, timeSpent
 
 
-x = datetime.datetime(2020, 3, 22)
-y = datetime.datetime(2020, 3, 24)
-bus = [{'name': 'Start', 'address':'1611 E 115th St Cleveland, OH 44106'},
-       {'name': 'The Jolly Scholar', 'timeToSpend': 60, 'address': 'Thwing Ctr 11111 Euclid Ave Cleveland, OH 44106', 'rating': 4.0, 'id': 'wzj2cMpiDJW0HB3iCvCOYA', 'price': '$', 'url': 'https://www.yelp.com/biz/the-jolly-scholar-cleveland?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 4.0}, 
-       {'name': 'ABC the Tavern', 'timeToSpend': 60, 'address': '11434 Uptown Ave Cleveland, OH 44106', 'rating': 3.5, 'id': 'uYl_QBtb7bXhu9sgb4kCrg', 'price': '$', 'url': 'https://www.yelp.com/biz/abc-the-tavern-cleveland-4?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 3.5}, 
-       {'name': 'The Fairmount', 'timeToSpend': 60, 'address': '2448 Fairmount Blvd Cleveland Heights, OH 44106', 'rating': 4.0, 'id': 'g5zVkPRW2umfpCuDkan7tQ', 'price': '$$', 'url': 'https://www.yelp.com/biz/the-fairmount-cleveland-heights?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 2.0}, 
-       {'name': 'Townhall', 'timeToSpend': 60, 'address': '1909 W 25th St Cleveland, OH 44113', 'rating': 4.0, 'id': 'LNsZJP6jZ11e0tDljOLPiQ', 'price': '$$', 'url': 'https://www.yelp.com/biz/townhall-cleveland-2?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 2.0}, 
-       {'name': 'Punch Bowl Social Cleveland', 'timeToSpend': 60, 'address': '1086 W 11th St Cleveland, OH 44113', 'rating': 3.5, 'id': '9SrZRDl7-ZfuENCo0DjfsQ', 'price': '$$', 'url': 'https://www.yelp.com/biz/punch-bowl-social-cleveland-cleveland?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 1.75}]
-distances = [[0, 219, 228, 528, 1042, 961], [292, 0, 209, 356, 963, 973], [231, 127, 0, 408, 1090, 1047], [596, 521, 493, 0, 1281, 1237], [969, 1093, 1090, 1194, 0, 402], [1033, 1156, 1154, 1272, 423, 0]]
-sched = createSchedule(bus, distances, x, y, 6, 1)
+#x = datetime.datetime(2020, 3, 22)
+#y = datetime.datetime(2020, 3, 24)
+#bus = [{'name': 'Start', 'address':'1611 E 115th St Cleveland, OH 44106'},
+#       {'name': 'The Jolly Scholar', 'timeToSpend': 60, 'address': 'Thwing Ctr 11111 Euclid Ave Cleveland, OH 44106', 'rating': 4.0, 'id': 'wzj2cMpiDJW0HB3iCvCOYA', 'price': '$', 'url': 'https://www.yelp.com/biz/the-jolly-scholar-cleveland?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 4.0}, 
+#       {'name': 'ABC the Tavern', 'timeToSpend': 60, 'address': '11434 Uptown Ave Cleveland, OH 44106', 'rating': 3.5, 'id': 'uYl_QBtb7bXhu9sgb4kCrg', 'price': '$', 'url': 'https://www.yelp.com/biz/abc-the-tavern-cleveland-4?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 3.5}, 
+#       {'name': 'The Fairmount', 'timeToSpend': 60, 'address': '2448 Fairmount Blvd Cleveland Heights, OH 44106', 'rating': 4.0, 'id': 'g5zVkPRW2umfpCuDkan7tQ', 'price': '$$', 'url': 'https://www.yelp.com/biz/the-fairmount-cleveland-heights?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 2.0}, 
+#       {'name': 'Townhall', 'timeToSpend': 60, 'address': '1909 W 25th St Cleveland, OH 44113', 'rating': 4.0, 'id': 'LNsZJP6jZ11e0tDljOLPiQ', 'price': '$$', 'url': 'https://www.yelp.com/biz/townhall-cleveland-2?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 2.0}, 
+#       {'name': 'Punch Bowl Social Cleveland', 'timeToSpend': 60, 'address': '1086 W 11th St Cleveland, OH 44113', 'rating': 3.5, 'id': '9SrZRDl7-ZfuENCo0DjfsQ', 'price': '$$', 'url': 'https://www.yelp.com/biz/punch-bowl-social-cleveland-cleveland?adjust_creative=dQvSn56-m0sDVZemOiNI2w&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=dQvSn56-m0sDVZemOiNI2w', 'value': 1.75}]
+#distances = [[0, 219, 228, 528, 1042, 961], [292, 0, 209, 356, 963, 973], [231, 127, 0, 408, 1090, 1047], [596, 521, 493, 0, 1281, 1237], [969, 1093, 1090, 1194, 0, 402], [1033, 1156, 1154, 1272, 423, 0]]
+#sched = createSchedule(bus, distances, x, y, 6, 1)
 
-print('Chosen Schedule:')
-print(sched)
+#print('Chosen Schedule:')
+#print(sched)
