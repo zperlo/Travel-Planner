@@ -24,14 +24,14 @@
                     data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: text, city: city },  
                     success: function callback(response) {
                         if (response == "[]") {
-                            noResults(text, city);
+                            noResults(text, city, searchIDNum);
                         }
                         else {
                             showResults(response, searchIDNum);
                         }
                     },
                     error: function callback(response) {
-                        noResults(text, city);
+                        noResults(text, city, searchIDNum);
                     }
                 });
             }

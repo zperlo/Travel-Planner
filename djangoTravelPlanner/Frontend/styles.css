@@ -296,6 +296,25 @@ div.spacer {
   height: 60px;
 }
 
+.noResults {
+  width: 608px;
+  height: 132px;
+  border-left: 2px solid rgb(255, 94, 0);
+  background-color: rgb(255, 94, 0, 0.4);
+  border-radius: 0px 8px 8px 0px;
+  display: table;
+}
+
+p.noResultsMsg {
+  font-family: 'Bree Serif';
+  font-style: italic;
+  font-weight: lighter;
+  font-size: x-large;
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+
 footer {
   width: 100%;
   position: fixed;

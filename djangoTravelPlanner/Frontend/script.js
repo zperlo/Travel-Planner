@@ -382,8 +382,34 @@ function parsePrice(priceStr) {
   return priceStr;
 }
 
-function noResults(search, city) {
-  console.log("No results for ".concat("\"", search, "\"", " in ", "\"", city, "\""));
+function noResults(search, city, id) {
+  destroyPreviousResults();
+
+  var searchResults = document.getElementById('searchResults');
+
+  // move searchResults to appropriate location
+  var activities = document.getElementsByClassName("activity");
+  var extraDistance = 0;
+
+  for (var i = 0; i < activities.length; i++) {
+    if (getIDNum(activities[i]) < id) {
+      extraDistance++;
+    }
+  }
+
+  var searchResultsElement = document.getElementById('searchResults');
+  extraDistance = extraDistance * 30 + 229;
+  searchResultsElement.style.top = "".concat(extraDistance, "px");
+
+  // populate
+  var noResults = document.createElement("div");
+  noResults.className = "noResults";
+  searchResults.appendChild(noResults);
+
+  var message = document.createElement("p");
+  message.className = "noResultsMsg";
+  message.innerHTML = "no results for ".concat("\"", search, "\"", " in ", "\"", city, "\"");
+  noResults.appendChild(message);
 
   var spacer = document.createElement("div");
   spacer.className = 'spacer';
@@ -476,25 +502,26 @@ function onTimeFieldKeyUp(event) {
 }
 
 function onExpandDetail(event) {
-  var id = getIDNum(event.target);
   destroyPreviousResults();
+
+  var id = getIDNum(event.target);
+
   var searchResults = document.getElementById('searchResults');
-  searchResults.appendChild(activityDict[id][0]);
 
   // move searchResults to appropriate location
   var activities = document.getElementsByClassName("activity");
   var extraDistance = 0;
+
   for (var i = 0; i < activities.length; i++) {
     if (getIDNum(activities[i]) < id) {
       extraDistance++;
     }
   }
-  var searchResultsElement = document.getElementById('searchResults');
+
   extraDistance = extraDistance * 30 + 229;
-  searchResultsElement.style.top = "".concat(extraDistance, "px");
+  searchResults.style.top = "".concat(extraDistance, "px");
 
   // collapse any open detail or search
-
   var buttons = document.getElementsByClassName("buttonClass");
 
   for (var i = 0; i < buttons.length; i++) {
@@ -506,10 +533,14 @@ function onExpandDetail(event) {
     }
   }
 
+  // populate
+  searchResults.appendChild(activityDict[id][0]);
+
   var spacer = document.createElement("div");
   spacer.className = 'spacer';
   searchResults.appendChild(spacer);
 
+  // transform button
   var button = document.getElementById('expandDetail:'.concat(id));
   transformIntoCollapseDetailButton(button);
 }
