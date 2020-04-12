@@ -481,6 +481,17 @@ function onExpandDetail(event) {
   var spacer = document.createElement("div");
   spacer.className = 'spacer';
   searchResults.appendChild(spacer);
+
+  var button = document.getElementById('expandDetail:'.concat(id));
+  transformIntoCollapseDetailButton(button);
+}
+
+function onCollapseDetail(event) {
+  destroyPreviousResults();
+
+  var id = getIDNum(event.target);
+  var button = document.getElementById("collapseDetail:".concat(id));
+  transformIntoExpandDetailButton(button);
 }
 
 function transformIntoExpandDetailButton(button) {
@@ -489,6 +500,14 @@ function transformIntoExpandDetailButton(button) {
   button.value = ">";
   button.id = "expandDetail:".concat(idNum);
   button.onclick = onExpandDetail;
+}
+
+function transformIntoCollapseDetailButton(button) {
+  var idNum = getIDNum(button);
+
+  button.value = "<";
+  button.id = "collapseDetail:".concat(idNum);
+  button.onclick = onCollapseDetail;  
 }
 
 function transformIntoCollapseSearchButton(button) {
