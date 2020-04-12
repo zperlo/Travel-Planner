@@ -22,16 +22,16 @@
                     type: "POST",
                     url: '{{ "my-ajax-test/" }}',
                     data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: text, city: city },  
-                    success: function callback(response){
+                    success: function callback(response) {
                         if (response == "[]") {
-                            noResults(text, city);
+                            noResults(text, city, searchIDNum);
                         }
                         else {
                             showResults(response, searchIDNum);
                         }
                     },
                     error: function callback(response) {
-                        noResults(text, city);
+                        noResults(text, city, searchIDNum);
                     }
                 });
             }
@@ -191,5 +191,12 @@
             </div> -->
         </section>
         <!--<input id='zachtest' type="button" value="test" onclick="createSchedule()" class='buttonClass'>-->
+        <footer>
+            <div class='footerTop'></div>
+            <div class='footerBottom'>
+                <h3>>|Topaz</h3>
+                <span>> Tyler Anderson > Dylan Briggs > Patrick Hogrell > Zach Perlo > Jacob Rich</span>
+            </div>
+        </footer>
     </body>
 </html>

@@ -189,6 +189,10 @@ function showResults(yelpResponse, searchIDNum) {
     createAndAddResult(result, i, searchIDNum);
   }
 
+  var spacer = document.createElement("div");
+  spacer.className = 'spacer';
+  searchResults.appendChild(spacer);
+
   resultsDict[searchIDNum] = results;
 }
 
@@ -378,8 +382,38 @@ function parsePrice(priceStr) {
   return priceStr;
 }
 
-function noResults(search, city) {
-  console.log("No results for ".concat("\"", search, "\"", " in ", "\"", city, "\""));
+function noResults(search, city, id) {
+  destroyPreviousResults();
+
+  var searchResults = document.getElementById('searchResults');
+
+  // move searchResults to appropriate location
+  var activities = document.getElementsByClassName("activity");
+  var extraDistance = 0;
+
+  for (var i = 0; i < activities.length; i++) {
+    if (getIDNum(activities[i]) < id) {
+      extraDistance++;
+    }
+  }
+
+  var searchResultsElement = document.getElementById('searchResults');
+  extraDistance = extraDistance * 30 + 229;
+  searchResultsElement.style.top = "".concat(extraDistance, "px");
+
+  // populate
+  var noResults = document.createElement("div");
+  noResults.className = "noResults";
+  searchResults.appendChild(noResults);
+
+  var message = document.createElement("p");
+  message.className = "noResultsMsg";
+  message.innerHTML = "no results for ".concat("\"", search, "\"", " in ", "\"", city, "\"");
+  noResults.appendChild(message);
+
+  var spacer = document.createElement("div");
+  spacer.className = 'spacer';
+  searchResults.appendChild(spacer);
 }
 
 function destroyPreviousResults() {
@@ -424,8 +458,11 @@ function onSearch(event) {
   var buttons = document.getElementsByClassName("buttonClass");
 
   for (var i = 0; i < buttons.length; i++) {
-    if (buttons[i].id.match(/^collapseSearch:[0-9]+$/)) {
+    if (buttons[i].id.match(/^collapseSearch:[0-9]+$/g)) {
       transformIntoSearchButton(buttons[i]);
+    }
+    else if (buttons[i].id.match(/^collapseDetail:[0-9]+$/g)) {
+      transformIntoExpandDetailButton(buttons[i]);
     }
   }
 
@@ -465,10 +502,55 @@ function onTimeFieldKeyUp(event) {
 }
 
 function onExpandDetail(event) {
-  var id = getIDNum(event.target);
   destroyPreviousResults();
+
+  var id = getIDNum(event.target);
+
   var searchResults = document.getElementById('searchResults');
+
+  // move searchResults to appropriate location
+  var activities = document.getElementsByClassName("activity");
+  var extraDistance = 0;
+
+  for (var i = 0; i < activities.length; i++) {
+    if (getIDNum(activities[i]) < id) {
+      extraDistance++;
+    }
+  }
+
+  extraDistance = extraDistance * 30 + 229;
+  searchResults.style.top = "".concat(extraDistance, "px");
+
+  // collapse any open detail or search
+  var buttons = document.getElementsByClassName("buttonClass");
+
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].id.match(/^collapseSearch:[0-9]+$/g)) {
+      transformIntoSearchButton(buttons[i]);
+    }
+    else if (buttons[i].id.match(/^collapseDetail:[0-9]+$/g)) {
+      transformIntoExpandDetailButton(buttons[i]);
+    }
+  }
+
+  // populate
   searchResults.appendChild(activityDict[id][0]);
+
+  var spacer = document.createElement("div");
+  spacer.className = 'spacer';
+  searchResults.appendChild(spacer);
+
+  // transform button
+  var button = document.getElementById('expandDetail:'.concat(id));
+  transformIntoCollapseDetailButton(button);
+}
+
+function onCollapseDetail(event) {
+  destroyPreviousResults();
+
+  var id = getIDNum(event.target);
+  var button = document.getElementById("collapseDetail:".concat(id));
+  transformIntoExpandDetailButton(button);
 }
 
 function transformIntoExpandDetailButton(button) {
@@ -477,6 +559,14 @@ function transformIntoExpandDetailButton(button) {
   button.value = ">";
   button.id = "expandDetail:".concat(idNum);
   button.onclick = onExpandDetail;
+}
+
+function transformIntoCollapseDetailButton(button) {
+  var idNum = getIDNum(button);
+
+  button.value = "<";
+  button.id = "collapseDetail:".concat(idNum);
+  button.onclick = onCollapseDetail;  
 }
 
 function transformIntoCollapseSearchButton(button) {
@@ -597,8 +687,8 @@ function populateResultToField(wholeID) {
   activityField.disabled = true;
   activityField.style.fontWeight = "bold";
   activityField.style.color = "black";
-  activityField.style.borderColor = "rgb(54, 146, 18)";
-  activityField.style.backgroundColor = "rgba(54, 146, 18, 0.4)";
+  activityField.style.borderColor = "rgb(157, 204, 46)";
+  activityField.style.backgroundColor = "rgba(157, 204, 46, 0.4)";
   activityField.value = resultName.innerHTML;
 
   var collapseSearchButton = document.getElementById('collapseSearch:'.concat(activityID));
