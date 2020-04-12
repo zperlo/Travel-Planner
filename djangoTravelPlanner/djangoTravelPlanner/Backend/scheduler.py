@@ -56,7 +56,35 @@ def createSchedule(businesses, travelTimes, startDate, endDate, startDay, endDay
     # Call helper to perform algorithm X times and take best result
     bestSchedule = multiScheduler(businesses, travelTimes, schedule, numRunTimes, minutesPerIncrement)
     
-    return bestSchedule
+    #return bestSchedule
+    return humanReadableSchedule(bestSchedule, businesses, startTime, minutesPerIncrement)
+
+def humanReadableSchedule(schedule, businesses, startTime, minutesPerIncrement):
+    # in minutes
+    currentTime = startTime
+    currentActivity = -1
+    currentActivityStart = None
+    scheduleList = []
+
+    for increment in schedule:
+        if currentActivity == -1 and increment != -1:
+            currentActivity = increment
+            currentActivityStart = currentTime
+        elif currentActivity != increment:
+            timeFormat = "%A, %B %d, at %I:%M %p"
+            currentActivityStartTimestamp = currentActivityStart * 60
+            currentActivityStartDate = datetime.datetime.fromtimestamp(currentActivityStartTimestamp)
+            startDateString = currentActivityStartDate.strftime(timeFormat)
+            currentTimestamp = currentTime * 60
+            currentDate = datetime.datetime.fromtimestamp(currentTimestamp)
+            currentDateString = currentDate.strftime(timeFormat)
+
+            scheduleList.append(businesses[currentActivity]["name"] + ": starts on " + startDateString + " and ends on " + currentDateString + " at address " + businesses[currentActivity]["address"])
+            currentActivity = increment
+            currentActivityStart = currentTime
+        currentTime = currentTime + minutesPerIncrement
+
+    return scheduleList
 
 
 def multiScheduler(businesses, travelTimes, schedule, numRunTimes, minutesPerIncrement):

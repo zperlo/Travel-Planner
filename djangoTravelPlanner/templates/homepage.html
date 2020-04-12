@@ -47,15 +47,15 @@
                 for (var index in activityDict){
                     console.log( activityDict[index][1][0] );
                     var activity = JSON.parse(activityDict[index][1][0]);
-                    console.log( activity );
+                    //console.log( activity );
                     activity["timeToSpend"] = activityDict[index][2];
-                    console.log( activity );
+                    //console.log( activity );
                     activities.push(activity);
                 }
-                console.log( activities );
+                //console.log( activities );
 
                 var activityString = JSON.stringify(activities);
-                console.log( activityString );
+                //console.log( activityString );
 
                 $.ajax({
                     type: "POST",
