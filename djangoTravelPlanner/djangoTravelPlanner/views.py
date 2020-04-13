@@ -13,7 +13,11 @@ def homepage(request):
     return render(request, 'homepage.html')
 
 def resultspage(request):
-    return render(request, 'results.html')
+    schedule = request.session.get('schedule', 'No schedule found')
+    context = {
+        'schedule': schedule
+    }
+    return render(request, 'results.html', context=context)
 
 def testcall(request):
     #Get the variable(s)
@@ -79,6 +83,7 @@ def callscheduler(request):
     schedule = scheduler.createSchedule(businessList, distances, startDatetime, endDatetime, startDay, endDay)
 
     response = schedule
+    request.session['schedule'] = schedule
 
     #Send the response 
     return HttpResponse(response)
