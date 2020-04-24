@@ -408,7 +408,12 @@ function noResults(search, city, id) {
 
   var message = document.createElement("p");
   message.className = "noResultsMsg";
-  message.innerHTML = "no results for ".concat("\"", search, "\"", " in ", "\"", city, "\"");
+  if (search == "") {
+    message.innerHTML = "no results near ".concat("\"", city, "\"");
+  }
+  else {
+    message.innerHTML = "no results for ".concat("\"", search, "\"", " near ", "\"", city, "\"");
+  }
   noResults.appendChild(message);
 
   var spacer = document.createElement("div");
