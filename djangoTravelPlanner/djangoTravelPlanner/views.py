@@ -86,9 +86,11 @@ def callscheduler(request):
 
     schedule = scheduler.createSchedule(businessList, distances, startDatetime, endDatetime, startDay, endDay)
 
-    response = schedule
     request.session['schedule'] = schedule
     request.session['startingLocation'] = city
 
     #Send the response 
-    return HttpResponse(response)
+    if schedule and schedule[0] != None:
+        return HttpResponse(True)
+    else:
+        return HttpResponse(False)

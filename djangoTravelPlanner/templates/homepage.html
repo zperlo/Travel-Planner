@@ -45,7 +45,7 @@
 
                 var activities = [];
                 for (var index in activityDict){
-                    console.log( activityDict[index][1][0] );
+                    //console.log( activityDict[index][1][0] );
                     var activity = JSON.parse(activityDict[index][1][0]);
                     //console.log( activity );
                     activity["timeToSpend"] = activityDict[index][2];
@@ -63,6 +63,10 @@
                     data: { csrfmiddlewaretoken: '{{ csrf_token }}', activities: activityString, city: city, startDate: startDate, startTime: startTime, endDate: endDate, endTime: endTime },  
                     success: function callback(response){
                         console.log(response);
+                        var scheduleSuccess = response;
+                        if(scheduleSuccess == "True"){
+                            relativeRedirect('/results');
+                        }
                     },
                     error: function callback(response) {
                         console.log("error");

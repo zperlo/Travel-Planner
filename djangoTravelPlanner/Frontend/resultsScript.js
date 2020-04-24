@@ -3,7 +3,7 @@ function load() {
   }
 
 function addResults(){
-    if(!schedule[0] || schedule[0] == "" || schedule[0] == "No schedule found"){
+    if(!schedule || schedule == "" || schedule == "No schedule found" || schedule[0] == null){
         console.log("no schedule");
     } else {
         var newschedule = schedule.split("&#x27;, ");
@@ -106,10 +106,10 @@ function scheduleActivity(schedule){
         } else {
             waypoints = waypoints + "|";
         }
-        var formattedAddress = (results[i][1] + "," + results[i][6]).replace(/ /g, '+');
+        var formattedAddress = (results[i][1] + "," + results[i][6]).replace(/ /g, '+').replace(/&/g, "");
         waypoints = waypoints + formattedAddress;
     }
-    var formattedDest = (results[results.length - 1][1] + "," + results[results.length - 1][6]).replace(/ /g, '+');
+    var formattedDest = (results[results.length - 1][1] + "," + results[results.length - 1][6]).replace(/ /g, '+').replace(/&/g, "");
     var destination = "&destination=" + formattedDest;
 
     mapsEmbedLink = mapsEmbedLink + key + origin + waypoints + destination;

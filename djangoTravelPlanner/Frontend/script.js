@@ -755,7 +755,6 @@ function resultToDetail(result) {
 
 function createScheduleAndRedirect() {
   createSchedule();
-  relativeRedirect('/results');
 }
 
 function relativeRedirect(path) {
