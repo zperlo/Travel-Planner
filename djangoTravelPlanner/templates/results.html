@@ -1,6 +1,12 @@
 {% load static %}
+<script src="{% static 'resultsScript.js' %}"></script>
 <!DOCTYPE html>
 <html lang="en">
+    <script>
+        var schedule = '{{ schedule }}';
+        var startingLocation = '{{ startingLocation }}';
+        var googleKey = '{{ googleKey }}';
+    </script>
     <head>
         <meta charset="UTF-8">
         <title>Topaz</title>
@@ -8,7 +14,7 @@
         <link href='https://fonts.googleapis.com/css?family=Source Sans Pro' rel='stylesheet'>
         <link rel="stylesheet" href="{% static 'styles.css' %}">
     </head>
-    <body>
+    <body onload="load()">
         <header class='main'>
             <div class="angleBracketHolder">
                 <h1>></h1>
@@ -18,9 +24,9 @@
                 <h2>Tourism Made Easy</h2>
             </div>
         </header>
-        <div class='angleBracketHolder'>
+        <div class='angleBracketHolder' id='angleBracketItinerary'>
             <h2>></h2>
-            <div class='daySeparator'>
+            <!--<div class='daySeparator'>
                 <span>Friday, April 3</span>
             </div>
             <itineraryItem>
@@ -51,12 +57,12 @@
             </itineraryItem>
             <br>
             <br>
-            <h2>></h2>
+            <h2>></h2>-->
             <!-- <iframe class='map' src="https://www.google.com/maps/embed?pb=!1m40!1m12!1m3!1d11950.687370203583!2d-81.62048416484!3d41.511385636129916!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m25!3e0!4m5!1s0x8830f96051caf991%3A0x98394a2f1a826ce1!2sCleveland%20Cultural%20Gardens%2C%2010823%20Magnolia%20Dr%2C%20Cleveland%2C%20OH%2044106!3m2!1d41.5155247!2d-81.6186128!4m5!1s0x8830fb8a03078ee9%3A0xe1e17e84ce868bb9!2sABC%20the%20Tavern%20Uptown%2C%20Uptown%20Avenue%2C%20Cleveland%2C%20OH!3m2!1d41.509374699999995!2d-81.60374159999999!4m5!1s0x8830fb8a1da677df%3A0xb458a424156ab988!2sMitchell&#39;s%20Ice%20Cream%20(Uptown%20Shop)%2C%20Uptown%20Avenue%2C%20Cleveland%2C%20OH!3m2!1d41.5094469!2d-81.6035943!4m5!1s0x8830fb8dd37a09d9%3A0x24667546af3346a!2sCleveland%20Museum%20of%20Art%2C%20East%20Boulevard%2C%20Cleveland%2C%20OH!3m2!1d41.5090411!2d-81.6120703!5e0!3m2!1sen!2sus!4v1585932304675!5m2!1sen!2sus"> -->
         </div>
-        <div class='content'>
+        <div class='content' id='itinerary'>
             <h2>Itinerary for your trip</h2>
-            <div class='daySeparator'>
+            <!--<div class='daySeparator'>
                 <span>Friday, April 3</span>
             </div>
             <itineraryItem>
@@ -90,7 +96,7 @@
             <h2>Google Maps Route</h2>
             <iframe class='map' src="https://www.google.com/maps/embed?pb=!1m40!1m12!1m3!1d5975.466880822707!2d-81.6122096719013!3d41.51005095120061!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m25!3e0!4m5!1s0x8830fbf32fd00001%3A0x47582bd25fbc13ef!2sCleveland%20Cultural%20Gardens%2C%2010823%20Magnolia%20Dr%2C%20Cleveland%2C%20OH%2044106!3m2!1d41.514748!2d-81.6110854!4m5!1s0x8830fb8a03078ee9%3A0xe1e17e84ce868bb9!2sABC%20the%20Tavern%20Uptown%2C%20Uptown%20Avenue%2C%20Cleveland%2C%20OH!3m2!1d41.509374699999995!2d-81.60374159999999!4m5!1s0x8830fb8a1da677df%3A0xb458a424156ab988!2sMitchell&#39;s%20Ice%20Cream%20(Uptown%20Shop)%2C%20Uptown%20Avenue%2C%20Cleveland%2C%20OH!3m2!1d41.5094469!2d-81.6035943!4m5!1s0x8830fb8dd37a09d9%3A0x24667546af3346a!2sThe%20Cleveland%20Museum%20of%20Art%2C%20East%20Boulevard%2C%20Cleveland%2C%20OH!3m2!1d41.5090411!2d-81.6120703!5e0!3m2!1sen!2sus!4v1586368142943!5m2!1sen!2sus"></iframe>
             <br>
-            <div></div>
+            <div></div>-->
         </div>
         <!--The following was for testing to see if we could get the schedule from this page
         <div>

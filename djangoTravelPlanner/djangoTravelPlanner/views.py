@@ -5,6 +5,7 @@ import djangoTravelPlanner.Backend.yelpRequests as yelp
 import djangoTravelPlanner.Backend.googleRequests as googleMaps
 import djangoTravelPlanner.Backend.scheduler as scheduler
 import djangoTravelPlanner.Backend.valueDetermination as valueDetermination
+import djangoTravelPlanner.Backend.secrets as secrets
 import json
 from datetime import datetime
 
@@ -14,8 +15,11 @@ def homepage(request):
 
 def resultspage(request):
     schedule = request.session.get('schedule', 'No schedule found')
+    startingLocation = request.session.get('startingLocation', 'Cleveland, OH')
     context = {
-        'schedule': schedule
+        'schedule': schedule,
+        'startingLocation': startingLocation,
+        'googleKey': secrets.googleKey
     }
     return render(request, 'results.html', context=context)
 
@@ -84,6 +88,7 @@ def callscheduler(request):
 
     response = schedule
     request.session['schedule'] = schedule
+    request.session['startingLocation'] = city
 
     #Send the response 
     return HttpResponse(response)
