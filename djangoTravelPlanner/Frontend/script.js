@@ -747,3 +747,12 @@ function resultToDetail(result) {
 
   return detail;
 }
+
+function createScheduleAndRedirect() {
+  createSchedule();
+  relativeRedirect('/results');
+}
+
+function relativeRedirect(path) {
+  window.location.href = path;
+}
