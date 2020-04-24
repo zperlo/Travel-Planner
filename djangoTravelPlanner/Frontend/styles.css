@@ -365,7 +365,7 @@ itineraryItem {
   left: 40px;
 }
 
-itineraryItem span {
+itineraryItem > span {
   padding-left: 40px;
 }
 
@@ -375,4 +375,16 @@ itineraryItem span {
   border: 1px solid rgb(255, 196, 0);
   border-radius: 12px;
   padding: 4px;
+}
+
+.daySeparator {
+  border: none;
+  border-top: 2px solid rgb(255, 196, 0);
+  display: block;
+  margin: 10px 0px;
+}
+
+.daySeparator > span {
+  font-style: italic;
+  color: rgb(255, 196, 0);
 }
