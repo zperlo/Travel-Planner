@@ -97,6 +97,23 @@ h3 {
   font-style: italic;
 }
 
+:disabled::-webkit-input-placeholder {
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.4);
+}
+:disabled:-moz-placeholder {
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.4);
+}
+:disabled::-moz-placeholder {
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.4);
+}
+:disabled:-ms-input-placeholder {
+  font-style: italic;
+  color: rgba(0, 0, 0, 0.4);
+}
+
 div.timeInput > input::-webkit-input-placeholder {
   font-style: normal;
 }
