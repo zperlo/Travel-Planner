@@ -49,16 +49,16 @@
                                 setFieldLockedIn(locationField, true, false);
                             }
                             else {
-                                setFieldValidated(locationField, false);
+                                setFieldInvalidated(locationField, true);
                             }
                         },
                         error: function callback(response) {
-                            setFieldValidated(locationField, false);
+                            setFieldInvalidated(locationField, true);
                         }
                     });
                 }
                 else {
-                    setFieldValidated(locationField, false);
+                    setFieldInvalidated(locationField, true);
                 }
             }
 

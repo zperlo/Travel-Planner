@@ -142,17 +142,27 @@ function getRatingImagePath(rating) {
   return str;
 }
 
-function enableForm() {
+function setFormEnabled(enabling) {
   var city = document.getElementById('city');
   var startDate = document.getElementById('startDate');
 
-  if(city.value != "" && startDate.disabled) {
-    var disabledElements = document.getElementsByClassName("disabledAtStart");
-    for (var i = 0; i < disabledElements.length; i++) {
-      disabledElements[i].style.color = "black"; 
-      disabledElements[i].disabled = false;
+  var formElements = document.getElementById("mainForm").children;
+  for (var i = 0; i < formElements.length; i++) {
+    formElements[i].style.color = (enabling) ? "black" : "rgba(0, 0, 0, 0.4)"; 
+    formElements[i].disabled = !enabling;
+  }
+
+  var angleBrackets = document.querySelectorAll(".angleBracketHolder .disabledAtStart");
+  for (var i = 0; i < angleBrackets.length; i++) {
+    angleBrackets[i].style.color = (enabling) ? "black" : "rgba(0, 0, 0, 0.4)"; 
+    angleBrackets[i].disabled = !enabling;
+  }
+
+  if (enabling) {
+    try {
+      setFirstActivityLineDisabled(false);
     }
-    setFirstActivityLineDisabled(false);
+    catch (err) {}
   }
 }
 
@@ -442,7 +452,7 @@ function getIDNum(element) {
 }
 
 function onCityKeyUp(keyboardEvent) {
-  enableForm();
+  setFormEnabled(true);
 
   var city = document.getElementById("city");
   var key = keyboardEvent.key;
@@ -681,16 +691,16 @@ function validateTimeSpent(idNum) {
   valid = (hValid && mValid) && !(hours.value == "" && minutes.value == "");
 
   // validate fields if true, invalidate if false
-  setFieldValidated(hours, hValid);
-  setFieldValidated(minutes, mValid);
+  setFieldInvalidated(hours, !hValid);
+  setFieldInvalidated(minutes, !mValid);
 
   // disable confirm if invalid, enable if valid
   setButtonDisabled(confirmButton, !valid);
 }
 
-function setFieldValidated(field, validating) {
-  var border = (validating) ? "rgb(255, 196, 0)" : "rgb(255, 94, 0)";
-  var bg = (validating) ? "inherit" : "rgb(255, 94, 0, 0.4)";
+function setFieldInvalidated(field, invalidating) {
+  var border = (invalidating) ? "rgb(255, 94, 0)" : "rgb(255, 196, 0)";
+  var bg = (invalidating) ? "rgb(255, 94, 0, 0.4)" : "inherit";
 
   field.style.borderColor = border;
   field.style.backgroundColor = bg;
