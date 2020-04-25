@@ -130,18 +130,18 @@
             <div class='content'>
                 <form id="mainForm" autocomplete="off">
                     <h3>Where are you staying?</h3>
-                    <input type="text" id="city" class='field cityField' placeholder="123 Sesame Street, New York City, NY 12345" onkeyup='onCityKeyUp(event)' onblur="onCityBlur()">
+                    <input data-valid="true" type="text" id="city" class='field cityField' placeholder="123 Sesame Street, New York City, NY 12345" onkeyup='onCityKeyUp(event)' onblur="onCityBlur()">
                     <br>
                     <h3 class='disabledAtStart'>When will you be there?</h3>
-                    <input type="date" id="startDate" class='field disabledAtStart' disabled>
+                    <input data-valid="false" type="date" id="startDate" class='field disabledAtStart' disabled onchange="validateTripDuration()">
                     <span class='disabledAtStart'>at</span>
-                    <input type="time" id="startTime" class='field disabledAtStart' disabled>
+                    <input data-valid="false" type="time" id="startTime" class='field disabledAtStart' disabled onchange="validateTripDuration()">
                     <br>
                     <span class='disabledAtStart'>to</span>
                     <br>
-                    <input type="date" id="endDate" class='field disabledAtStart' disabled>
+                    <input data-valid="false" type="date" id="endDate" class='field disabledAtStart' disabled onchange="validateTripDuration()">
                     <span class='disabledAtStart'>at</span>
-                    <input type="time" id="endTime" class='field disabledAtStart' disabled>
+                    <input data-valid="false" type="time" id="endTime" class='field disabledAtStart' disabled onchange="validateTripDuration()">
                     <br>
                     <h3 class='disabledAtStart'>What would you like to do?</h3>
                     <ul id="activities"></ul>

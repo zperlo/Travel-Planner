@@ -144,7 +144,7 @@ function getRatingImagePath(rating) {
 
 function setFormEnabled(enabling) {
   var city = document.getElementById('city');
-  var startDate = document.getElementById('startDate');
+  var endDate = document.getElementById('startDate');
 
   var formElements = document.getElementById("mainForm").children;
   for (var i = 0; i < formElements.length; i++) {
@@ -704,6 +704,8 @@ function setFieldInvalidated(field, invalidating) {
 
   field.style.borderColor = border;
   field.style.backgroundColor = bg;
+
+  field.setAttribute("data-valid", !invalidating);
 }
 
 function setFieldLockedIn(field, locking, strict) {
@@ -856,4 +858,26 @@ function activityIsAboveLine(searchIDstr, activity) {
     console.log(error);
     return false;
   }
+}
+
+function validateTripDuration() {
+  var startDayElement = document.getElementById("startDate");
+  var startDay = startDayElement.value.split('-');
+  var startTimeElement = document.getElementById("startTime");
+  var startTime = startTimeElement.value.split(':');
+  
+  var endDayElement = document.getElementById("endDate");
+  var endDay = endDayElement.value.split('-');
+  var endTimeElement = document.getElementById("endTime");
+  var endTime = endTimeElement.value.split(':');
+
+  var startDate = new Date(startDay[0], startDay[1] - 1, startDay[2], startTime[0], startTime[1], 0);
+  var endDate = new Date(endDay[0], endDay[1] - 1, endDay[2], endTime[0], endTime[1], 0);
+
+  var invalidDuration = startDate >= endDate;
+
+  setFieldInvalidated(startDayElement, invalidDuration);
+  setFieldInvalidated(startTimeElement, invalidDuration);
+  setFieldInvalidated(endDayElement, invalidDuration);
+  setFieldInvalidated(endTimeElement, invalidDuration);
 }
