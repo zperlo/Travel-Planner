@@ -6,8 +6,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Topaz</title>
-        <link href='https://fonts.googleapis.com/css?family=Bree Serif' rel='stylesheet'>
-        <link href='https://fonts.googleapis.com/css?family=Source Sans Pro' rel='stylesheet'>
+        <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Source+Sans+Pro&display=swap&subset=latin,latin-ext" rel="stylesheet">        <!-- <link href='https://fonts.googleapis.com/css?family=Bree Serif&display=swap' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Source Sans Pro' rel='stylesheet'> -->
         <link rel="stylesheet" href="{% static 'styles.css' %}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script>
@@ -120,11 +120,11 @@
                     <h3 class='disabledAtStart'>What would you like to do?</h3>
                     <ul id="activities"></ul>
                     <!-- <input type="button" id='addRowButton' onclick="addNewActivityLine()" class='buttonClass disabledAtStart icon-plus' disabled> -->
-                    <button class="buttonClass disabledAtStart" id="addRowButton" onclick="addNewActivityLine()" disabled><i class="icon-plus"></i></button>
+                    <button type="button" class="buttonClass disabledAtStart" id="addRowButton" onclick="addNewActivityLine()" disabled><i class="icon-plus"></i></button>
                     <br>
                 </form>
                 <form action='results' method='GET'>
-                <input id="resultsButton" type='button' class='buttonClass' onclick="createScheduleAndRedirect()" value="Plan My Day!">
+                <input id="resultsButton" type='button' class='buttonClass' onclick="createScheduleAndRedirect()" value="Plan My Trip!">
             </div>
         </section>
         <section class='searchResults' id='searchResults'>

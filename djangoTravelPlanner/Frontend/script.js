@@ -31,27 +31,34 @@ function addNewActivityLine() {
     activity.id = "activity:" + addNewActivityLine.activityID;
     ul.appendChild(activity);
 
-    var cancel = document.createElement("input");
+    var cancel = document.createElement("button");
     cancel.type = "button";
-    cancel.value = "x";
     cancel.id = "cancel:" + addNewActivityLine.activityID;
     cancel.onclick = onCancelActivity;
     cancel.className = "buttonClass";
     activity.appendChild(cancel);
 
+    var cancelIcon = document.createElement("i");
+    cancelIcon.className = "icon-cancel";
+    cancel.appendChild(cancelIcon);
+
     var textField = document.createElement("input");
     textField.type = "text";
     textField.id = "textField:" + addNewActivityLine.activityID;
     textField.className = "field";
+    textField.placeholder = "Search...";
     activity.appendChild(textField);
 
-    var search = document.createElement("input");
+    var search = document.createElement("button");
     search.type = "button";
-    search.value = "s"
     search.id = "search:" + addNewActivityLine.activityID;
     search.onclick = onSearch;
     search.className = "buttonClass";
     activity.appendChild(search);
+
+    var searchIcon = document.createElement("i");
+    searchIcon.className = "icon-search";
+    search.appendChild(searchIcon);
 
     var brElement = document.createElement("br");
     brElement.id = "br:" + addNewActivityLine.activityID;
@@ -171,7 +178,7 @@ function showResults(yelpResponse, searchIDNum) {
   var extraDistance = 0;
 
   for (var i = 0; i < activities.length; i++) {
-    if (getIDNum(activities[i]) < searchIDNum) {
+    if (activityIsAboveLine(searchIDNum, activities[i])) {
       extraDistance++;
     }
   }
@@ -357,13 +364,16 @@ function createAndAddResult(result, resultIDNum, activityIDNum) {
   buttonHolder.className = "buttonHolder";
   selectControls.appendChild(buttonHolder);
 
-  var selectButton = document.createElement("input");
-  selectButton.type = "button";
-  selectButton.value = "+";
+  var selectButton = document.createElement("button");
+  selectButton.type="button"
   selectButton.className = "buttonClass";
   selectButton.id = "selectButton:".concat(activityIDNum, ':', resultIDNum);
   selectButton.onclick = onResultSelect;
   buttonHolder.appendChild(selectButton);
+
+  var selectIcon = document.createElement("i");
+  selectIcon.className = "icon-plus";
+  selectButton.appendChild(selectIcon);
 }
 
 function parsePrice(priceStr) {
@@ -392,7 +402,7 @@ function noResults(search, city, id) {
   var extraDistance = 0;
 
   for (var i = 0; i < activities.length; i++) {
-    if (getIDNum(activities[i]) < id) {
+    if (activityIsAboveLine(id, activities[i])) {
       extraDistance++;
     }
   }
@@ -423,11 +433,8 @@ function noResults(search, city, id) {
 }
 
 function destroyPreviousResults() {
-  var section = document.getElementById("searchResults");
-  var searchResults = section.childNodes;
-  while (searchResults.length){ // cheeky
-    searchResults[0].remove();
-  }
+  var searchResults = document.getElementById("searchResults");
+  removeChildren(searchResults);
 }
 
 function getIDNum(element) {
@@ -450,7 +457,7 @@ function onCancelActivity(event) {
   if (id == activeActivityLineID) {
     destroyPreviousResults();
   }
-  else if (id < activeActivityLineID) {
+  else if (parseInt(id) < parseInt(activeActivityLineID)) {
     var distanceFromTop = results.style.top;
     var intDistance = parseInt(distanceFromTop.substring(0, distanceFromTop.indexOf("px")));
     intDistance = intDistance - 30;
@@ -519,7 +526,7 @@ function onExpandDetail(event) {
   var extraDistance = 0;
 
   for (var i = 0; i < activities.length; i++) {
-    if (getIDNum(activities[i]) < id) {
+    if (activityIsAboveLine(id, activities[i])) {
       extraDistance++;
     }
   }
@@ -562,7 +569,12 @@ function onCollapseDetail(event) {
 function transformIntoExpandDetailButton(button) {
   var idNum = getIDNum(button);
 
-  button.value = ">";
+  removeChildren(button);
+
+  var expandIcon = document.createElement("i");
+  expandIcon.className = "icon-expand";
+  button.appendChild(expandIcon);
+
   button.id = "expandDetail:".concat(idNum);
   button.onclick = onExpandDetail;
 }
@@ -570,7 +582,12 @@ function transformIntoExpandDetailButton(button) {
 function transformIntoCollapseDetailButton(button) {
   var idNum = getIDNum(button);
 
-  button.value = "<";
+  removeChildren(button);
+
+  var collapseIcon = document.createElement("i");
+  collapseIcon.className = "icon-collapse";
+  button.appendChild(collapseIcon);
+
   button.id = "collapseDetail:".concat(idNum);
   button.onclick = onCollapseDetail;  
 }
@@ -578,7 +595,12 @@ function transformIntoCollapseDetailButton(button) {
 function transformIntoCollapseSearchButton(button) {
   var idNum = getIDNum(button);
 
-  button.value = "<";
+  removeChildren(button);
+
+  var collapseIcon = document.createElement("i");
+  collapseIcon.className = "icon-collapse";
+  button.appendChild(collapseIcon);
+
   button.id = "collapseSearch:".concat(idNum);
   button.onclick = onCollapseSearch;
 }
@@ -586,7 +608,12 @@ function transformIntoCollapseSearchButton(button) {
 function transformIntoSearchButton(button) {
   var idNum = getIDNum(button);
 
-  button.value = "s";
+  removeChildren(button);
+
+  var searchIcon = document.createElement("i");
+  searchIcon.className = "icon-search";
+  button.appendChild(searchIcon);
+
   button.id = "search:".concat(idNum);
   button.onclick = onSearch;
 }
@@ -594,14 +621,33 @@ function transformIntoSearchButton(button) {
 function transformIntoResultSelectButton(button) {
   var idNum = getIDNum(button);
 
-  button.value = "+";
+  removeChildren(button);
+
+  var selectIcon = document.createElement("i");
+  selectIcon.className = "icon-plus";
+  button.appendChild(selectIcon);
+
   button.id = "selectButton:".concat(idNum);
   button.onclick = onResultSelect;
 }
 
 function transformIntoConfirmTimeButton(button) {
-  button.value = "v";
+  var idNum = getIDNum(button);
+
+  removeChildren(button);
+
+  var confirmIcon = document.createElement("i");
+  confirmIcon.className = "icon-check";
+  button.appendChild(confirmIcon);
+
+  button.id = "confirm:".concat(idNum);
   button.onclick = onConfirmTime;
+}
+
+function removeChildren(element) {
+  while (element.firstChild) {
+    element.removeChild(element.lastChild);
+  }
 }
 
 function removeLeadingZeros(field) {
@@ -614,7 +660,7 @@ function validateTimeSpent(idNum) {
   var valid = true;
   var hours = document.getElementById("hours:".concat(idNum));
   var minutes = document.getElementById("minutes:".concat(idNum));
-  var confirmButton = document.getElementById("selectButton:".concat(idNum));
+  var confirmButton = document.getElementById("confirm:".concat(idNum));
 
   var digitsOnlyRegex = /^[0-9]*$/;
 
@@ -656,19 +702,24 @@ function promptForTimeSpent(idNum) {
 }
 
 function closePrompt(idNum) {
-  var result = document.getElementById('searchResult:'.concat(idNum));
-  result.style.backgroundColor = "inherit";
+  // prompts have confirm buttons iff they are open
+  var button = document.getElementById('confirm:'.concat(idNum));
 
-  var span = document.getElementById('howLongLabel:'.concat(idNum));
-  span.style.opacity = "0";
+  // iff a prompt is open (confirm button is truthy), close it
+  if (button) {
+    button.style.top = "-31px";
+    setButtonDisabled(button, false);
+    transformIntoResultSelectButton(button);
 
-  var div = document.getElementById('timeInput:'.concat(idNum));
-  div.style.opacity = "0";
+    var result = document.getElementById('searchResult:'.concat(idNum));
+    result.style.backgroundColor = "inherit";
 
-  var button = document.getElementById('selectButton:'.concat(idNum));
-  button.style.top = "-31px";
-  setButtonDisabled(button, false);
-  transformIntoResultSelectButton(button);
+    var span = document.getElementById('howLongLabel:'.concat(idNum));
+    span.style.opacity = "0";
+
+    var div = document.getElementById('timeInput:'.concat(idNum));
+    div.style.opacity = "0";
+  }
 }
 
 function closeSiblingPrompts(idNum) {
@@ -760,4 +811,17 @@ function createScheduleAndRedirect() {
 
 function relativeRedirect(path) {
   window.location.href = path;
+}
+
+function activityIsAboveLine(searchIDstr, activity) {
+  try {
+    activityID = parseInt(getIDNum(activity));
+    searchID = parseInt(searchIDstr);
+    return activityID < searchID;
+  }
+  catch (err) {
+    console.log("invalid activity or search ID");
+    console.log(error);
+    return false;
+  }
 }

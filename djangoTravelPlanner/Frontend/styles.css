@@ -84,6 +84,32 @@ h3 {
   transition: 0.3s ease-in-out;
 }
 
+::-webkit-input-placeholder {
+  font-style: italic;
+}
+:-moz-placeholder {
+  font-style: italic;
+}
+::-moz-placeholder {
+  font-style: italic;
+}
+:-ms-input-placeholder {
+  font-style: italic;
+}
+
+div.timeInput > input::-webkit-input-placeholder {
+  font-style: normal;
+}
+div.timeInput > input:-moz-placeholder {
+  font-style: normal;
+}
+div.timeInput > input::-moz-placeholder {
+  font-style: normal;
+}
+div.timeInput > input:-ms-input-placeholder {
+  font-style: normal;
+}
+
 .cityField {
   width: 250px;
 }
@@ -106,8 +132,8 @@ li.activity .field {
 }
 
 button.buttonClass {
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
   border-radius: 50%;
   border: 1px solid rgb(255, 196, 0);
   text-align: center;
@@ -116,16 +142,9 @@ button.buttonClass {
 
 button.buttonClass > i {
   position: relative;
-  left: -3.5px;
-}
-
-input.buttonClass {
-  font-family: 'arial';
-  font-weight: bolder;
-  border-radius: 50%;
-  border: 1px solid rgb(255, 196, 0);
-  text-align: center;
-  vertical-align: middle;
+  left: -3px;
+  font-size: medium;
+  pointer-events: none;
 }
 
 .buttonClass:hover {
@@ -401,6 +420,7 @@ itineraryItem > span {
 .daySeparator > span {
   font-style: italic;
   font-weight: bold;
+  font-size: larger;
   color: rgb(255, 196, 0);
 }
 
