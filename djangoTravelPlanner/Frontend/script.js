@@ -403,6 +403,7 @@ function noResults(search, city, id) {
 
   // populate
   var noResults = document.createElement("div");
+  noResults.id = "noResults:".concat(id, ":0");
   noResults.className = "noResults";
   searchResults.appendChild(noResults);
 
@@ -433,7 +434,7 @@ function getIDNum(element) {
   return element.id.split(/:(.+)/)[1];
 }
 
-function onCityBlur() {
+function onCityKeyUp() {
   enableForm();
 }
 

@@ -104,7 +104,7 @@
             <div class='content'>
                 <form id="mainForm">
                     <h3>Where are you staying?</h3>
-                    <input type="text" id="city" class='field cityField' placeholder="123 Sesame Street, Elmwood WY 12345" onblur='onCityBlur()'>
+                    <input type="text" id="city" class='field cityField' placeholder="123 Sesame Street, Elmwood WY 12345" onkeyup='onCityKeyUp()'>
                     <br>
                     <h3 class='disabledAtStart'>When will you be there?</h3>
                     <input type="date" id="startDate" class='field disabledAtStart' disabled>
@@ -119,7 +119,8 @@
                     <br>
                     <h3 class='disabledAtStart'>What would you like to do?</h3>
                     <ul id="activities"></ul>
-                    <input id='addRowButton' type="button" value="+" onclick="addNewActivityLine()" class='buttonClass disabledAtStart' disabled>
+                    <!-- <input type="button" id='addRowButton' onclick="addNewActivityLine()" class='buttonClass disabledAtStart icon-plus' disabled> -->
+                    <button class="buttonClass disabledAtStart" id="addRowButton" onclick="addNewActivityLine()" disabled><i class="icon-plus"></i></button>
                     <br>
                 </form>
                 <form action='results' method='GET'>
