@@ -6,8 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Topaz</title>
-        <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Source+Sans+Pro&display=swap&subset=latin,latin-ext" rel="stylesheet">        <!-- <link href='https://fonts.googleapis.com/css?family=Bree Serif&display=swap' rel='stylesheet'>
-        <link href='https://fonts.googleapis.com/css?family=Source Sans Pro' rel='stylesheet'> -->
+        <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Source+Sans+Pro&display=swap&subset=latin,latin-ext" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'styles.css' %}">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script>
@@ -34,6 +33,33 @@
                         noResults(text, city, searchIDNum);
                     }
                 });
+            }
+
+            function validateLocation() {
+                var locationField = document.getElementById("city");
+                var location = locationField.value;
+
+                if (location != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: '{{ "my-ajax-test/" }}',
+                        data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: "", city: location },  
+                        success: function callback(response) {
+                            if (response != "[]") {
+                                setFieldLockedIn(locationField, true, false);
+                            }
+                            else {
+                                setFieldValidated(locationField, false);
+                            }
+                        },
+                        error: function callback(response) {
+                            setFieldValidated(locationField, false);
+                        }
+                    });
+                }
+                else {
+                    setFieldValidated(locationField, false);
+                }
             }
 
             function createSchedule(event){
@@ -91,7 +117,7 @@
                 <h3>></h3>
                 <input type='text' class='spacer field'>
                 <h3 class='disabledAtStart'>></h3>
-                <div class='spacer'>
+                <div>
                     <input type="date" class = 'field'>
                     <br>
                     <span>from</span>
@@ -102,9 +128,9 @@
                 <h3 class='disabledAtStart'>></h3>
             </div>
             <div class='content'>
-                <form id="mainForm">
+                <form id="mainForm" autocomplete="off">
                     <h3>Where are you staying?</h3>
-                    <input type="text" id="city" class='field cityField' placeholder="123 Sesame Street, Elmwood WY 12345" onkeyup='onCityKeyUp()'>
+                    <input type="text" id="city" class='field cityField' placeholder="123 Sesame Street, New York City, NY 12345" onkeyup='onCityKeyUp(event)' onblur="onCityBlur()">
                     <br>
                     <h3 class='disabledAtStart'>When will you be there?</h3>
                     <input type="date" id="startDate" class='field disabledAtStart' disabled>

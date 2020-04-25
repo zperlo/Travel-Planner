@@ -441,8 +441,19 @@ function getIDNum(element) {
   return element.id.split(/:(.+)/)[1];
 }
 
-function onCityKeyUp() {
+function onCityKeyUp(keyboardEvent) {
   enableForm();
+
+  var city = document.getElementById("city");
+  var key = keyboardEvent.key;
+
+  if (key == "Enter") {
+    city.blur();
+  }
+}
+
+function onCityBlur() {
+  validateLocation();
 }
 
 function onCancelActivity(event) {
@@ -685,6 +696,21 @@ function setFieldValidated(field, validating) {
   field.style.backgroundColor = bg;
 }
 
+function setFieldLockedIn(field, locking, strict) {
+  if (locking && strict) {
+    field.disabled = true;
+    field.style.color = "black";
+  }
+
+  var weight = (locking) ? "bold" : "normal";
+  var border = (locking) ? "rgb(157, 204, 46)" : "rgb(255, 196, 0)";
+  var bg = (locking) ? "rgba(157, 204, 46, 0.4)" : "inherit";
+
+  field.style.fontWeight = weight;
+  field.style.borderColor = border;
+  field.style.backgroundColor = bg;
+}
+
 function promptForTimeSpent(idNum) {
   var result = document.getElementById('searchResult:'.concat(idNum));
   result.style.backgroundColor = "rgb(255, 237, 175)";
@@ -741,12 +767,8 @@ function populateResultToField(wholeID) {
   var resultName = document.getElementById('resultName:'.concat(resultID));
   var activityField = document.getElementById('textField:'.concat(activityID));
 
-  activityField.disabled = true;
-  activityField.style.fontWeight = "bold";
-  activityField.style.color = "black";
-  activityField.style.borderColor = "rgb(157, 204, 46)";
-  activityField.style.backgroundColor = "rgba(157, 204, 46, 0.4)";
-  activityField.value = resultName.innerHTML;
+  setFieldLockedIn(activityField, true, true);
+  activityField.value = resultName.textContent;
 
   var collapseSearchButton = document.getElementById('collapseSearch:'.concat(activityID));
 
