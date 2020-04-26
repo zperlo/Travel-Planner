@@ -19,6 +19,24 @@ function load() {
   setActivityLinesEnabled(false);
 }
 
+function adjustHeaderWidth(source) {
+  var header = document.getElementById("header");
+
+  // reset if source is not a valid option
+  var width = "initial";
+  if (source == "locationWarning") {
+    width = "850px";
+  }
+  else if (source == "submitWarning") {
+    width = "630px";
+  }
+  else if (source == "searchResults") {
+    width = "1110px";
+  }
+
+  header.style.minWidth = width;
+}
+
 function addNewActivityLine() {
 
     if (typeof addNewActivityLine.activityID == 'undefined') {
@@ -201,8 +219,10 @@ function showResults(yelpResponse, searchIDNum) {
   }
 
   var searchResultsElement = document.getElementById('searchResults');
-  extraDistance = extraDistance * 30 + 229;
+  extraDistance = extraDistance * 30 + 443;
   searchResultsElement.style.top = "".concat(extraDistance, "px");
+
+  adjustHeaderWidth("searchResults");
 
   // populate searchResults
   var matches = yelpResponse.matchAll(/\{"name": "([^"]*)",[^\}]* "imgURL": "([^"]*)",[^\}]* "reviewCount": ([0-9]*),[^\}]* "rating": ([0-9\.]*)[^\}]* "url": "([^"]*)"[^\}]* "categories": "([^"]*)"[^\}]* "price": "((?:[^\"]+){1,4})",[^\}]* "addressLine1": "([^"]*)"[^\}]* "addressLine2": "([^"]*)"[^\}]*\}/g);
@@ -424,8 +444,10 @@ function noResults(search, location, id) {
   }
 
   var searchResultsElement = document.getElementById('searchResults');
-  extraDistance = extraDistance * 30 + 229;
+  extraDistance = extraDistance * 30 + 443;
   searchResultsElement.style.top = "".concat(extraDistance, "px");
+
+  adjustHeaderWidth("searchResults");
 
   // populate
   var noResults = document.createElement("div");
@@ -461,6 +483,8 @@ function destroyPreviousResults() {
       transformIntoSearchButton(buttons[i]);
     }
   }
+
+  adjustHeaderWidth();
 }
 
 function getIDNum(element) {
@@ -599,7 +623,7 @@ function onExpandDetail(event) {
     }
   }
 
-  extraDistance = extraDistance * 30 + 229;
+  extraDistance = extraDistance * 30 + 443;
   searchResults.style.top = "".concat(extraDistance, "px");
 
   // collapse any open detail or search
@@ -960,6 +984,8 @@ function showBadSubmitWarning(message) {
   submitButton.style.color = "rgb(220, 81, 0)";
   submitButton.style.borderColor = "rgb(255, 94, 0)";
 
+  adjustHeaderWidth("submitWarning");
+
   div.classList.remove("warningBubbleHideAnimation");
   div.classList.add("warningBubbleShowAnimation");
 
@@ -975,6 +1001,8 @@ function dismissBadSubmitWarning() {
   div.classList.remove("warningBubbleShowAnimation");
   div.classList.add("warningBubbleHideAnimation");
 
+  adjustHeaderWidth();
+
   var submitButton = document.getElementById("submitButton");
   submitButton.disabled = false;
   submitButton.style.color = "black";
@@ -986,6 +1014,8 @@ function dismissBadSubmitWarning() {
 function showLocationEditWarning() {
   destroyPreviousResults();
   setFormEnabled(false);
+
+  adjustHeaderWidth("locationWarning");
   
   var div = document.getElementById("locationWarning");
   div.style.width = "412px";
@@ -998,6 +1028,8 @@ function dismissLocationEditWarning() {
   div.style.visibility = "hidden";
 
   setFormEnabled(true);
+
+  adjustHeaderWidth();
 
   var location = document.getElementById("location");
   location.setAttribute("data-valid", "edit");

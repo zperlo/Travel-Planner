@@ -23,6 +23,7 @@ body {
 
 header.main {
   background: rgb(255, 196, 0);
+  transition: width 0.3s ease-in-out;
 }
 
 .angleBracketHolder {
@@ -304,8 +305,9 @@ div.submitWarning > .icon-cancel:hover {
 }
 
 .searchResults {
-  position: relative;
+  position: absolute;
   padding-left: 4px;
+  min-width: 615px;
 }
 
 .searchResult {
