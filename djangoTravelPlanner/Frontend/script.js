@@ -237,6 +237,10 @@ function showResults(yelpResponse, searchIDNum) {
   spacer.className = 'spacer';
   searchResults.appendChild(spacer);
 
+  var idNum = searchIDNum;
+  var button = document.getElementById("search:".concat(idNum));
+  transformIntoCollapseSearchButton(button);
+
   resultsDict[searchIDNum] = results;
 }
 
@@ -468,6 +472,10 @@ function noResults(search, location, id) {
   var spacer = document.createElement("div");
   spacer.className = 'spacer';
   searchResults.appendChild(spacer);
+
+  var idNum = id;
+  var button = document.getElementById("search:".concat(idNum));
+  transformIntoCollapseSearchButton(button);
 }
 
 function destroyPreviousResults() {
@@ -572,10 +580,6 @@ function onSearch(event) {
   }
 
   analyzeText(event);
-
-  var id = getEventTargetID(event);
-  var button = document.getElementById(id);
-  transformIntoCollapseSearchButton(button);
 }
 
 function onCollapseSearch(event) {
