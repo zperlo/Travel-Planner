@@ -68,6 +68,7 @@ function addNewActivityLine() {
 }
 
 function removeActivityLine(idNum) {
+  unstageResult(idNum);
   var activityId = "activity:" + idNum;  
   document.getElementById(activityId).remove();
 }
@@ -145,8 +146,10 @@ function getRatingImagePath(rating) {
 function setFormEnabled(enabling, trigger) {
   var formElements = document.getElementById("mainForm").children;
   for (var i = 0; i < formElements.length; i++) {
-    formElements[i].style.color = (enabling) ? "black" : "rgba(0, 0, 0, 0.4)"; 
-    formElements[i].disabled = !enabling;
+    if (formElements[i].id != "locationWarning") {
+      formElements[i].style.color = (enabling) ? "black" : "rgba(0, 0, 0, 0.4)"; 
+      formElements[i].disabled = !enabling;
+    }
   }
 
   var angleBrackets = document.querySelectorAll(".angleBracketHolder h3");
@@ -157,7 +160,7 @@ function setFormEnabled(enabling, trigger) {
   
   setActivityLinesEnabled(enabling);
 
-  if (trigger != "warning") {
+  if (trigger != "submitWarning") {
     var submitButton = document.getElementById("submitButton");
     submitButton.style.color = (enabling) ? "black" : "rgba(0, 0, 0, 0.4)";
     submitButton.disabled = !enabling;
@@ -404,7 +407,7 @@ function parsePrice(priceStr) {
   return priceStr;
 }
 
-function noResults(search, city, id) {
+function noResults(search, location, id) {
   destroyPreviousResults();
 
   var searchResults = document.getElementById('searchResults');
@@ -432,10 +435,10 @@ function noResults(search, city, id) {
   var message = document.createElement("p");
   message.className = "noResultsMsg";
   if (search == "") {
-    message.innerHTML = "no results near ".concat("\"", city, "\"");
+    message.innerHTML = "no results near ".concat("\"", location, "\"");
   }
   else {
-    message.innerHTML = "no results for ".concat("\"", search, "\"", " near ", "\"", city, "\"");
+    message.innerHTML = "no results for ".concat("\"", search, "\"", " near ", "\"", location, "\"");
   }
   noResults.appendChild(message);
 
@@ -447,25 +450,57 @@ function noResults(search, city, id) {
 function destroyPreviousResults() {
   var searchResults = document.getElementById("searchResults");
   removeChildren(searchResults);
+
+  var buttons = document.getElementsByTagName("button");
+  for (var i = 0; i < buttons.length; i++) {
+    if (buttons[i].id.startsWith("collapseDetail:")) {
+      transformIntoExpandDetailButton(buttons[i]);
+    }
+    else if (buttons[i].id.startsWith("collapseSearch:")) {
+      transformIntoSearchButton(buttons[i]);
+    }
+  }
 }
 
 function getIDNum(element) {
   return element.id.split(/:(.+)/)[1];
 }
 
-function onCityKeyUp(keyboardEvent) {
+function onLocationKeyUp(keyboardEvent) {
   setFormEnabled(true);
 
-  var city = document.getElementById("city");
+  var location = document.getElementById("location");
   var key = keyboardEvent.key;
 
   if (key == "Enter") {
-    city.blur();
+    location.blur();
+  }
+  else if (location.getAttribute("data-valid") == "edit") {
+    var activities = document.getElementsByClassName("activity");
+
+    while (activities.length) {
+      var id = getIDNum(activities[0]);
+      removeActivityLine(id);
+    }
+
+    addNewActivityLine();
+
+    location.setAttribute("data-valid", "false");
   }
 }
 
-function onCityBlur() {
-  validateLocation();
+function onLocationBlur() {
+  var location = document.getElementById("location");
+  if (!location.disabled) {
+    validateLocation();
+  }
+}
+
+function onLocationFocus() {
+  var location = document.getElementById("location");
+  if (location.getAttribute("data-valid") == "true") {
+    showLocationEditWarning();
+  }
 }
 
 function onCancelActivity(event) {
@@ -475,7 +510,6 @@ function onCancelActivity(event) {
   var activeActivityLineID = firstResult?.id.split(':')[1];
 
   removeActivityLine(id);
-  unstageResult(id);
 
   if (id == activeActivityLineID) {
     destroyPreviousResults();
@@ -847,7 +881,7 @@ function submitForm() {
     createSchedule();
   }
   else {
-    showBadSubmitWarning("please provide the required information")
+    showBadSubmitWarning("fields invalid or missing, please try again")
   }
 }
 
@@ -901,12 +935,12 @@ function formIsValid() {
 }
 
 function showBadSubmitWarning(message) {
-  var span = document.getElementById("warningMessage");
+  var span = document.getElementById("submitWarningMessage");
   span.innerHTML = message;
 
-  var icon = document.getElementById("warningClose");
+  var icon = document.getElementById("submitWarningClose");
 
-  var div = document.getElementById("warning");
+  var div = document.getElementById("submitWarning");
   div.style.width = span.offsetWidth + icon.offsetWidth + 15;
 
   var submitButton = document.getElementById("submitButton");
@@ -918,11 +952,11 @@ function showBadSubmitWarning(message) {
   div.classList.remove("warningBubbleHideAnimation");
   div.classList.add("warningBubbleShowAnimation");
 
-  setFormEnabled(false, "warning");
+  setFormEnabled(false, "submitWarning");
 }
 
 function dismissBadSubmitWarning() {
-  var div = document.getElementById("warning");
+  var div = document.getElementById("submitWarning");
   
   div.style.width = div.offsetWidth;
   div.style.opacity = 1.0;
@@ -935,5 +969,27 @@ function dismissBadSubmitWarning() {
   submitButton.style.color = "black";
   submitButton.style.borderColor = "rgb(255, 196, 0)";
 
-  setFormEnabled(true, "warning");
+  setFormEnabled(true, "submitWarning");
+}
+
+function showLocationEditWarning() {
+  destroyPreviousResults();
+  setFormEnabled(false);
+  
+  var div = document.getElementById("locationWarning");
+  div.style.width = "412px";
+  div.style.visibility = "visible";
+}
+
+function dismissLocationEditWarning() {
+  var div = document.getElementById("locationWarning");
+  div.style.width = "0px";
+  div.style.visibility = "hidden";
+
+  setFormEnabled(true);
+
+  var location = document.getElementById("location");
+  location.setAttribute("data-valid", "edit");
+  setFieldLockedIn(location, false, false);
+  location.focus();
 }

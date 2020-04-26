@@ -15,28 +15,28 @@
                 var searchIDNum = getIDNum(event.target);
                 var textID = "textField:".concat(searchIDNum);
                 var text = document.getElementById(textID).value;
-                var city = document.getElementById('city').value;
+                var location = document.getElementById('location').value;
 
                 $.ajax({
                     type: "POST",
                     url: '{{ "my-ajax-test/" }}',
-                    data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: text, city: city },  
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: text, city: location },  
                     success: function callback(response) {
                         if (response == "[]") {
-                            noResults(text, city, searchIDNum);
+                            noResults(text, location, searchIDNum);
                         }
                         else {
                             showResults(response, searchIDNum);
                         }
                     },
                     error: function callback(response) {
-                        noResults(text, city, searchIDNum);
+                        noResults(text, location, searchIDNum);
                     }
                 });
             }
 
             function validateLocation() {
-                var locationField = document.getElementById("city");
+                var locationField = document.getElementById("location");
                 var location = locationField.value;
 
                 if (location != "") {
@@ -46,6 +46,7 @@
                         data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: "", city: location },  
                         success: function callback(response) {
                             if (response != "[]") {
+                                setFieldInvalidated(locationField, false);
                                 setFieldLockedIn(locationField, true, false);
                             }
                             else {
@@ -63,7 +64,7 @@
             }
 
             function createSchedule(event){
-                var city = document.getElementById('city').value;
+                var location = document.getElementById('location').value;
                 var startDate = document.getElementById('startDate').value;
                 var startTime = document.getElementById('startTime').value;
                 var endDate = document.getElementById('endDate').value;
@@ -86,17 +87,19 @@
                 $.ajax({
                     type: "POST",
                     url: '{{ "schedule" }}',
-                    data: { csrfmiddlewaretoken: '{{ csrf_token }}', activities: activityString, city: city, startDate: startDate, startTime: startTime, endDate: endDate, endTime: endTime },  
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}', activities: activityString, city: location, startDate: startDate, startTime: startTime, endDate: endDate, endTime: endTime },  
                     success: function callback(response){
                         console.log(response);
                         var scheduleSuccess = response;
-                        if(scheduleSuccess == "True"){
+                        if (scheduleSuccess == "True"){
                             relativeRedirect('/results');
+                        }
+                        else {
+                            showBadSubmitWarning("no itinerary could be created with the selected activities");
                         }
                     },
                     error: function callback(response) {
-                        console.log("error");
-                        console.log(response);
+                        showBadSubmitWarning("no itinerary could be created with the selected activities");
                     }
                 });
             }
@@ -130,7 +133,11 @@
             <div class='content'>
                 <form id="mainForm" autocomplete="off">
                     <h3>Where are you staying?</h3>
-                    <input data-valid="true" type="text" id="city" class='field cityField' placeholder="123 Sesame Street, New York City, NY 12345" onkeyup='onCityKeyUp(event)' onblur="onCityBlur()">
+                    <input data-valid="false" type="text" id="location" class='field locationField' placeholder="123 Sesame Street, New York City, NY 12345" onkeyup='onLocationKeyUp(event)' onblur="onLocationBlur()" onfocus="onLocationFocus()">
+                    <div class="locationWarning" id="locationWarning">
+                        <span id="locationWarningMessage">Are you sure? If you edit your location, you'll lose any saved activities.</span>
+                        <i class="icon-cancel" id="locationWarningClose" onclick="dismissLocationEditWarning()"></i>
+                    </div>
                     <br>
                     <h3 class='disabledAtStart'>When will you be there?</h3>
                     <input data-valid="false" type="date" id="startDate" class='field disabledAtStart' disabled onchange="validateTripDuration()">
@@ -151,9 +158,9 @@
                 </form>
                 <form action='results' method='GET'>
                 <input id="submitButton" type='button' class='buttonClass disabledAtStart' onclick="submitForm()" value="Plan My Trip!" disabled>
-                <div class="warning" id="warning">
-                    <span id="warningMessage"></span>
-                    <i class="icon-cancel" id="warningClose" onclick="dismissBadSubmitWarning()"></i>
+                <div class="submitWarning" id="submitWarning">
+                    <span id="submitWarningMessage"></span>
+                    <i class="icon-cancel" id="submitWarningClose" onclick="dismissBadSubmitWarning()"></i>
                 </div>
             </div>
         </section>
