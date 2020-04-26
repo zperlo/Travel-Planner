@@ -468,25 +468,27 @@ function getIDNum(element) {
 }
 
 function onLocationKeyUp(keyboardEvent) {
-  setFormEnabled(true);
+  if (keyTyped(keyboardEvent)) {
+    var location = document.getElementById("location");
+    var key = keyboardEvent.key;
 
-  var location = document.getElementById("location");
-  var key = keyboardEvent.key;
+    setFormEnabled(true);
 
-  if (key == "Enter") {
-    location.blur();
-  }
-  else if (location.getAttribute("data-valid") == "edit") {
-    var activities = document.getElementsByClassName("activity");
-
-    while (activities.length) {
-      var id = getIDNum(activities[0]);
-      removeActivityLine(id);
+    if (key == "Enter") {
+      location.blur();
     }
+    else if (location.getAttribute("data-valid") == "edit") {
+      var activities = document.getElementsByClassName("activity");
 
-    addNewActivityLine();
+      while (activities.length) {
+        var id = getIDNum(activities[0]);
+        removeActivityLine(id);
+      }
 
-    location.setAttribute("data-valid", "false");
+      addNewActivityLine();
+
+      location.setAttribute("data-valid", "false");
+    }
   }
 }
 
@@ -1001,4 +1003,9 @@ function dismissLocationEditWarning() {
   location.setAttribute("data-valid", "edit");
   setFieldLockedIn(location, false, false);
   location.focus();
+}
+
+function keyTyped(keyboardEvent) {
+  var key = keyboardEvent.key;
+  return key.length == 1 || key == "Backspace" || key == "Delete" || key == "Enter";
 }
