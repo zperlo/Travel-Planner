@@ -1,11 +1,13 @@
-/* contains the detail of each activity that is locked in. use
+/* 
+ * contains the detail of each activity that is locked in. use
  * activityDict[n][0] to get thr detail of activity n,
  * activityDict[n][1] to get the JSON of activity n,
  * activityDict[n][2] to get the time in minutes
  */ 
 var activityDict = {};
 
-/* contains most recent search results for each activity. use
+/* 
+ * contains most recent search results for each activity. use
  * resultsDict[m] to get the full array of results for activity
  * m, resultsDict[m][n] to get result n from activity m, and
  * resultDict[m][n][0] to get that result's JSON
@@ -17,7 +19,6 @@ function load() {
   setActivityLinesEnabled(false);
 }
 
-/* Dylan look here */
 function addNewActivityLine() {
 
     if (typeof addNewActivityLine.activityID == 'undefined') {
@@ -47,6 +48,7 @@ function addNewActivityLine() {
     textField.id = "textField:" + addNewActivityLine.activityID;
     textField.className = "field";
     textField.placeholder = "Search...";
+    textField.onkeyup = onSearchKeyUp;
     activity.appendChild(textField);
 
     var search = document.createElement("button");
@@ -218,7 +220,6 @@ function showResults(yelpResponse, searchIDNum) {
   resultsDict[searchIDNum] = results;
 }
 
-/* Dylan look here */
 function createAndAddResult(result, resultIDNum, activityIDNum) {
 
   var resultName = result[1];
@@ -500,6 +501,14 @@ function onLocationFocus() {
   var location = document.getElementById("location");
   if (location.getAttribute("data-valid") == "true") {
     showLocationEditWarning();
+  }
+}
+
+function onSearchKeyUp(keyboardEvent) {
+  if (keyboardEvent.key == "Enter") {
+    var id = getIDNum(keyboardEvent.target);
+    var button = document.getElementById("search:".concat(id));
+    button.click();
   }
 }
 
