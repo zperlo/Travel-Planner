@@ -217,33 +217,49 @@ div.warning > .icon-cancel:hover {
   color: rgb(0, 0, 0);
 }
 
-.warningBubbleAnimation, .warningBubbleAnimationReverse {
-  animation-name: show-warning-bubble;
-  animation-duration: 1.5s;
+.warningBubbleShowAnimation, .warningBubbleHideAnimation {
+  animation-duration: 1.2s;
   animation-timing-function: ease;
   animation-fill-mode: both;
 }
 
-.warningBubbleAnimationReverse {
-  animation-direction: reverse;
+.warningBubbleShowAnimation {
+  animation-name: show-warning-bubble;
+}
+
+.warningBubbleHideAnimation {
+  animation-name: hide-warning-bubble;
 }
 
 @keyframes show-warning-bubble {
   0% {
     width: 150px;
-  }
-  20% {
     opacity: 0.0;
   }
-  40% {
+  33% {
     opacity: 1.0;
   }
-  60% {
+  67% {
     width: 150px;
-    opacity: 1.0;
   }
   100% {
     opacity: 1.0;
+  }
+}
+
+@keyframes hide-warning-bubble {
+  0% {
+    opacity: 1.0;
+  }
+  33% {
+    width: 150px;
+  }
+  67% {
+    opacity: 1.0;
+  }
+  100% {
+    width: 150px;
+    opacity: 0.0;
   }
 }
 

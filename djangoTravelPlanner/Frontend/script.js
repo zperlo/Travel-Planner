@@ -173,7 +173,6 @@ function setActivityLinesEnabled(enabling) {
   for (var i = 0; i < activities.length; i++) {
     controls = activities[i].children;
     for (var j = 0; j < controls.length; j++) {
-      console.log(controls[j]);
       controls[j].style.color = color;
       controls[j].disabled = !enabling;
     }
@@ -916,8 +915,25 @@ function showBadSubmitWarning(message) {
   submitButton.style.color = "rgb(220, 81, 0)";
   submitButton.style.borderColor = "rgb(255, 94, 0)";
 
-  div.classList.remove("warningBubbleAnimationReverse");
-  div.classList.add("warningBubbleAnimation");
+  div.classList.remove("warningBubbleHideAnimation");
+  div.classList.add("warningBubbleShowAnimation");
 
   setFormEnabled(false, "warning");
+}
+
+function dismissBadSubmitWarning() {
+  var div = document.getElementById("warning");
+  
+  div.style.width = div.offsetWidth;
+  div.style.opacity = 1.0;
+
+  div.classList.remove("warningBubbleShowAnimation");
+  div.classList.add("warningBubbleHideAnimation");
+
+  var submitButton = document.getElementById("submitButton");
+  submitButton.disabled = false;
+  submitButton.style.color = "black";
+  submitButton.style.borderColor = "rgb(255, 196, 0)";
+
+  setFormEnabled(true, "warning");
 }
