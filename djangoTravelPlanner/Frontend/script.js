@@ -14,7 +14,7 @@ var resultsDict = {};
 
 function load() {
   addNewActivityLine();
-  setFirstActivityLineDisabled(true);
+  setActivityLinesEnabled(false);
 }
 
 /* Dylan look here */
@@ -142,38 +142,41 @@ function getRatingImagePath(rating) {
   return str;
 }
 
-function setFormEnabled(enabling) {
-  var city = document.getElementById('city');
-  var endDate = document.getElementById('startDate');
-
+function setFormEnabled(enabling, trigger) {
   var formElements = document.getElementById("mainForm").children;
   for (var i = 0; i < formElements.length; i++) {
     formElements[i].style.color = (enabling) ? "black" : "rgba(0, 0, 0, 0.4)"; 
     formElements[i].disabled = !enabling;
   }
 
-  var angleBrackets = document.querySelectorAll(".angleBracketHolder .disabledAtStart");
+  var angleBrackets = document.querySelectorAll(".angleBracketHolder h3");
   for (var i = 0; i < angleBrackets.length; i++) {
     angleBrackets[i].style.color = (enabling) ? "black" : "rgba(0, 0, 0, 0.4)"; 
     angleBrackets[i].disabled = !enabling;
   }
+  
+  setActivityLinesEnabled(enabling);
 
-  if (enabling) {
-    try {
-      setFirstActivityLineDisabled(false);
-    }
-    catch (err) {}
+  if (trigger != "warning") {
+    var submitButton = document.getElementById("submitButton");
+    submitButton.style.color = (enabling) ? "black" : "rgba(0, 0, 0, 0.4)";
+    submitButton.disabled = !enabling;
   }
 }
 
-function setFirstActivityLineDisabled(disabling) {
-  var firstActivityLine = document.getElementById("activity:1").childNodes;
+function setActivityLinesEnabled(enabling) {
+  var activities = document.getElementsByClassName("activity");
 
-  var cssColor = (disabling) ? "rgba(0, 0, 0, 0.4)" : "black";
+  var color = (enabling) ? "black" : "rgba(0, 0, 0, 0.4)";
 
-  for (var i = 0; i < firstActivityLine.length; i++) {
-    firstActivityLine[i].style.color = cssColor;
-    firstActivityLine[i].disabled = disabling;
+  var controls;
+  for (var i = 0; i < activities.length; i++) {
+    controls = activities[i].children;
+    for (var j = 0; j < controls.length; j++) {
+      console.log(controls[j]);
+      controls[j].style.color = color;
+      controls[j].disabled = !enabling;
+    }
   }
 }
 
@@ -700,7 +703,7 @@ function validateTimeSpent(idNum) {
 
 function setFieldInvalidated(field, invalidating) {
   var border = (invalidating) ? "rgb(255, 94, 0)" : "rgb(255, 196, 0)";
-  var bg = (invalidating) ? "rgb(255, 94, 0, 0.4)" : "inherit";
+  var bg = (invalidating) ? "rgb(255, 94, 0, 0.4)" : "initial";
 
   field.style.borderColor = border;
   field.style.backgroundColor = bg;
@@ -709,16 +712,15 @@ function setFieldInvalidated(field, invalidating) {
 }
 
 function setFieldLockedIn(field, locking, strict) {
-  if (locking && strict) {
-    field.disabled = true;
-    field.style.color = "black";
-  }
+  field.disabled = locking && strict;
 
   var weight = (locking) ? "bold" : "normal";
+  var color = (locking) ? "black" : "initial";
   var border = (locking) ? "rgb(157, 204, 46)" : "rgb(255, 196, 0)";
-  var bg = (locking) ? "rgba(157, 204, 46, 0.4)" : "inherit";
+  var bg = (locking) ? "rgba(157, 204, 46, 0.4)" : "initial";
 
   field.style.fontWeight = weight;
+  field.style.color = color;
   field.style.borderColor = border;
   field.style.backgroundColor = bg;
 }
@@ -839,8 +841,15 @@ function resultToDetail(result) {
   return detail;
 }
 
-function createScheduleAndRedirect() {
-  createSchedule();
+function submitForm() {
+  destroyPreviousResults();
+
+  if (formIsValid()) {
+    createSchedule();
+  }
+  else {
+    showBadSubmitWarning("please provide the required information")
+  }
 }
 
 function relativeRedirect(path) {
@@ -880,4 +889,35 @@ function validateTripDuration() {
   setFieldInvalidated(startTimeElement, invalidDuration);
   setFieldInvalidated(endDayElement, invalidDuration);
   setFieldInvalidated(endTimeElement, invalidDuration);
+}
+
+function formIsValid() {
+  var inputs = document.querySelectorAll("#mainForm > input");
+  for (var i = 0; i < inputs.length; i++) {
+    if (inputs[i].getAttribute("data-valid") == "false") {
+      return false;
+    }
+  }
+  return true;
+}
+
+function showBadSubmitWarning(message) {
+  var span = document.getElementById("warningMessage");
+  span.innerHTML = message;
+
+  var icon = document.getElementById("warningClose");
+
+  var div = document.getElementById("warning");
+  div.style.width = span.offsetWidth + icon.offsetWidth + 15;
+
+  var submitButton = document.getElementById("submitButton");
+  submitButton.blur();
+  submitButton.disabled = true;
+  submitButton.style.color = "rgb(220, 81, 0)";
+  submitButton.style.borderColor = "rgb(255, 94, 0)";
+
+  div.classList.remove("warningBubbleAnimationReverse");
+  div.classList.add("warningBubbleAnimation");
+
+  setFormEnabled(false, "warning");
 }

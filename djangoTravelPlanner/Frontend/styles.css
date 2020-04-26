@@ -61,6 +61,7 @@ header h2 {
 }
 
 div.angleBracketHolder, div.content {
+  position: relative;
   padding-top: 40px;
 }
 
@@ -168,12 +169,82 @@ button.buttonClass > i {
   background-color: rgba(255, 196, 0, 0.4);
 }
 
-#resultsButton {
+#submitButton {
+  position: relative;
+  z-index: 1;
   font-family: 'Bree Serif';
   font-size: 20px;
+  height: 36px;
+  width: 150px;
   padding: 0px 10px 4px 10px;
   border: 2px solid rgb(255, 196, 0);
-  border-radius: 20px;
+  border-radius: 18px;
+}
+
+div.warning {
+  display: inline-block;
+  box-sizing: content-box;
+  position: absolute;
+  left: 8px;
+  height: 36px;
+  background-color: rgb(255, 94, 0, 0.4);
+  border: none;
+  border-radius: 18px;
+  overflow: hidden;
+  opacity: 0.0;
+}
+
+div.warning > span {
+  display: inline-block;
+  padding-left: 155px;
+  position: relative;
+  top: -5px;
+  width: fit-content;
+  white-space: nowrap;
+  line-height: 36px;
+  font-style: italic;
+}
+
+div.warning > .icon-cancel {
+  color: rgba(0, 0, 0, 0.4);
+  position: relative;
+  left: -3px;
+  top: -3px;
+  transition: 0.3s ease-in-out;
+}
+
+div.warning > .icon-cancel:hover {
+  color: rgb(0, 0, 0);
+}
+
+.warningBubbleAnimation, .warningBubbleAnimationReverse {
+  animation-name: show-warning-bubble;
+  animation-duration: 1.5s;
+  animation-timing-function: ease;
+  animation-fill-mode: both;
+}
+
+.warningBubbleAnimationReverse {
+  animation-direction: reverse;
+}
+
+@keyframes show-warning-bubble {
+  0% {
+    width: 150px;
+  }
+  20% {
+    opacity: 0.0;
+  }
+  40% {
+    opacity: 1.0;
+  }
+  60% {
+    width: 150px;
+    opacity: 1.0;
+  }
+  100% {
+    opacity: 1.0;
+  }
 }
 
 *:focus {
@@ -341,7 +412,7 @@ a:focus {
   background-color: inherit;
 }
 
-#resultsButton, .disabledAtStart {
+.disabledAtStart {
   color: rgba(0, 0, 0, 0.4);
 }
 

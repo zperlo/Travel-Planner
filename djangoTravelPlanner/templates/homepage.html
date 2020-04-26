@@ -150,7 +150,11 @@
                     <br>
                 </form>
                 <form action='results' method='GET'>
-                <input id="resultsButton" type='button' class='buttonClass' onclick="createScheduleAndRedirect()" value="Plan My Trip!">
+                <input id="submitButton" type='button' class='buttonClass disabledAtStart' onclick="submitForm()" value="Plan My Trip!" disabled>
+                <div class="warning" id="warning">
+                    <span id="warningMessage"></span>
+                    <i class="icon-cancel" id="warningClose"></i>
+                </div>
             </div>
         </section>
         <section class='searchResults' id='searchResults'>
