@@ -1,8 +1,9 @@
 import requests
 import json
-import secrets
+#from secrets import yelpKey as apiKey
+from djangoTravelPlanner.Backend.secrets import yelpKey as apiKey
 
-apiKey = secrets.yelpKey
+#apiKey = secrets.yelpKey
 header = {"Authorization": "Bearer %s" % apiKey}
 
 def searchYelp(searchTermStr, locationStr, maxNumResults = 10):
@@ -28,11 +29,41 @@ def searchYelp(searchTermStr, locationStr, maxNumResults = 10):
             busDict = {
                 "name": business["name"],
                 "address": " ".join(business["location"]["display_address"]),
+                "imgURL": business["image_url"],
+                "reviewCount": business["review_count"],
                 "rating": business["rating"],
                 "id": business["id"],
-                "price": business["price"],
+                # "price": business["price"],
                 "url": business["url"]
             }
+            cat = business["categories"][0]["title"]
+            i = 1
+            while i < len(business["categories"]):
+                cat = cat + ", " + business["categories"][i]["title"]
+                i = i + 1
+            busDict.update({"categories": cat})
+
+            if "price" in business.keys():
+                busDict.update({"price": business["price"]})
+            else:
+                busDict.update({"price": "?"})
+
+            addressLine1 = business["location"]["address1"]
+            if business["location"]["address2"]:
+                addressLine1 += " " + business["location"]["address2"]
+            if business["location"]["address3"]:
+                addressLine1 += " " + business["location"]["address3"]
+            busDict.update({"addressLine1": addressLine1})
+
+            addressLine2 = business["location"]["city"]
+            if business["location"]["state"]:
+                addressLine2 += ", " + business["location"]["state"]
+            if business["location"]["country"]:
+                addressLine2 += ", " + business["location"]["country"]
+            if business["location"]["zip_code"]:
+                addressLine2 += ", " + business["location"]["zip_code"]
+            busDict.update({"addressLine2": addressLine2})
+
             businessResults.append(busDict)
 
     return businessResults
@@ -40,6 +71,7 @@ def searchYelp(searchTermStr, locationStr, maxNumResults = 10):
 #for bus in searchYelp("Jolly Scholar", "Cleveland, OH"):
 #    print(bus["name"])
 #    print(bus["id"])
+#    print(bus["categories"])
 
 def getYelpHoursForBusiness(businessId):
     url = "https://api.yelp.com/v3/businesses/"

@@ -1,0 +1,42 @@
+{% load static %}
+<script src="{% static 'resultsScript.js' %}"></script>
+<!DOCTYPE html>
+<html lang="en">
+    <script>
+        var schedule = '{{ schedule }}';
+        var startingLocation = '{{ startingLocation }}';
+        var googleKey = '{{ googleKey }}';
+    </script>
+    <head>
+        <meta charset="UTF-8">
+        <title>Topaz</title>
+        <link href='https://fonts.googleapis.com/css?family=Bree Serif' rel='stylesheet'>
+        <link href='https://fonts.googleapis.com/css?family=Source Sans Pro' rel='stylesheet'>
+        <link rel="stylesheet" href="{% static 'styles.css' %}">
+    </head>
+    <body onload="load()">
+        <header class='main'>
+            <div class="angleBracketHolder">
+                <h1>></h1>
+            </div>
+            <div class="content">
+                <h1>Topaz</h1>
+                <h2>Tourism Made Easy</h2>
+            </div>
+        </header>
+        <div class='angleBracketHolder' id='angleBracketItinerary'>
+            <h2>></h2>
+        </div>
+        <div class='content' id='itinerary'>
+            <h2>Itinerary for your trip</h2>
+        </div>
+        <div class='spacer'></div>
+        <footer>
+            <div class='footerTop'></div>
+            <div class='footerBottom'>
+                <h3>>|Topaz</h3>
+                <span>> Tyler Anderson > Dylan Briggs > Patrick Hogrell > Zach Perlo > Jacob Rich</span>
+            </div>
+        </footer>
+    </body>
+</html>

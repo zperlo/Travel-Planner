@@ -1,4 +1,4 @@
-MINUTES_PER_HOUR = 60
+MINUTES_PER_HOUR = 60.0
 
 
 def sortByValue(businesses):
@@ -11,9 +11,10 @@ def sortByValue(businesses):
 
 def determineValue(businesses):
     for business in businesses:
-        priceInt = len(business["price"])
-        val = business["rating"] * (business["timeToSpend"] / MINUTES_PER_HOUR) / priceInt
-        business.update({"value": val})
+        if "rating" in business and "price" in business and "timeToSpend" in business:
+            priceInt = len(business["price"])
+            val = business["rating"] * (int(business["timeToSpend"]) / MINUTES_PER_HOUR) / priceInt
+            business.update({"value": val})
 
 
 def getValueAndSort(businesses):

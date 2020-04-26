@@ -6,33 +6,171 @@
     <head>
         <meta charset="UTF-8">
         <title>Topaz</title>
+        <link href="https://fonts.googleapis.com/css?family=Bree+Serif|Source+Sans+Pro&display=swap&subset=latin,latin-ext" rel="stylesheet">
         <link rel="stylesheet" href="{% static 'styles.css' %}">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+
+            function analyzeText(event){
+                var searchIDNum = getIDNum(event.target);
+                var textID = "textField:".concat(searchIDNum);
+                var text = document.getElementById(textID).value;
+                var location = document.getElementById('location').value;
+
+                $.ajax({
+                    type: "POST",
+                    url: '{{ "my-ajax-test/" }}',
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: text, city: location },  
+                    success: function callback(response) {
+                        if (response == "[]") {
+                            noResults(text, location, searchIDNum);
+                        }
+                        else {
+                            showResults(response, searchIDNum);
+                        }
+                    },
+                    error: function callback(response) {
+                        noResults(text, location, searchIDNum);
+                    }
+                });
+            }
+
+            function validateLocation() {
+                var locationField = document.getElementById("location");
+                var location = locationField.value;
+
+                if (location != "") {
+                    $.ajax({
+                        type: "POST",
+                        url: '{{ "my-ajax-test/" }}',
+                        data: { csrfmiddlewaretoken: '{{ csrf_token }}', text: "", city: location },  
+                        success: function callback(response) {
+                            if (response != "[]") {
+                                setFieldInvalidated(locationField, false);
+                                setFieldLockedIn(locationField, true, false);
+                            }
+                            else {
+                                setFieldInvalidated(locationField, true);
+                            }
+                        },
+                        error: function callback(response) {
+                            setFieldInvalidated(locationField, true);
+                        }
+                    });
+                }
+                else {
+                    setFieldInvalidated(locationField, true);
+                }
+            }
+
+            function createSchedule(event){
+                var location = document.getElementById('location').value;
+                var startDate = document.getElementById('startDate').value;
+                var startTime = document.getElementById('startTime').value;
+                var endDate = document.getElementById('endDate').value;
+                var endTime = document.getElementById('endTime').value;
+
+                var activities = [];
+                for (var index in activityDict){
+                    //console.log( activityDict[index][1][0] );
+                    var activity = JSON.parse(activityDict[index][1][0]);
+                    //console.log( activity );
+                    activity["timeToSpend"] = activityDict[index][2];
+                    //console.log( activity );
+                    activities.push(activity);
+                }
+                //console.log( activities );
+
+                var activityString = JSON.stringify(activities);
+                //console.log( activityString );
+
+                $.ajax({
+                    type: "POST",
+                    url: '{{ "schedule" }}',
+                    data: { csrfmiddlewaretoken: '{{ csrf_token }}', activities: activityString, city: location, startDate: startDate, startTime: startTime, endDate: endDate, endTime: endTime },  
+                    success: function callback(response){
+                        console.log(response);
+                        var scheduleSuccess = response;
+                        if (scheduleSuccess == "True"){
+                            relativeRedirect('/results');
+                        }
+                        else {
+                            showBadSubmitWarning("no itinerary could be created with the selected activities");
+                        }
+                    },
+                    error: function callback(response) {
+                        showBadSubmitWarning("no itinerary could be created with the selected activities");
+                    }
+                });
+            }
+        </script>
     </head>
-    <body>
-        <h1>Topaz</h1>
-        <h2>Travel Planner</h2>
-        <form id="form">
-            Where?
-            <br>
-            <input type="text" id="where">
-            <br>
-            When?
-            <br>
-            <input type="date" id="date">
-            <br>
-            from
-            <br>
-            <input type="time" id="start">
-            to
-            <input type="time" id="end">
-            <br>
-            What?
-            <br>
-            <div id="newActivity"></div>
-            <input type="button" value="+" onclick="addNewActivityLine()">
-            <br>
-        </form>
-        <!-- <button id="go" onclick="disableForm()">GO!</button> -->
-        <button id="go">GO!</button>
+    <body onload="load()">
+        <header class='main' id="header">
+            <div class="angleBracketHolder">
+                <h1>></h1>
+            </div>
+            <div class="content">
+                <h1>Topaz</h1>
+                <h2>Tourism Made Easy</h2>
+            </div>
+        </header>
+        <section class='controls'>
+            <div class='angleBracketHolder'>
+                <h3>></h3>
+                <input type='text' class='spacer field'>
+                <h3 class='disabledAtStart'>></h3>
+                <div>
+                    <input type="date" class = 'field'>
+                    <br>
+                    <span>from</span>
+                    <br>
+                    <input type="time" class='field'>
+                    <br>
+                </div>
+                <h3 class='disabledAtStart'>></h3>
+            </div>
+            <div class='content'>
+                <form id="mainForm" autocomplete="off">
+                    <h3>Where are you staying?</h3>
+                    <input data-valid="false" type="text" id="location" class='field locationField' placeholder="123 Sesame Street, New York City, NY 12345" onkeyup='onLocationKeyUp(event)' onblur="onLocationBlur()" onfocus="onLocationFocus()">
+                    <div class="locationWarning" id="locationWarning">
+                        <span id="locationWarningMessage">Are you sure? If you edit your location, you'll lose any saved activities.</span>
+                        <i class="icon-cancel" id="locationWarningClose" onclick="dismissLocationEditWarning()"></i>
+                    </div>
+                    <br>
+                    <h3 class='disabledAtStart'>When will you be there?</h3>
+                    <input data-valid="false" type="date" id="startDate" class='field disabledAtStart' disabled onchange="validateTripDuration()">
+                    <span class='disabledAtStart'>at</span>
+                    <input data-valid="false" type="time" id="startTime" class='field disabledAtStart' disabled onchange="validateTripDuration()">
+                    <br>
+                    <span class='disabledAtStart'>to</span>
+                    <br>
+                    <input data-valid="false" type="date" id="endDate" class='field disabledAtStart' disabled onchange="validateTripDuration()">
+                    <span class='disabledAtStart'>at</span>
+                    <input data-valid="false" type="time" id="endTime" class='field disabledAtStart' disabled onchange="validateTripDuration()">
+                    <br>
+                    <h3 class='disabledAtStart'>What would you like to do?</h3>
+                    <ul id="activities"></ul>
+                    <button type="button" class="buttonClass disabledAtStart" id="addRowButton" onclick="addNewActivityLine()" disabled><i class="icon-plus"></i></button>
+                    <br>
+                </form>
+                <form action='results' method='GET'>
+                <input id="submitButton" type='button' class='buttonClass disabledAtStart' onclick="submitForm()" value="Plan My Trip!" disabled>
+                <div class="submitWarning" id="submitWarning">
+                    <span id="submitWarningMessage"></span>
+                    <i class="icon-cancel" id="submitWarningClose" onclick="dismissBadSubmitWarning()"></i>
+                </div>
+            </div>
+        </section>
+        <section class='searchResults' id='searchResults'>
+        </section>
+        <footer>
+            <div class='footerTop'></div>
+            <div class='footerBottom'>
+                <h3>>|Topaz</h3>
+                <span>> Tyler Anderson > Dylan Briggs > Patrick Hogrell > Zach Perlo > Jacob Rich</span>
+            </div>
+        </footer>
     </body>
 </html>

@@ -1,6 +1,7 @@
 import googlemaps
 import json
-import secrets
+#import secrets
+import djangoTravelPlanner.Backend.secrets as secrets
 
 # takes a list of location strings and returns a 2D array of the driving time in seconds
 # from each point to each other point
